@@ -217,7 +217,7 @@
     <section class="page" id="page-map" aria-labelledby="map-title">
       <h1 class="page-title" id="map-title">배리어프리 시설 지도</h1>
       <p class="page-intro">방문 전에 필요한 편의시설과 접근성 정보를 확인하세요.</p>
-      <div class="notice">현재 표시되는 시설은 화면 구성을 위한 <strong>시제품용 예시 데이터</strong>입니다. 실제 시설의 접근성이나 운영 여부를 확인한 정보가 아닙니다.</div>
+      <div class="notice">한국문화정보원 제공 CSV를 바탕으로 한 시설 정보입니다. 데이터 기준일은 2022-11-25이며, 방문 전 시설에 최신 운영 정보와 편의시설 여부를 확인해 주세요. 정보가 '아니오'로 표시되거나 비어 있는 경우에도 실제 현장 상황과 다를 수 있습니다.</div>
       <div class="toolbar">
         <label class="sr-only" for="place-search">시설명 또는 지역 검색</label>
         <input class="field search-field" id="place-search" placeholder="시설명 또는 지역 검색">
@@ -227,7 +227,7 @@
         <button class="filter-chip" data-filter="all" aria-pressed="true">전체</button>
         <button class="filter-chip" data-filter="wheelchair" aria-pressed="false">휠체어 접근</button>
         <button class="filter-chip" data-filter="visual" aria-pressed="false">시각장애 편의</button>
-        <button class="filter-chip" data-filter="hearing" aria-pressed="false">청각장애 편의</button>
+        <button class="filter-chip" type="button" disabled title="이 자료에는 청각장애 관련 정보가 없습니다">청각장애 편의 (자료 없음)</button>
       </div>
       <div class="map-layout">
         <div class="panel" style="padding:10px"><div id="map" role="region" aria-label="배리어프리 시설 위치 지도"><div class="map-fallback"><div><strong>카카오맵 연결 준비 중</strong><span>JavaScript 키를 등록하면 실제 지도가 표시됩니다.</span></div></div></div></div>
@@ -283,7 +283,7 @@
   <footer id="accessibility">
     <div class="footer-inner">
       <div><strong>FREEON</strong><p>모두의 일상에 자유를 더하다.</p></div>
-      <div><strong>안내</strong><p>본 웹앱은 접근성 서비스 시제품입니다.</p><p>예시 시설·행사·상품 정보는 실제 정보가 아닙니다.</p></div>
+      <div><strong>안내</strong><p>본 웹앱은 접근성 서비스 시제품입니다.</p><p>시설 정보 출처: 한국문화정보원 전국 배리어프리 문화예술관광지 CSV (2022-11-25 기준). 행사·상품 정보는 예시입니다.</p></div>
       <div><strong>접근성</strong><p>키보드 탐색 · 명확한 레이블 · 반응형 화면</p></div>
     </div>
   </footer>
@@ -303,15 +303,10 @@
   <script>
     // 1) 카카오 JavaScript 키를 입력하면 실제 지도가 연결됩니다.
     // 카카오 REST API 키가 아니라 'JavaScript 키'를 사용하세요.
-    const KAKAO_JS_KEY = "여기에_키_입력";
+    const KAKAO_JS_KEY = "d51eefd8d8257758999777f7a5e5e4e5";
 
-    // 시제품용 가상 시설 데이터입니다. 실제 시설 정보로 오인하지 않도록 예시 이름을 사용합니다.
-    const places = [
-      {id:1,name:"예시 시설 A",address:"서울특별시 중구 세종대로 인근 (가상 주소)",lat:37.5665,lng:126.9780,types:["wheelchair","visual"],labels:["휠체어 접근","점자 안내"],description:"경사로와 점자 안내가 있다고 가정한 화면 예시입니다."},
-      {id:2,name:"예시 시설 B",address:"서울특별시 종로구 종로 인근 (가상 주소)",lat:37.5729,lng:126.9794,types:["hearing","wheelchair"],labels:["문자 안내","휠체어 접근"],description:"문자 안내와 휠체어 접근 정보를 표시하는 예시입니다."},
-      {id:3,name:"예시 시설 C",address:"서울특별시 용산구 한강대로 인근 (가상 주소)",lat:37.5299,lng:126.9648,types:["visual","hearing"],labels:["음성 안내","시각 알림"],description:"음성 안내와 시각 알림 정보를 표시하는 예시입니다."},
-      {id:4,name:"예시 시설 D",address:"서울특별시 마포구 월드컵북로 인근 (가상 주소)",lat:37.5780,lng:126.8945,types:["wheelchair","hearing"],labels:["엘리베이터","자막 안내"],description:"엘리베이터와 자막 안내 정보를 표시하는 예시입니다."}
-    ];
+    // 실제 시설 데이터는 같은 폴더의 facilities.json 파일에서 불러옵니다.
+    let places = [];
     const events = [
       {title:"모두의 영화관",date:"2026. 11. 14.",place:"서울 · 예시 장소",type:["caption","sign"],labels:["한글 자막","수어 통역"],desc:"누구나 함께 영화를 즐기는 상영회 (시제품 예시)"},
       {title:"손으로 만나는 그림책",date:"2026. 11. 21.",place:"경기 · 예시 장소",type:["audio"],labels:["음성 해설"],desc:"촉각 자료와 음성 설명을 함께 제공하는 전시 (시제품 예시)"},
@@ -345,27 +340,65 @@
 
     function renderPlaces() {
       const q = document.getElementById("place-search").value.trim().toLowerCase();
-      const filtered = places.filter(p => (activeFilter === "all" || p.types.includes(activeFilter)) && (p.name.toLowerCase().includes(q) || p.address.toLowerCase().includes(q)));
-      document.getElementById("place-count").textContent = `예시 시설 ${filtered.length}곳`;
+      const filtered = places.filter(p => {
+        const a = p.accessibility || {};
+        const wheelchair = a.entrance || a.wheelchairRental || a.accessibleRestroom || a.accessibleParking;
+        const visual = a.guideDog || a.brailleGuide || a.audioGuideKo;
+        const filterMatch = activeFilter === "all" ||
+          (activeFilter === "wheelchair" && wheelchair) ||
+          (activeFilter === "visual" && visual);
+        const searchText = [p.name,p.address,p.region,p.district,p.category1,p.category2].join(" ").toLowerCase();
+        return filterMatch && searchText.includes(q);
+      });
+      document.getElementById("place-count").textContent =
+        `검색 결과 ${filtered.length.toLocaleString()}곳 (목록은 최대 100곳 표시)`;
       const list = document.getElementById("place-list");
       list.innerHTML = "";
-      if (!filtered.length) { list.innerHTML = '<div class="empty-state">검색 결과가 없습니다.</div>'; }
-      filtered.forEach(p => {
-        const b = document.createElement("button"); b.className = "place-item"; b.type = "button";
-        b.innerHTML = `<strong>${p.name}</strong><small>${p.address}</small><div class="access-list">${p.labels.map(x=>`<span>${x}</span>`).join("")}</div>`;
-        b.addEventListener("click", () => selectPlace(p));
-        list.appendChild(b);
-      });
+      if (!filtered.length) {
+        list.innerHTML = '<div class="empty-state">검색 결과가 없습니다.</div>';
+      } else {
+        filtered.slice(0,100).forEach(p => {
+          const b = document.createElement("button");
+          b.className = "place-item"; b.type = "button";
+          const title = escapeHTML(p.name + (p.branch ? " " + p.branch : ""));
+          const address = escapeHTML(p.address || `${p.region} ${p.district}`);
+          b.innerHTML = `<strong>${title}</strong><small>${address}</small><div class="access-list">${(p.labels||[]).map(x=>`<span>${escapeHTML(x)}</span>`).join("")}</div>`;
+          b.addEventListener("click", () => selectPlace(p));
+          list.appendChild(b);
+        });
+      }
       if (mapObject) {
         markers.forEach(m => m.setMap(null)); markers = [];
-        filtered.forEach(p => {
-          const marker = new kakao.maps.Marker({position:new kakao.maps.LatLng(p.lat,p.lng), map:mapObject, title:p.name});
-          kakao.maps.event.addListener(marker,"click",()=>selectPlace(p)); markers.push(marker);
+        // 지도 성능을 위해 검색 결과 중 최대 300개만 마커로 표시합니다.
+        filtered.slice(0,300).forEach(p => {
+          const marker = new kakao.maps.Marker({
+            position:new kakao.maps.LatLng(p.lat,p.lng), map:mapObject,
+            title:p.name
+          });
+          kakao.maps.event.addListener(marker,"click",()=>selectPlace(p));
+          markers.push(marker);
         });
       }
     }
     function selectPlace(p) {
-      document.getElementById("place-detail").innerHTML = `<h2 style="font-size:19px;color:var(--navy);margin:0 0 6px">${p.name}</h2><p style="color:var(--muted);font-size:14px">${p.address}</p><div class="access-list">${p.labels.map(x=>`<span>${x}</span>`).join("")}</div><p style="font-size:14px">${p.description}</p><p style="font-size:12px;color:#775719">※ 시제품용 가상 정보이며 실제 편의시설을 확인한 내용이 아닙니다.</p>`;
+      const a = p.accessibility || {};
+      const detailItems = [
+        ["장애인용 출입문",a.entrance],["휠체어 대여",a.wheelchairRental],
+        ["장애인 화장실",a.accessibleRestroom],["장애인 전용 주차장",a.accessibleParking],
+        ["안내견 동반",a.guideDog],["점자 가이드",a.brailleGuide],
+        ["한국어 오디오 가이드",a.audioGuideKo]
+      ];
+      const detail = document.getElementById("place-detail");
+      const website = p.website && p.website !== "정보없음"
+        ? (p.website.startsWith("http") ? p.website : "https://" + p.website) : "";
+      detail.innerHTML = `
+        <h2 style="font-size:19px;color:var(--navy);margin:0 0 6px">${escapeHTML(p.name)}</h2>
+        <p style="color:var(--muted);font-size:14px">${escapeHTML(p.address || `${p.region} ${p.district}`)}</p>
+        <div class="meta"><span>${escapeHTML(p.category1)} · ${escapeHTML(p.category2)}</span><span>${escapeHTML(p.region)} ${escapeHTML(p.district)}</span></div>
+        <div class="access-list">${detailItems.map(([label,yes])=>`<span>${label}: ${yes ? "있음(Y)" : "없음(N)"}</span>`).join("")}</div>
+        <p style="font-size:14px">운영시간: ${escapeHTML(p.hours || "정보 없음")}<br>휴무일: ${escapeHTML(p.closed || "정보 없음")}<br>전화번호: ${escapeHTML(p.phone || "정보 없음")}</p>
+        ${website ? `<p><a href="${escapeHTML(website)}" target="_blank" rel="noopener noreferrer">시설 홈페이지 열기</a></p>` : ""}
+        <p style="font-size:12px;color:#775719">※ 제공 데이터 기준일: ${escapeHTML(p.updated || "확인되지 않음")}. 실제 편의시설·운영 여부는 방문 전 시설에 확인해 주세요.</p>`;
       document.querySelectorAll(".place-item").forEach(el=>el.classList.toggle("selected",el.querySelector("strong")?.textContent===p.name));
       if (mapObject) mapObject.panTo(new kakao.maps.LatLng(p.lat,p.lng));
     }
@@ -433,7 +466,23 @@
       script.onerror=()=>{document.getElementById("map").innerHTML='<div class="map-fallback"><div><strong>지도를 불러오지 못했습니다.</strong><span>JavaScript 키와 등록된 도메인을 확인해 주세요.</span></div></div>';};
       document.head.appendChild(script);
     }
-    renderPlaces(); renderEvents(); renderProducts(); renderPosts(); initKakaoMap();
+    async function loadFacilities() {
+      const count = document.getElementById("place-count");
+      count.textContent = "시설 데이터를 불러오는 중...";
+      try {
+        const response = await fetch("./facilities.json");
+        if (!response.ok) throw new Error("facilities.json 파일을 찾을 수 없습니다.");
+        places = await response.json();
+        count.textContent = `전국 시설 ${places.length.toLocaleString()}곳`;
+        renderPlaces();
+      } catch (error) {
+        console.error(error);
+        count.textContent = "시설 데이터를 불러오지 못했습니다.";
+        document.getElementById("place-list").innerHTML =
+          '<div class="empty-state">facilities.json 파일이 index.html과 같은 폴더에 있는지 확인해 주세요.</div>';
+      }
+    }
+    renderEvents(); renderProducts(); renderPosts(); initKakaoMap(); loadFacilities();
   </script>
 </body>
 </html>
