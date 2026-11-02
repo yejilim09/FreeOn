@@ -85,6 +85,20 @@
     .place-item { text-align:left; padding:15px; border:1px solid var(--line); border-radius:13px; background:#fff; cursor:pointer; }
     .place-item:hover,.place-item.selected { border-color:var(--teal); background:#f4faf9; }
     .place-item strong { display:block; color:var(--navy); margin-bottom:3px; }
+    .place-tabs { display:flex; gap:8px; flex-wrap:wrap; margin:16px 0 12px; }
+    .location-status { color:var(--muted); font-size:12px; align-self:center; }
+    .review-section { border-top:1px solid var(--line); margin-top:18px; padding-top:16px; }
+    .review-summary { display:flex; align-items:center; gap:10px; margin:8px 0 14px; }
+    .stars { color:#d18b17; letter-spacing:2px; font-size:18px; }
+    .review-form { background:#f5f8f9; border:1px solid var(--line); border-radius:12px; padding:14px; margin:12px 0; }
+    .review-form label { display:block; font-weight:700; margin:8px 0 5px; }
+    .review-form input,.review-form textarea { width:100%; }
+    .star-picker { display:flex; gap:4px; margin:5px 0 10px; }
+    .star-picker button { border:0; background:transparent; color:#aab5ba; font-size:26px; cursor:pointer; padding:2px 4px; }
+    .star-picker button.selected { color:#d18b17; }
+    .review-item { border-top:1px solid #edf1f2; padding:11px 0; }
+    .review-item p { margin:5px 0; white-space:pre-wrap; overflow-wrap:anywhere; }
+    .review-note { color:var(--muted); font-size:12px; }
     .place-item small { color:var(--muted); }
     .access-list { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
     .access-list span { font-size:11px; padding:3px 7px; border-radius:6px; background:#edf3f5; color:#38525d; }
@@ -152,6 +166,15 @@
       footer { padding-bottom:92px; }
     }
     @media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition:none!important; } }
+  
+    .event-card{cursor:pointer;transition:transform .15s}.event-card:hover{transform:translateY(-2px)}
+    .event-poster,.product-photo{width:100%;aspect-ratio:4/3;object-fit:cover;background:#edf3f5;display:block}
+    .image-placeholder{aspect-ratio:4/3;background:linear-gradient(135deg,#eaf1f4,#dbe8ed);display:flex;align-items:center;justify-content:center;color:#58717b;font-weight:700;text-align:center;padding:18px}
+    .cart-panel{margin:16px 0;padding:16px;border:1px solid var(--line);border-radius:14px;background:#f8fbfc}
+    .cart-line{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid var(--line);padding:10px 0}
+    .cart-line:last-child{border-bottom:0}.cart-actions{display:flex;gap:6px;align-items:center}.cart-actions button{padding:5px 9px;border-radius:8px;border:1px solid var(--line);background:white;cursor:pointer}
+    .detail-modal{max-width:620px}.detail-modal img{width:100%;max-height:420px;object-fit:contain;background:#f5f7f8;border-radius:12px}
+
   </style>
 </head>
 <body>
@@ -197,7 +220,7 @@
       <div class="section-head"><div><h2>FREEON 서비스</h2><p>필요한 정보를 한곳에서 확인하세요.</p></div></div>
       <div class="quick-grid">
         <button class="quick-card" data-page="map"><span class="quick-icon" aria-hidden="true">⌖</span><strong>배리어프리 지도</strong><span>접근 가능한 시설과 이용 정보</span></button>
-        <button class="quick-card" data-page="events"><span class="quick-icon" aria-hidden="true">▦</span><strong>배리어프리 행사</strong><span>자막·수어·음성해설 행사 찾기</span></button>
+        <button class="quick-card" data-page="events"><span class="quick-icon" aria-hidden="true">▦</span><strong>배리어프리 행사</strong><span>문화·교육·지역 행사 찾기</span></button>
         <button class="quick-card" data-page="store"><span class="quick-icon" aria-hidden="true">▣</span><strong>배리어프리 스토어</strong><span>NFC 키링과 모두를 위한 보드게임</span></button>
         <button class="quick-card" data-page="community"><span class="quick-icon" aria-hidden="true">☷</span><strong>함께하는 커뮤니티</strong><span>생활 팁과 경험을 나누기</span></button>
       </div>
@@ -222,6 +245,11 @@
         <label class="sr-only" for="place-search">시설명 또는 지역 검색</label>
         <input class="field search-field" id="place-search" placeholder="시설명 또는 지역 검색">
         <button class="secondary-btn" id="nearby-btn">내 위치 사용</button>
+        <span class="location-status" id="location-status" aria-live="polite">현재 위치 확인 전</span>
+      </div>
+      <div class="place-tabs" aria-label="시설 유형 선택">
+        <button class="filter-chip" data-place-view="all" aria-pressed="true">전체 시설</button>
+        <button class="filter-chip" data-place-view="event" aria-pressed="false">행사·공연 장소</button>
       </div>
       <div class="filter-row" aria-label="접근성 필터">
         <button class="filter-chip" data-filter="all" aria-pressed="true">전체</button>
@@ -245,14 +273,14 @@
     <section class="page" id="page-events" aria-labelledby="events-title">
       <h1 class="page-title" id="events-title">배리어프리 행사</h1>
       <p class="page-intro">모두가 함께 즐길 수 있는 문화·교육·지역 행사를 찾아보세요.</p>
-      <div class="toolbar"><label class="sr-only" for="event-search">행사 검색</label><input class="field search-field" id="event-search" placeholder="행사명 또는 지역 검색"><select class="field" id="event-type" aria-label="행사 유형"><option value="all">모든 편의 유형</option><option value="caption">자막 제공 확인</option><option value="sign">수어 제공 확인</option><option value="audio">음성해설 제공 확인</option></select></div>
+      <div class="toolbar"><label class="sr-only" for="event-search">행사 검색</label><input class="field search-field" id="event-search" placeholder="행사명 또는 지역 검색"></div>
       <div class="cards-grid" id="event-grid"></div>
     </section>
 
     <section class="page" id="page-store" aria-labelledby="store-title">
       <h1 class="page-title" id="store-title">FREEON 스토어</h1>
       <p class="page-intro">감각과 소통의 장벽을 낮추는 제품을 소개합니다.</p>
-      <div class="notice">현재 상품과 가격은 화면 구성을 위한 예시입니다. 실제 판매·결제 기능은 아직 연결되지 않았습니다.</div>
+      <div class="notice">상품을 장바구니에 담을 수 있어요. 실제 결제는 아직 연결되지 않은 시제품입니다.</div><div class="cart-panel"><div class="section-head"><h2 style="font-size:18px;margin:0">🛒 장바구니 <span id="cart-count">0</span></h2><button class="secondary-btn" id="cart-clear" type="button">비우기</button></div><div id="cart-items"></div><strong id="cart-total">합계: 0원</strong></div>
       <div class="filter-row"><button class="filter-chip" data-product="all" aria-pressed="true">전체 상품</button><button class="filter-chip" data-product="keyring" aria-pressed="false">NFC 오디오북 키링</button><button class="filter-chip" data-product="game" aria-pressed="false">배리어프리 보드게임</button></div>
       <div class="cards-grid" id="product-grid"></div>
     </section>
@@ -300,25 +328,34 @@
     </div>
   </div>
 
+
+  <div class="modal-backdrop" id="event-modal" role="dialog" aria-modal="true" aria-labelledby="event-modal-title"><div class="modal detail-modal"><div class="modal-head"><h2 id="event-modal-title">행사 상세</h2><button class="close-btn" id="close-event-modal">닫기</button></div><div id="event-modal-content"></div></div></div>
   <script>
     // 1) 카카오 JavaScript 키를 입력하면 실제 지도가 연결됩니다.
     // 카카오 REST API 키가 아니라 'JavaScript 키'를 사용하세요.
-    const KAKAO_JS_KEY = "d51eefd8d8257758999777f7a5e5e4e5";
+    const KAKAO_JS_KEY = "여기에_카카오_JavaScript_키_입력";
 
     // 실제 시설 데이터는 같은 폴더의 facilities.json 파일에서 불러옵니다.
     let places = [];
-    let events = [];
+    const events = [
+      {title:"모두의 영화관",date:"2026. 11. 14.",place:"서울 · 예시 장소",type:["caption","sign"],labels:[],poster:"images/event-poster-1.jpg",desc:"누구나 함께 영화를 즐기는 상영회 (시제품 예시)"},
+      {title:"손으로 만나는 그림책",date:"2026. 11. 21.",place:"경기 · 예시 장소",type:["audio"],labels:[],poster:"images/event-poster-2.jpg",desc:"촉각 자료와 음성 설명을 함께 제공하는 전시 (시제품 예시)"},
+      {title:"모두를 위한 동네 산책",date:"2026. 11. 28.",place:"인천 · 예시 장소",type:["caption","audio"],labels:[],poster:"images/event-poster-3.jpg",desc:"다양한 이동·소통 방식을 고려한 산책 모임 (시제품 예시)"}
+    ];
     const products = [
-      {type:"keyring",icon:"♫",title:"NFC 오디오북 키링",desc:"스마트폰을 가까이 대면 오디오 콘텐츠로 연결되는 키링 (상품 예시)",price:"가격 정보 준비 중",tag:"NFC"},
-      {type:"game",icon:"◈",title:"촉각으로 즐기는 보드게임",desc:"촉각 단서를 활용해 함께 즐기는 보드게임 (상품 예시)",price:"가격 정보 준비 중",tag:"시각장애 접근성"},
-      {type:"game",icon:"▤",title:"소리와 글자로 만나는 게임",desc:"시각 정보와 문자 정보를 함께 활용하는 게임 (상품 예시)",price:"가격 정보 준비 중",tag:"청각장애 접근성"}
+      {type:"keyring",icon:"♫",image:"images/keyring.jpg",title:"NFC 오디오북 키링",desc:"스마트폰을 가까이 대면 오디오 콘텐츠로 연결되는 키링 (상품 예시)",price:"가격 정보 준비 중",tag:"NFC"},
+      {type:"game",icon:"◈",image:"images/boardgame.png",title:"촉각으로 즐기는 보드게임",desc:"촉각 단서를 활용해 함께 즐기는 보드게임 (상품 예시)",price:"가격 정보 준비 중",tag:"시각장애 접근성"},
+      {type:"game",icon:"▤",image:"images/second-game.jpg",title:"소리와 글자로 만나는 게임",desc:"시각 정보와 문자 정보를 함께 활용하는 게임 (상품 예시)",price:"가격 정보 준비 중",tag:"청각장애 접근성"}
     ];
     const posts = [
       {title:"처음 방문하는 장소의 접근성은 어떻게 확인하세요?",body:"방문 전에 전화로 확인하는 항목이나 유용했던 정보가 있다면 함께 나눠 주세요.",meta:"생활 정보 · 시제품 게시글"},
       {title:"자막이 제공되는 문화행사 정보를 모아봐요",body:"지역별로 자막이나 수어 통역이 제공되는 행사를 발견하면 공유해 주세요.",meta:"행사 정보 · 시제품 게시글"},
       {title:"모두가 편하게 이용할 수 있는 공간의 조건",body:"작은 안내 표지부터 이동 동선까지, 편리했던 경험을 들려주세요.",meta:"자유 이야기 · 시제품 게시글"}
     ];
-    let activeFilter = "all", productFilter = "all", mapObject = null, markers = [];
+    let activeFilter = "all", productFilter = "all", placeView = "all", mapObject = null, markers = [];
+    let currentLocationMarker = null, currentLatLng = null, selectedPlaceId = null;
+    let selectedReviewRating = 5;
+    const REVIEW_STORAGE_KEY = "freeon_place_reviews_v1";
 
     function showPage(page) {
       document.querySelectorAll(".page").forEach(el => el.classList.toggle("active", el.id === "page-" + page));
@@ -340,9 +377,12 @@
         const a = p.accessibility || {};
         const wheelchair = a.entrance || a.wheelchairRental || a.accessibleRestroom || a.accessibleParking;
         const visual = a.guideDog || a.brailleGuide || a.audioGuideKo;
-        const filterMatch = activeFilter === "all" ||
+        const accessMatch = activeFilter === "all" ||
           (activeFilter === "wheelchair" && wheelchair) ||
           (activeFilter === "visual" && visual);
+        // 행사·공연 장소 탭은 데이터의 '전시/공연' 분류 시설만 보여줍니다.
+        const viewMatch = placeView === "all" || p.category1 === "전시/공연";
+        const filterMatch = accessMatch && viewMatch;
         const searchText = [p.name,p.address,p.region,p.district,p.category1,p.category2].join(" ").toLowerCase();
         return filterMatch && searchText.includes(q);
       });
@@ -358,7 +398,9 @@
           b.className = "place-item"; b.type = "button";
           const title = escapeHTML(p.name + (p.branch ? " " + p.branch : ""));
           const address = escapeHTML(p.address || `${p.region} ${p.district}`);
-          b.innerHTML = `<strong>${title}</strong><small>${address}</small><div class="access-list">${(p.labels||[]).map(x=>`<span>${escapeHTML(x)}</span>`).join("")}</div>`;
+          const rating = getPlaceReviews(p.id);
+          const ratingText = rating.length ? `★ ${averageRating(rating).toFixed(1)} · 리뷰 ${rating.length}개` : "아직 리뷰 없음";
+          b.innerHTML = `<strong>${title}</strong><small>${address}</small><small style="display:block;margin-top:4px;color:#9a6815">${ratingText}</small><div class="access-list">${(p.labels||[]).map(x=>`<span>${escapeHTML(x)}</span>`).join("")}</div>`;
           b.addEventListener("click", () => selectPlace(p));
           list.appendChild(b);
         });
@@ -394,7 +436,10 @@
         <div class="access-list">${detailItems.map(([label,yes])=>`<span>${label}: ${yes ? "있음(Y)" : "없음(N)"}</span>`).join("")}</div>
         <p style="font-size:14px">운영시간: ${escapeHTML(p.hours || "정보 없음")}<br>휴무일: ${escapeHTML(p.closed || "정보 없음")}<br>전화번호: ${escapeHTML(p.phone || "정보 없음")}</p>
         ${website ? `<p><a href="${escapeHTML(website)}" target="_blank" rel="noopener noreferrer">시설 홈페이지 열기</a></p>` : ""}
-        <p style="font-size:12px;color:#775719">※ 제공 데이터 기준일: ${escapeHTML(p.updated || "확인되지 않음")}. 실제 편의시설·운영 여부는 방문 전 시설에 확인해 주세요.</p>`;
+        <p style="font-size:12px;color:#775719">※ 제공 데이터 기준일: ${escapeHTML(p.updated || "확인되지 않음")}. 실제 편의시설·운영 여부는 방문 전 시설에 확인해 주세요.</p>
+        ${renderReviewSection(p)}`;
+      selectedPlaceId = p.id;
+      bindReviewForm(p);
       document.querySelectorAll(".place-item").forEach(el=>el.classList.toggle("selected",el.querySelector("strong")?.textContent===p.name));
       if (mapObject) mapObject.panTo(new kakao.maps.LatLng(p.lat,p.lng));
     }
@@ -404,42 +449,106 @@
       document.querySelectorAll("[data-filter]").forEach(b=>b.setAttribute("aria-pressed",String(b===btn)));
       renderPlaces();
     }));
-    document.getElementById("nearby-btn").addEventListener("click",()=>{
-      if (!navigator.geolocation) { alert("이 브라우저에서는 위치 기능을 사용할 수 없습니다."); return; }
+    function requestCurrentLocation(isStartup=false) {
+      const status = document.getElementById("location-status");
+      if (!navigator.geolocation) {
+        status.textContent = "이 브라우저는 위치 기능을 지원하지 않아요.";
+        if (!isStartup) alert(status.textContent);
+        return;
+      }
+      status.textContent = "현재 위치를 확인하고 있어요...";
       navigator.geolocation.getCurrentPosition(pos=>{
-        if (mapObject) mapObject.setCenter(new kakao.maps.LatLng(pos.coords.latitude,pos.coords.longitude));
-        else alert("먼저 카카오 JavaScript 키를 등록해 지도를 연결해 주세요.");
-      },()=>alert("위치 권한을 확인할 수 없어요. 브라우저의 위치 권한을 확인하거나 주소 검색을 이용해 주세요."));
-    });
+        currentLatLng = new kakao.maps.LatLng(pos.coords.latitude,pos.coords.longitude);
+        if (mapObject) {
+          mapObject.setCenter(currentLatLng);
+          mapObject.setLevel(5);
+          if (currentLocationMarker) currentLocationMarker.setMap(null);
+          const markerContent = document.createElement("div");
+          markerContent.textContent = "내 위치";
+          markerContent.style.cssText = "background:#173f52;color:#fff;padding:6px 10px;border-radius:18px;font-size:12px;font-weight:700;border:2px solid #fff;box-shadow:0 2px 8px #0003;white-space:nowrap";
+          currentLocationMarker = new kakao.maps.CustomOverlay({position:currentLatLng,content:markerContent,yAnchor:1.4,zIndex:10});
+          currentLocationMarker.setMap(mapObject);
+        }
+        status.textContent = "현재 위치를 기준으로 지도를 표시하고 있어요.";
+      },err=>{
+        status.textContent = "위치 권한이 없어 기본 지도 위치로 표시합니다.";
+        if (!isStartup) alert("현재 위치를 확인하지 못했어요. 브라우저의 위치 권한을 확인해 주세요.");
+        console.warn("Geolocation error:",err.message);
+      },{enableHighAccuracy:true,timeout:10000,maximumAge:60000});
+    }
+    document.getElementById("nearby-btn").addEventListener("click",()=>requestCurrentLocation(false));
+    document.querySelectorAll("[data-place-view]").forEach(btn=>btn.addEventListener("click",()=>{
+      placeView=btn.dataset.placeView;
+      document.querySelectorAll("[data-place-view]").forEach(b=>b.setAttribute("aria-pressed",String(b===btn)));
+      renderPlaces();
+    }));
+
+    function getAllReviews() {
+      try { return JSON.parse(localStorage.getItem(REVIEW_STORAGE_KEY) || "{}"); }
+      catch (e) { return {}; }
+    }
+    function getPlaceReviews(placeId) {
+      const all = getAllReviews();
+      return Array.isArray(all[String(placeId)]) ? all[String(placeId)] : [];
+    }
+    function averageRating(reviews) {
+      return reviews.length ? reviews.reduce((sum,r)=>sum + Number(r.rating || 0),0) / reviews.length : 0;
+    }
+    function renderReviewSection(place) {
+      const reviews = getPlaceReviews(place.id);
+      const average = averageRating(reviews);
+      const reviewItems = reviews.slice().reverse().map(r=>`<div class="review-item"><div><span class="stars" aria-label="${Number(r.rating)}점">${"★".repeat(Number(r.rating))}${"☆".repeat(5-Number(r.rating))}</span> <strong>${escapeHTML(r.name || "익명")}</strong></div><p>${escapeHTML(r.content || "")}</p><small class="review-note">${escapeHTML(r.date || "")}</small></div>`).join("");
+      return `<section class="review-section" aria-labelledby="review-title"><h3 id="review-title" style="margin:0;color:var(--navy)">시설 리뷰 · 별점과 이용 경험</h3><div class="review-summary"><span class="stars">${reviews.length ? "★".repeat(Math.round(average))+"☆".repeat(5-Math.round(average)) : "☆☆☆☆☆"}</span><strong>${reviews.length ? average.toFixed(1)+" / 5" : "평점 없음"}</strong><span class="review-note">리뷰 ${reviews.length}개</span></div>
+      <form class="review-form" id="place-review-form"><strong>이 장소의 경험을 나눠 주세요.</strong><label>별점 선택</label><div class="star-picker" role="group" aria-label="별점 선택">${[1,2,3,4,5].map(n=>`<button type="button" data-rating="${n}" class="${n<=selectedReviewRating?"selected":""}" aria-label="${n}점">★</button>`).join("")}</div><label for="review-name">작성자 (선택)</label><input class="field" id="review-name" maxlength="20" placeholder="익명"><label for="review-content">리뷰 내용</label><textarea class="field" id="review-content" rows="3" maxlength="500" required placeholder="접근성이나 이용 경험을 구체적으로 적어 주세요."></textarea><button class="primary-btn" type="submit" style="margin-top:10px">리뷰 등록</button></form>
+      <p class="review-note">현재 리뷰는 이 브라우저에만 저장되는 시제품 기능입니다. 다른 사람과 리뷰를 공유하려면 별도의 데이터베이스 연결이 필요합니다.</p>${reviewItems || '<p class="review-note">아직 등록된 리뷰가 없습니다.</p>'}</section>`;
+    }
+    function bindReviewForm(place) {
+      const form=document.getElementById("place-review-form");
+      if (!form) return;
+      form.querySelectorAll("[data-rating]").forEach(btn=>btn.addEventListener("click",()=>{
+        selectedReviewRating=Number(btn.dataset.rating);
+        form.querySelectorAll("[data-rating]").forEach(star=>star.classList.toggle("selected",Number(star.dataset.rating)<=selectedReviewRating));
+      }));
+      form.addEventListener("submit",e=>{
+        e.preventDefault();
+        const content=document.getElementById("review-content").value.trim();
+        if (!content) return;
+        const all=getAllReviews(), key=String(place.id);
+        if (!Array.isArray(all[key])) all[key]=[];
+        all[key].push({name:document.getElementById("review-name").value.trim()||"익명",rating:selectedReviewRating,content,date:new Date().toLocaleDateString("ko-KR")});
+        try { localStorage.setItem(REVIEW_STORAGE_KEY,JSON.stringify(all)); }
+        catch (error) { alert("브라우저 저장 공간에 리뷰를 저장하지 못했어요."); return; }
+        selectPlace(place);
+        renderPlaces();
+      });
+    }
 
     function renderEvents() {
       const q=document.getElementById("event-search").value.trim().toLowerCase();
-      const type=document.getElementById("event-type").value;
-      const items=events.filter(e=>{
-        const a=e.accessibility||{};
-        const matchType=type==="all" || (type==="caption" && (a.caption||"").includes("제공")) || (type==="sign" && (a.signLanguage||"").includes("제공")) || (type==="audio" && (a.audioDescription||"").includes("제공"));
-        return matchType && [e.name,e.address,e.type,e.startDate,e.endDate].join(" ").toLowerCase().includes(q);
-      });
-      const grid=document.getElementById("event-grid");
-      grid.innerHTML=items.length?items.map(e=>{
-        const a=e.accessibility||{};
-        const date=(e.startDate||"")+(e.endDate && e.endDate!==e.startDate?" ~ "+e.endDate:"");
-        const website=e.website && e.website!=="nan"?`<a href="${escapeHTML(e.website)}" target="_blank" rel="noopener noreferrer">공식 홈페이지</a>`:"";
-        const phone=e.phone?`<span>문의 ${escapeHTML(e.phone)}</span>`:"";
-        return `<article class="card event-card"><div class="card-art" aria-hidden="true">▦</div><div class="card-body"><span class="tag blue">${escapeHTML(e.type||"행사")}</span><h3>${escapeHTML(e.name)}</h3><p>${escapeHTML(e.address||"장소 미확인")}</p><div class="meta"><span>${escapeHTML(date||"일정 미확인")}</span></div><div class="access-list"><span>휠체어 접근: ${escapeHTML(a.wheelchair||"미확인")}</span><span>장애인 화장실: ${escapeHTML(a.accessibleRestroom||"미확인")}</span><span>수어: ${escapeHTML(a.signLanguage||"미확인")}</span><span>자막: ${escapeHTML(a.caption||"미확인")}</span><span>음성해설: ${escapeHTML(a.audioDescription||"미확인")}</span></div><div class="meta">${phone}${website}</div><p style="font-size:12px;color:#775719">접근성 정보는 확인 전 상태입니다. 방문·예매 전에 주최 측에 확인해 주세요.</p></div></article>`;
-      }).join(""):'<div class="empty-state">검색 결과가 없습니다.</div>';
+      const items=events.filter(e=>(e.title+e.place+e.desc).toLowerCase().includes(q));
+      document.getElementById("event-grid").innerHTML=items.length?items.map((e,i)=>`<article class="card event-card" tabindex="0" role="button" data-event-index="${events.indexOf(e)}"><div class="image-placeholder">행사 포스터</div><div class="card-body"><span class="tag blue">행사</span><h3>${escapeHTML(e.title)}</h3><p>${escapeHTML(e.desc)}</p><div class="meta"><span>${escapeHTML(e.date)}</span><span>${escapeHTML(e.place)}</span></div></div></article>`).join(" "):'<div class="empty-state">검색 결과가 없습니다.</div>';
+      document.querySelectorAll("[data-event-index]").forEach(card=>{const open=()=>openEventDetail(events[Number(card.dataset.eventIndex)]);card.addEventListener("click",open);card.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();open();}})});
     }
-    async function loadEvents(){
-      const grid=document.getElementById("event-grid"); grid.innerHTML='<div class="empty-state">행사 데이터를 불러오는 중...</div>';
-      try{const res=await fetch("./events.json"); if(!res.ok) throw new Error("events.json을 찾을 수 없습니다."); events=await res.json(); renderEvents();}
-      catch(err){console.error(err);grid.innerHTML='<div class="empty-state">행사 데이터를 불러오지 못했습니다. events.json이 index.html과 같은 폴더에 있는지 확인해 주세요.</div>';}
+    function openEventDetail(e){
+      const modal=document.getElementById("event-modal"),content=document.getElementById("event-modal-content");
+      const poster=e.poster||"";
+      content.innerHTML=`${poster?`<img src="${escapeHTML(poster)}" alt="${escapeHTML(e.title)} 행사 포스터" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`:""}<div class="image-placeholder" style="${poster?'display:none;':''}margin-bottom:12px">포스터 파일을 images 폴더에 추가하면 여기에 표시됩니다.</div><h3>${escapeHTML(e.title)}</h3><p>${escapeHTML(e.desc)}</p><div class="meta"><span>${escapeHTML(e.date)}</span><span>${escapeHTML(e.place)}</span></div>`;
+      modal.classList.add("open");
     }
+    document.getElementById("close-event-modal").addEventListener("click",()=>document.getElementById("event-modal").classList.remove("open"));
+    document.getElementById("event-modal").addEventListener("click",e=>{if(e.target.id==="event-modal")e.currentTarget.classList.remove("open")});
     document.getElementById("event-search").addEventListener("input",renderEvents);
-    document.getElementById("event-type").addEventListener("change",renderEvents);
 
+    const CART_KEY="freeon_cart_v1";
+    function getCart(){try{return JSON.parse(localStorage.getItem(CART_KEY)||"[]")}catch(e){return []}}
+    function saveCart(cart){localStorage.setItem(CART_KEY,JSON.stringify(cart));renderCart()}
+    function addToCart(product){const cart=getCart(),found=cart.find(x=>x.title===product.title);if(found)found.qty++;else cart.push({title:product.title,price:product.priceValue||0,qty:1});saveCart(cart);alert("장바구니에 담았습니다.")}
+    function renderCart(){const cart=getCart();document.getElementById("cart-count").textContent=cart.reduce((n,x)=>n+x.qty,0);document.getElementById("cart-items").innerHTML=cart.length?cart.map((x,i)=>`<div class="cart-line"><span>${escapeHTML(x.title)} · ${x.price.toLocaleString()}원</span><div class="cart-actions"><button data-cart-minus="${i}" aria-label="수량 줄이기">−</button><span>${x.qty}</span><button data-cart-plus="${i}" aria-label="수량 늘리기">＋</button><button data-cart-remove="${i}">삭제</button></div></div>`).join(""):'<p class="review-note">장바구니가 비어 있어요.</p>';document.getElementById("cart-total").textContent="상품 가격은 판매자 안내 후 확정됩니다.";document.querySelectorAll("[data-cart-minus]").forEach(b=>b.onclick=()=>{let c=getCart(),i=+b.dataset.cartMinus;c[i].qty--;if(c[i].qty<=0)c.splice(i,1);saveCart(c)});document.querySelectorAll("[data-cart-plus]").forEach(b=>b.onclick=()=>{let c=getCart();c[+b.dataset.cartPlus].qty++;saveCart(c)});document.querySelectorAll("[data-cart-remove]").forEach(b=>b.onclick=()=>{let c=getCart();c.splice(+b.dataset.cartRemove,1);saveCart(c)});}
+    document.getElementById("cart-clear").addEventListener("click",()=>saveCart([]));
     function renderProducts() {
       const items=products.filter(p=>productFilter==="all"||p.type===productFilter);
-      document.getElementById("product-grid").innerHTML=items.map(p=>`<article class="card product-card"><div class="card-art" aria-hidden="true">${p.icon}</div><div class="card-body"><span class="tag">${p.tag}</span><h3>${p.title}</h3><p>${p.desc}</p><div class="product-price">${p.price}</div><button class="secondary-btn" style="margin-top:13px" type="button" disabled aria-disabled="true">판매 준비 중</button></div></article>`).join("");
+      document.getElementById("product-grid").innerHTML=items.map(p=>`<article class="card product-card">${p.image?`<img class="product-photo" src="${escapeHTML(p.image)}" alt="${escapeHTML(p.title)} 사진" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`:""}<div class="image-placeholder" style="${p.image?'display:none;':''}">상품 사진을 images 폴더에 넣어 주세요</div><div class="card-body"><span class="tag">${escapeHTML(p.tag)}</span><h3>${escapeHTML(p.title)}</h3><p>${escapeHTML(p.desc)}</p><div class="product-price">${escapeHTML(p.price)}</div><button class="primary-btn" style="margin-top:13px" type="button" data-buy="${products.indexOf(p)}">구매하기</button></div></article>`).join("");
+      document.querySelectorAll("[data-buy]").forEach(b=>b.addEventListener("click",()=>addToCart(products[Number(b.dataset.buy)])));
     }
     document.querySelectorAll("[data-product]").forEach(btn=>btn.addEventListener("click",()=>{
       productFilter=btn.dataset.product;
@@ -475,6 +584,8 @@
         container.innerHTML="";
         mapObject=new kakao.maps.Map(container,{center:new kakao.maps.LatLng(37.5665,126.9780),level:7});
         renderPlaces();
+        // 지도 준비가 끝나면 사용자의 동의를 받아 현재 위치를 중심으로 이동합니다.
+        requestCurrentLocation(true);
       });
       script.onerror=()=>{document.getElementById("map").innerHTML='<div class="map-fallback"><div><strong>지도를 불러오지 못했습니다.</strong><span>JavaScript 키와 등록된 도메인을 확인해 주세요.</span></div></div>';};
       document.head.appendChild(script);
@@ -495,7 +606,7 @@
           '<div class="empty-state">facilities.json 파일이 index.html과 같은 폴더에 있는지 확인해 주세요.</div>';
       }
     }
-    loadEvents(); renderProducts(); renderPosts(); initKakaoMap(); loadFacilities();
+    renderEvents(); renderProducts(); renderCart(); renderPosts(); initKakaoMap(); loadFacilities();
   </script>
 </body>
 </html>
