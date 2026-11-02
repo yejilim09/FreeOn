@@ -175,6 +175,60 @@
     .cart-line:last-child{border-bottom:0}.cart-actions{display:flex;gap:6px;align-items:center}.cart-actions button{padding:5px 9px;border-radius:8px;border:1px solid var(--line);background:white;cursor:pointer}
     .detail-modal{max-width:620px}.detail-modal img{width:100%;max-height:420px;object-fit:contain;background:#f5f7f8;border-radius:12px}
 
+    [hidden]{display:none!important}
+    .event-poster{aspect-ratio:4/5;object-fit:contain;background:#eef3f5}
+    .image-placeholder.poster{aspect-ratio:4/5}
+    .product-photo{aspect-ratio:1/1;object-fit:contain;background:#fff}
+    .product-card .image-placeholder{aspect-ratio:1/1}
+    .tag.live{background:#e1f3e6;color:#1f6b3a}
+    .tag.ended{background:#eceff1;color:#5d6b72}
+    .tag.sale{background:#e1f3e6;color:#1f6b3a}
+    .card-tags{display:flex;gap:6px;flex-wrap:wrap}
+    .venue-item{padding:10px 0;border-top:1px solid #edf1f2;font-size:14px}
+    .venue-item:first-of-type{border-top:0}
+    .toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);background:#173f52;color:#fff;padding:12px 18px;border-radius:12px;font-size:14px;font-weight:650;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:200;max-width:90vw;text-align:center}
+    .toast.show{opacity:1;transform:translate(-50%,0)}
+    @media(max-width:600px){.toast{bottom:84px}}
+
+    /* 커뮤니티 */
+    .community-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}
+    .community-head .page-title{margin:0}
+    .tag-bar{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 12px;scrollbar-width:thin}
+    .tag-bar .filter-chip{white-space:nowrap;flex:0 0 auto}
+    .tag-bar .filter-chip small{opacity:.7;margin-left:2px}
+    .board{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+    .board-item{padding:16px 18px;border-bottom:1px solid #e7edef;cursor:pointer}
+    .board-item:last-child{border-bottom:0}
+    .board-item:hover{background:#f6fafa}
+    .board-title-btn{display:block;width:100%;text-align:left;border:0;background:none;padding:0;color:var(--navy);font-size:17px;font-weight:750;cursor:pointer;line-height:1.45;overflow-wrap:anywhere}
+    .board-preview{margin:5px 0 0;color:var(--muted);font-size:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+    .hashtags{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+    .hashtag{border:0;background:var(--mint);color:#205f5a;border-radius:999px;padding:3px 10px;font-size:12px;font-weight:700;cursor:pointer}
+    .hashtag:hover{background:#d7ebe7}
+    .board-meta{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;font-size:12px;color:#657780}
+    .board-meta .stat{white-space:nowrap}
+    #post-detail .secondary-btn{margin-bottom:12px}
+    .post-full{padding:22px}
+    .post-full-title{margin:0 0 6px;color:var(--navy);font-size:22px;line-height:1.4;overflow-wrap:anywhere}
+    .post-body{margin:16px 0 4px;white-space:pre-wrap;overflow-wrap:anywhere;font-size:15px}
+    .react-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;align-items:center}
+    .react-btn{border:1px solid #b9c9cf;background:#fff;color:#304a56;border-radius:999px;padding:8px 16px;font-weight:700;cursor:pointer}
+    .react-btn[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+    .text-btn.danger{color:#a13030;border-color:#e3c3c3}
+    .comments{margin-top:14px}
+    .comments h3{margin:0 0 6px}
+    .comment{border-top:1px solid #edf1f2;padding:11px 0}
+    .comment:first-of-type{border-top:0}
+    .comment-head{display:flex;gap:10px;align-items:center;font-size:12px;color:#657780}
+    .comment-head strong{color:var(--navy);font-size:13px}
+    .comment-head button{margin-left:auto;border:0;background:none;color:#a13030;font-size:12px;cursor:pointer}
+    .comment p{margin:4px 0 0;font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere}
+    #comment-form{display:flex;gap:8px;align-items:flex-end;margin-top:12px}
+    #comment-form textarea{flex:1;resize:vertical}
+    .modal .lbl{font-weight:700;margin:12px 0 5px}
+    .custom-tag-row{display:flex;gap:8px;margin-top:4px}
+    .custom-tag-row input{flex:1}
+    .tag-remove{border:0;background:none;color:inherit;cursor:pointer;font-size:14px;padding:0 0 0 4px}
   </style>
 </head>
 <body>
@@ -225,10 +279,9 @@
         <button class="quick-card" data-page="community"><span class="quick-icon" aria-hidden="true">☷</span><strong>함께하는 커뮤니티</strong><span>생활 팁과 경험을 나누기</span></button>
       </div>
       <div class="home-bottom">
-        <div class="panel"><h3>이번 주 추천 행사</h3>
-          <div class="mini-row"><span>모두의 영화관 · 한글 자막 상영</span><span class="tag blue">예시</span></div>
-          <div class="mini-row"><span>손으로 만나는 그림책 전시</span><span class="tag blue">예시</span></div>
-          <button class="secondary-btn" data-page="events">행사 더 보기</button>
+        <div class="panel"><h3>다가오는 행사</h3>
+          <div id="home-events"></div>
+          <button class="secondary-btn" data-page="events" style="margin-top:12px">행사 더 보기</button>
         </div>
         <div class="panel"><h3>접근성 정보, 함께 채워요</h3>
           <p style="color:var(--muted);font-size:14px;margin:0 0 13px">시설에서 경험한 편리한 점과 개선이 필요한 점을 나누면 더 많은 사람에게 도움이 돼요.</p>
@@ -249,7 +302,7 @@
       </div>
       <div class="place-tabs" aria-label="시설 유형 선택">
         <button class="filter-chip" data-place-view="all" aria-pressed="true">전체 시설</button>
-        <button class="filter-chip" data-place-view="event" aria-pressed="false">행사·공연 장소</button>
+        <button class="filter-chip" data-place-view="event" aria-pressed="false">행사 장소</button>
       </div>
       <div class="filter-row" aria-label="접근성 필터">
         <button class="filter-chip" data-filter="all" aria-pressed="true">전체</button>
@@ -286,17 +339,21 @@
     </section>
 
     <section class="page" id="page-community" aria-labelledby="community-title">
-      <h1 class="page-title" id="community-title">함께하는 커뮤니티</h1>
-      <p class="page-intro">작은 경험과 정보가 누군가에게는 큰 도움이 될 수 있어요.</p>
-      <div class="community-layout">
-        <div class="panel" style="padding:0" id="post-list"></div>
-        <aside class="panel">
-          <h2 style="font-size:19px;color:var(--navy);margin:0 0 8px">커뮤니티 이용 안내</h2>
-          <p style="font-size:14px;color:var(--muted)">서로의 경험을 존중하고, 확인되지 않은 시설 정보는 사실처럼 단정하지 말아 주세요.</p>
-          <button class="primary-btn" id="write-post">글쓰기 (시제품)</button>
-          <p style="font-size:12px;color:var(--muted);margin-top:12px">현재 게시글은 브라우저 안에서만 임시로 추가됩니다. 실제 공유 기능은 데이터베이스 연결 후 구현합니다.</p>
-        </aside>
+      <div id="board-view">
+        <div class="community-head">
+          <h1 class="page-title" id="community-title">커뮤니티</h1>
+          <button class="primary-btn" id="write-post" type="button">✎ 글쓰기</button>
+        </div>
+        <div class="toolbar">
+          <label class="sr-only" for="post-search">게시글 검색</label>
+          <input class="field search-field" id="post-search" placeholder="제목, 내용, #해시태그 검색">
+          <label class="sr-only" for="post-sort">정렬</label>
+          <select class="field" id="post-sort"><option value="latest">최신순</option><option value="popular">인기순</option><option value="comments">댓글 많은 순</option></select>
+        </div>
+        <div class="tag-bar" id="tag-bar" aria-label="해시태그로 보기"></div>
+        <div class="board" id="post-list"></div>
       </div>
+      <div id="post-detail" hidden></div>
     </section>
   </main>
 
@@ -311,48 +368,48 @@
   <footer id="accessibility">
     <div class="footer-inner">
       <div><strong>FREEON</strong><p>모두의 일상에 자유를 더하다.</p></div>
-      <div><strong>안내</strong><p>본 웹앱은 접근성 서비스 시제품입니다.</p><p>시설 정보 출처: 한국문화정보원 전국 배리어프리 문화예술관광지 CSV (2022-11-25 기준). 행사·상품 정보는 예시입니다.</p></div>
+      <div><strong>안내</strong><p>본 웹앱은 접근성 서비스 시제품입니다.</p><p>시설 정보 출처: 한국문화정보원 전국 배리어프리 문화예술관광지 CSV (2022-11-25 기준). 행사 일정과 접근성 정보는 바뀔 수 있으니 방문 전 주최 측에 확인해 주세요.</p></div>
       <div><strong>접근성</strong><p>키보드 탐색 · 명확한 레이블 · 반응형 화면</p></div>
     </div>
   </footer>
 
   <div class="modal-backdrop" id="post-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <div class="modal">
-      <div class="modal-head"><h2 id="modal-title">커뮤니티 글쓰기</h2><button class="close-btn" id="close-modal">닫기</button></div>
+      <div class="modal-head"><h2 id="modal-title">글쓰기</h2><button class="close-btn" id="close-modal" type="button">닫기</button></div>
       <form id="post-form">
         <label for="post-title">제목</label><input class="field" id="post-title" required maxlength="60" placeholder="제목을 입력하세요">
-        <label for="post-content">내용</label><textarea class="field" id="post-content" rows="5" required maxlength="500" placeholder="함께 나누고 싶은 내용을 입력하세요"></textarea>
-        <p style="font-size:12px;color:var(--muted)">시제품에서는 입력한 글이 현재 브라우저 화면에만 표시됩니다.</p>
-        <button class="primary-btn" type="submit">게시글 추가</button>
+        <label for="post-content">내용</label><textarea class="field" id="post-content" rows="6" required maxlength="1000" placeholder="내용을 입력하세요. 본문에 #해시태그를 적어도 자동으로 태그가 돼요."></textarea>
+        <div class="lbl">해시태그 <span class="review-note">(최대 5개)</span></div>
+        <div class="filter-row" id="tag-presets"></div>
+        <div class="custom-tag-row"><input class="field" id="custom-tag" maxlength="13" placeholder="직접 입력 (예: 휠체어)" aria-label="직접 입력할 해시태그"><button type="button" class="secondary-btn" id="add-tag">추가</button></div>
+        <div class="hashtags" id="tag-selected" style="margin:10px 0 16px"></div>
+        <button class="primary-btn" type="submit" style="width:100%">등록</button>
       </form>
     </div>
   </div>
 
 
   <div class="modal-backdrop" id="event-modal" role="dialog" aria-modal="true" aria-labelledby="event-modal-title"><div class="modal detail-modal"><div class="modal-head"><h2 id="event-modal-title">행사 상세</h2><button class="close-btn" id="close-event-modal">닫기</button></div><div id="event-modal-content"></div></div></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script>
-    // 1) 카카오 JavaScript 키를 입력하면 실제 지도가 연결됩니다.
+    // 1) 아래 "여기에_키_붙여넣기" 자리에 카카오 JavaScript 키를 붙여넣으면 실제 지도가 연결됩니다.
     // 카카오 REST API 키가 아니라 'JavaScript 키'를 사용하세요.
-    const KAKAO_JS_KEY = "d51eefd8d8257758999777f7a5e5e4e5";
+    const KAKAO_JS_KEY = "여기에_키_붙여넣기";
 
     // 실제 시설 데이터는 같은 폴더의 facilities.json 파일에서 불러옵니다.
     let places = [];
-    const events = [
-      {title:"모두의 영화관",date:"2026. 11. 14.",place:"서울 · 예시 장소",type:["caption","sign"],labels:[],poster:"images/event-poster-1.jpg",desc:"누구나 함께 영화를 즐기는 상영회 (시제품 예시)"},
-      {title:"손으로 만나는 그림책",date:"2026. 11. 21.",place:"경기 · 예시 장소",type:["audio"],labels:[],poster:"images/event-poster-2.jpg",desc:"촉각 자료와 음성 설명을 함께 제공하는 전시 (시제품 예시)"},
-      {title:"모두를 위한 동네 산책",date:"2026. 11. 28.",place:"인천 · 예시 장소",type:["caption","audio"],labels:[],poster:"images/event-poster-3.jpg",desc:"다양한 이동·소통 방식을 고려한 산책 모임 (시제품 예시)"}
-    ];
-    const products = [
-      {type:"keyring",icon:"♫",image:"images/keyring.jpg",title:"NFC 오디오북 키링",desc:"스마트폰을 가까이 대면 오디오 콘텐츠로 연결되는 키링 (상품 예시)",price:"가격 정보 준비 중",tag:"NFC"},
-      {type:"game",icon:"◈",image:"images/boardgame.png",title:"촉각으로 즐기는 보드게임",desc:"촉각 단서를 활용해 함께 즐기는 보드게임 (상품 예시)",price:"가격 정보 준비 중",tag:"시각장애 접근성"},
-      {type:"game",icon:"▤",image:"images/second-game.jpg",title:"소리와 글자로 만나는 게임",desc:"시각 정보와 문자 정보를 함께 활용하는 게임 (상품 예시)",price:"가격 정보 준비 중",tag:"청각장애 접근성"}
-    ];
-    const posts = [
-      {title:"처음 방문하는 장소의 접근성은 어떻게 확인하세요?",body:"방문 전에 전화로 확인하는 항목이나 유용했던 정보가 있다면 함께 나눠 주세요.",meta:"생활 정보 · 시제품 게시글"},
-      {title:"자막이 제공되는 문화행사 정보를 모아봐요",body:"지역별로 자막이나 수어 통역이 제공되는 행사를 발견하면 공유해 주세요.",meta:"행사 정보 · 시제품 게시글"},
-      {title:"모두가 편하게 이용할 수 있는 공간의 조건",body:"작은 안내 표지부터 이동 동선까지, 편리했던 경험을 들려주세요.",meta:"자유 이야기 · 시제품 게시글"}
-    ];
-    let activeFilter = "all", productFilter = "all", placeView = "all", mapObject = null, markers = [];
+    // 행사 데이터는 같은 폴더의 events.json에서 불러옵니다. (같은 행사의 여러 장소는 한 카드로 묶어요)
+    let events = [];
+    // 행사 포스터 이미지 (images 폴더): 1=영화제, 2=오케스트라, 3=앤
+    const EVENT_POSTERS = {
+      "event-003":"images/event-poster-1.jpg","event-004":"images/event-poster-1.jpg",
+      "event-001":"images/event-poster-2.jpg",
+      "event-002":"images/event-poster-3.jpg"
+    };    const products = [
+      {type:"keyring",icon:"♫",image:"images/keyring.jpg",title:"NFC 오디오북 키링",desc:"스마트폰을 가까이 대면 오디오 콘텐츠로 연결되는 키링",priceValue:9000,tag:"NFC"},
+      {type:"game",icon:"◈",image:"images/boardgame.jpg",title:"손끝의 달인: 암흑 속의 결투",desc:"보드게임 '꼬치의 달인'의 시각장애 접근성을 높여 재구성한 보드게임.",priceValue:28000,tag:"시각장애 접근성"},
+      {type:"game",icon:"▤",image:"images/second-game.jpg",title:"우주 메리미",desc:"청각장애 접근성을 높인 자체제작 보드게임.",priceValue:13000,tag:"청각장애 접근성"}
+    ];    let activeFilter = "all", productFilter = "all", placeView = "all", mapObject = null, markers = [];
     let currentLocationMarker = null, currentLatLng = null, selectedPlaceId = null;
     let selectedReviewRating = 5;
     const REVIEW_STORAGE_KEY = "freeon_place_reviews_v1";
@@ -373,7 +430,7 @@
 
     function renderPlaces() {
       const q = document.getElementById("place-search").value.trim().toLowerCase();
-      const filtered = places.filter(p => {
+      const filtered = (placeView === "event" ? eventPlaces() : places).filter(p => {
         const a = p.accessibility || {};
         const wheelchair = a.entrance || a.wheelchairRental || a.accessibleRestroom || a.accessibleParking;
         const visual = a.guideDog || a.brailleGuide || a.audioGuideKo;
@@ -381,7 +438,7 @@
           (activeFilter === "wheelchair" && wheelchair) ||
           (activeFilter === "visual" && visual);
         // 행사·공연 장소 탭은 데이터의 '전시/공연' 분류 시설만 보여줍니다.
-        const viewMatch = placeView === "all" || p.category1 === "전시/공연";
+        const viewMatch = true;
         const filterMatch = accessMatch && viewMatch;
         const searchText = [p.name,p.address,p.region,p.district,p.category1,p.category2].join(" ").toLowerCase();
         return filterMatch && searchText.includes(q);
@@ -408,6 +465,7 @@
       if (mapObject) {
         markers.forEach(m => m.setMap(null)); markers = [];
         // 지도 성능을 위해 검색 결과 중 최대 300개만 마커로 표시합니다.
+        if (placeView === "event" && filtered.length) { const bounds = new kakao.maps.LatLngBounds(); filtered.forEach(p => bounds.extend(new kakao.maps.LatLng(p.lat,p.lng))); mapObject.setBounds(bounds); }
         filtered.slice(0,300).forEach(p => {
           const marker = new kakao.maps.Marker({
             position:new kakao.maps.LatLng(p.lat,p.lng), map:mapObject,
@@ -433,8 +491,8 @@
         <h2 style="font-size:19px;color:var(--navy);margin:0 0 6px">${escapeHTML(p.name)}</h2>
         <p style="color:var(--muted);font-size:14px">${escapeHTML(p.address || `${p.region} ${p.district}`)}</p>
         <div class="meta"><span>${escapeHTML(p.category1)} · ${escapeHTML(p.category2)}</span><span>${escapeHTML(p.region)} ${escapeHTML(p.district)}</span></div>
-        <div class="access-list">${detailItems.map(([label,yes])=>`<span>${label}: ${yes ? "있음(Y)" : "없음(N)"}</span>`).join("")}</div>
-        <p style="font-size:14px">운영시간: ${escapeHTML(p.hours || "정보 없음")}<br>휴무일: ${escapeHTML(p.closed || "정보 없음")}<br>전화번호: ${escapeHTML(p.phone || "정보 없음")}</p>
+        <div class="access-list">${p.category1==="행사" ? "<span>접근성 정보: 미확인</span>" : detailItems.map(([label,yes])=>`<span>${label}: ${yes ? "있음(Y)" : "없음(N)"}</span>`).join("")}</div>
+        <p style="font-size:14px">${p.category1==="행사" ? "행사 기간" : "운영시간"}: ${escapeHTML(p.hours || "정보 없음")}<br>${p.category1==="행사" ? "" : `휴무일: ${escapeHTML(p.closed || "정보 없음")}<br>`}전화번호: ${escapeHTML(p.phone || "정보 없음")}</p>
         ${website ? `<p><a href="${escapeHTML(website)}" target="_blank" rel="noopener noreferrer">시설 홈페이지 열기</a></p>` : ""}
         <p style="font-size:12px;color:#775719">※ 제공 데이터 기준일: ${escapeHTML(p.updated || "확인되지 않음")}. 실제 편의시설·운영 여부는 방문 전 시설에 확인해 주세요.</p>
         ${renderReviewSection(p)}`;
@@ -523,52 +581,286 @@
       });
     }
 
-    function renderEvents() {
-      const q=document.getElementById("event-search").value.trim().toLowerCase();
-      const items=events.filter(e=>(e.title+e.place+e.desc).toLowerCase().includes(q));
-      document.getElementById("event-grid").innerHTML=items.length?items.map((e,i)=>`<article class="card event-card" tabindex="0" role="button" data-event-index="${events.indexOf(e)}"><div class="image-placeholder">행사 포스터</div><div class="card-body"><span class="tag blue">행사</span><h3>${escapeHTML(e.title)}</h3><p>${escapeHTML(e.desc)}</p><div class="meta"><span>${escapeHTML(e.date)}</span><span>${escapeHTML(e.place)}</span></div></div></article>`).join(" "):'<div class="empty-state">검색 결과가 없습니다.</div>';
-      document.querySelectorAll("[data-event-index]").forEach(card=>{const open=()=>openEventDetail(events[Number(card.dataset.eventIndex)]);card.addEventListener("click",open);card.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();open();}})});
+    const EVENT_ACCESS_LABELS = [["wheelchair","휠체어 접근"],["accessibleRestroom","장애인 화장실"],["signLanguage","수어 통역"],["caption","자막"],["audioDescription","화면 해설"]];
+    function todayStr() { const d=new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+    function eventStatus(e) { const t=todayStr(); return e.end<t ? "ended" : (e.start<=t ? "live" : "upcoming"); }
+    function statusTag(e) { const s=eventStatus(e); return s==="ended" ? '<span class="tag ended">종료</span>' : s==="live" ? '<span class="tag live">진행 중</span>' : '<span class="tag gold">예정</span>'; }
+    function fmtDate(s) { const [y,m,d]=String(s).split("-"); return `${y}. ${Number(m)}. ${Number(d)}.`; }
+    function fmtRange(e) { return e.start===e.end ? fmtDate(e.start) : `${fmtDate(e.start)} ~ ${fmtDate(e.end)}`; }
+    function cleanUrl(v) { const u=String(v||"").trim(); return /^https?:\/\//i.test(u) ? u : ""; }
+    function groupEvents(raw) {
+      const map = new Map();
+      raw.forEach(r => {
+        const key = (r.name||"").trim();
+        if (!map.has(key)) map.set(key,{title:key,type:r.type||"행사",start:r.startDate,end:r.endDate,poster:EVENT_POSTERS[r.id]||"",access:r.accessibility||{},venues:[]});
+        const g = map.get(key);
+        if (r.startDate<g.start) g.start=r.startDate;
+        if (r.endDate>g.end) g.end=r.endDate;
+        if (!g.poster && EVENT_POSTERS[r.id]) g.poster=EVENT_POSTERS[r.id];
+        g.venues.push({address:r.address||"",phone:r.phone||"",website:cleanUrl(r.website),lat:r.latitude,lng:r.longitude});
+      });
+      const rank = e => eventStatus(e)==="ended" ? 1 : 0;
+      return [...map.values()].sort((a,b)=>rank(a)-rank(b) || a.start.localeCompare(b.start));
     }
-    function openEventDetail(e){
-      const modal=document.getElementById("event-modal"),content=document.getElementById("event-modal-content");
-      const poster=e.poster||"";
-      content.innerHTML=`${poster?`<img src="${escapeHTML(poster)}" alt="${escapeHTML(e.title)} 행사 포스터" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`:""}<div class="image-placeholder" style="${poster?'display:none;':''}margin-bottom:12px">포스터 파일을 images 폴더에 추가하면 여기에 표시됩니다.</div><h3>${escapeHTML(e.title)}</h3><p>${escapeHTML(e.desc)}</p><div class="meta"><span>${escapeHTML(e.date)}</span><span>${escapeHTML(e.place)}</span></div>`;
+    function posterHTML(e) {
+      const ph = '<div class="image-placeholder poster"'+(e.poster?' style="display:none"':'')+'>행사 포스터</div>';
+      const img = e.poster ? `<img class="event-poster" src="${escapeHTML(e.poster)}" alt="${escapeHTML(e.title)} 행사 포스터" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">` : "";
+      return img + ph;
+    }
+    function renderEvents() {
+      const q = document.getElementById("event-search").value.trim().toLowerCase();
+      const items = events.filter(e => (e.title+" "+e.type+" "+e.venues.map(v=>v.address).join(" ")).toLowerCase().includes(q));
+      const grid = document.getElementById("event-grid");
+      grid.innerHTML = items.length ? items.map(e => {
+        const where = e.venues.length>1 ? `${e.venues[0].address} 외 ${e.venues.length-1}곳` : (e.venues[0]?.address||"");
+        return `<article class="card event-card" tabindex="0" role="button" aria-label="${escapeHTML(e.title)} 상세 보기" data-event-index="${events.indexOf(e)}">${posterHTML(e)}<div class="card-body"><div class="card-tags"><span class="tag blue">${escapeHTML(e.type)}</span>${statusTag(e)}</div><h3>${escapeHTML(e.title)}</h3><div class="meta"><span>${escapeHTML(fmtRange(e))}</span></div><p>${escapeHTML(where)}</p></div></article>`;
+      }).join("") : '<div class="empty-state">검색 결과가 없습니다.</div>';
+      grid.querySelectorAll("[data-event-index]").forEach(card => {
+        const open = () => openEventDetail(events[Number(card.dataset.eventIndex)]);
+        card.addEventListener("click",open);
+        card.addEventListener("keydown",ev => { if (ev.key==="Enter"||ev.key===" ") { ev.preventDefault(); open(); } });
+      });
+    }
+    function openEventDetail(e) {
+      const modal = document.getElementById("event-modal"), content = document.getElementById("event-modal-content");
+      const ei = events.indexOf(e);
+      const venues = e.venues.map((v,vi) => `<div class="venue-item"><strong>${escapeHTML(v.address)}</strong>${v.phone?`<br>전화: <a href="tel:${escapeHTML(v.phone)}">${escapeHTML(v.phone)}</a>`:""}${v.website?`<br><a href="${escapeHTML(v.website)}" target="_blank" rel="noopener noreferrer">행사 안내 페이지 열기</a>`:""}${v.lat!=null?`<br><button type="button" class="secondary-btn" style="margin-top:8px" data-show-map="event-${ei}-${vi}">지도에서 보기</button>`:""}</div>`).join("");
+      const access = EVENT_ACCESS_LABELS.map(([k,label]) => `<span>${label}: ${escapeHTML(e.access[k]||"미확인")}</span>`).join("");
+      content.innerHTML = `${posterHTML(e)}<div class="card-tags" style="margin-top:12px"><span class="tag blue">${escapeHTML(e.type)}</span>${statusTag(e)}</div><h3 style="color:var(--navy);margin:8px 0 4px">${escapeHTML(e.title)}</h3><div class="meta"><span>${escapeHTML(fmtRange(e))}</span></div>${venues}<div class="access-list">${access}</div><p style="font-size:12px;color:#775719">※ 일정과 접근성 정보는 바뀔 수 있어요. 방문 전 주최 측에 확인해 주세요.</p>`;
+      content.querySelectorAll("[data-show-map]").forEach(b => b.addEventListener("click",()=>{ modal.classList.remove("open"); showEventOnMap(b.dataset.showMap); }));
       modal.classList.add("open");
     }
-    document.getElementById("close-event-modal").addEventListener("click",()=>document.getElementById("event-modal").classList.remove("open"));
+    function eventPlaces() {
+      const out=[];
+      events.forEach((e,ei)=>e.venues.forEach((v,vi)=>{
+        if (v.lat==null||v.lng==null) return;
+        const parts=v.address.split(" ");
+        out.push({id:`event-${ei}-${vi}`,name:e.title,branch:"",category1:"행사",category2:e.type,region:parts[0]||"",district:parts[1]||"",address:v.address,lat:v.lat,lng:v.lng,phone:v.phone,website:v.website,hours:fmtRange(e),closed:"",labels:["행사 기간: "+fmtRange(e)],accessibility:{},updated:"행사 시트 기준"});
+      }));
+      return out;
+    }
+    function setPlaceView(v) {
+      placeView=v;
+      document.querySelectorAll("[data-place-view]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.placeView===v)));
+      renderPlaces();
+    }
+    function showEventOnMap(id) {
+      showPage("map"); document.getElementById("place-search").value=""; setPlaceView("event");
+      const p=eventPlaces().find(x=>x.id===id); if (p) selectPlace(p);
+    }
+    function renderHomeEvents() {
+      const el = document.getElementById("home-events");
+      if (!el) return;
+      const list = events.filter(e => eventStatus(e)!=="ended").slice(0,3);
+      el.innerHTML = list.length ? list.map(e => `<div class="mini-row"><span>${escapeHTML(e.title)}</span><span>${statusTag(e)}</span></div>`).join("") : '<p class="review-note">예정된 행사가 없어요.</p>';
+    }
+    async function loadEvents() {
+      try {
+        const response = await fetch("./events.json");
+        if (!response.ok) throw new Error("events.json 파일을 찾을 수 없습니다.");
+        events = groupEvents(await response.json());
+      } catch (error) {
+        console.error(error);
+        events = [];
+        document.getElementById("event-grid").innerHTML = '<div class="empty-state">events.json 파일이 index.html과 같은 폴더에 있는지 확인해 주세요.</div>';
+        return;
+      }
+      renderEvents(); renderHomeEvents();
+      if (placeView==="event") renderPlaces();
+    }    document.getElementById("close-event-modal").addEventListener("click",()=>document.getElementById("event-modal").classList.remove("open"));
     document.getElementById("event-modal").addEventListener("click",e=>{if(e.target.id==="event-modal")e.currentTarget.classList.remove("open")});
     document.getElementById("event-search").addEventListener("input",renderEvents);
 
-    const CART_KEY="freeon_cart_v1";
-    function getCart(){try{return JSON.parse(localStorage.getItem(CART_KEY)||"[]")}catch(e){return []}}
-    function saveCart(cart){localStorage.setItem(CART_KEY,JSON.stringify(cart));renderCart()}
-    function addToCart(product){const cart=getCart(),found=cart.find(x=>x.title===product.title);if(found)found.qty++;else cart.push({title:product.title,price:product.priceValue||0,qty:1});saveCart(cart);alert("장바구니에 담았습니다.")}
-    function renderCart(){const cart=getCart();document.getElementById("cart-count").textContent=cart.reduce((n,x)=>n+x.qty,0);document.getElementById("cart-items").innerHTML=cart.length?cart.map((x,i)=>`<div class="cart-line"><span>${escapeHTML(x.title)} · ${x.price.toLocaleString()}원</span><div class="cart-actions"><button data-cart-minus="${i}" aria-label="수량 줄이기">−</button><span>${x.qty}</span><button data-cart-plus="${i}" aria-label="수량 늘리기">＋</button><button data-cart-remove="${i}">삭제</button></div></div>`).join(""):'<p class="review-note">장바구니가 비어 있어요.</p>';document.getElementById("cart-total").textContent="상품 가격은 판매자 안내 후 확정됩니다.";document.querySelectorAll("[data-cart-minus]").forEach(b=>b.onclick=()=>{let c=getCart(),i=+b.dataset.cartMinus;c[i].qty--;if(c[i].qty<=0)c.splice(i,1);saveCart(c)});document.querySelectorAll("[data-cart-plus]").forEach(b=>b.onclick=()=>{let c=getCart();c[+b.dataset.cartPlus].qty++;saveCart(c)});document.querySelectorAll("[data-cart-remove]").forEach(b=>b.onclick=()=>{let c=getCart();c.splice(+b.dataset.cartRemove,1);saveCart(c)});}
+    const CART_KEY="freeon_cart_v2";
+    function won(n){return Number(n).toLocaleString("ko-KR")+"원"}
+    let cartState=(function(){try{const c=JSON.parse(localStorage.getItem(CART_KEY)||"[]");return Array.isArray(c)?c:[]}catch(e){return []}})();
+    function getCart(){return cartState}
+    function saveCart(cart){cartState=cart;try{localStorage.setItem(CART_KEY,JSON.stringify(cart))}catch(e){}renderCart()}
+    function showToast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>t.classList.remove("show"),2200)}
+    function addToCart(product){const cart=getCart(),found=cart.find(x=>x.title===product.title);if(found)found.qty++;else cart.push({title:product.title,price:product.priceValue,qty:1});saveCart(cart);showToast("장바구니에 담았어요: "+product.title)}
+    function renderCart(){
+      const cart=getCart();
+      document.getElementById("cart-count").textContent=cart.reduce((n,x)=>n+x.qty,0);
+      document.getElementById("cart-items").innerHTML=cart.length?cart.map((x,i)=>`<div class="cart-line"><span>${escapeHTML(x.title)} · ${won(x.price)}</span><div class="cart-actions"><button type="button" data-cart-minus="${i}" aria-label="수량 줄이기">−</button><span>${x.qty}</span><button type="button" data-cart-plus="${i}" aria-label="수량 늘리기">＋</button><button type="button" data-cart-remove="${i}">삭제</button></div></div>`).join(""):'<p class="review-note">장바구니가 비어 있어요.</p>';
+      document.getElementById("cart-total").textContent="합계: "+won(cart.reduce((s,x)=>s+x.price*x.qty,0));
+      document.querySelectorAll("[data-cart-minus]").forEach(b=>b.onclick=()=>{let c=getCart(),i=+b.dataset.cartMinus;c[i].qty--;if(c[i].qty<=0)c.splice(i,1);saveCart(c)});
+      document.querySelectorAll("[data-cart-plus]").forEach(b=>b.onclick=()=>{let c=getCart();c[+b.dataset.cartPlus].qty++;saveCart(c)});
+      document.querySelectorAll("[data-cart-remove]").forEach(b=>b.onclick=()=>{let c=getCart();c.splice(+b.dataset.cartRemove,1);saveCart(c)});
+    }
     document.getElementById("cart-clear").addEventListener("click",()=>saveCart([]));
     function renderProducts() {
       const items=products.filter(p=>productFilter==="all"||p.type===productFilter);
-      document.getElementById("product-grid").innerHTML=items.map(p=>`<article class="card product-card">${p.image?`<img class="product-photo" src="${escapeHTML(p.image)}" alt="${escapeHTML(p.title)} 사진" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`:""}<div class="image-placeholder" style="${p.image?'display:none;':''}">상품 사진을 images 폴더에 넣어 주세요</div><div class="card-body"><span class="tag">${escapeHTML(p.tag)}</span><h3>${escapeHTML(p.title)}</h3><p>${escapeHTML(p.desc)}</p><div class="product-price">${escapeHTML(p.price)}</div><button class="primary-btn" style="margin-top:13px" type="button" data-buy="${products.indexOf(p)}">구매하기</button></div></article>`).join("");
+      document.getElementById("product-grid").innerHTML=items.map(p=>`<article class="card product-card">${p.image?`<img class="product-photo" src="${escapeHTML(p.image)}" alt="${escapeHTML(p.title)} 사진" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`:""}<div class="image-placeholder" style="${p.image?'display:none;':''}">상품 사진을 images 폴더에 넣어 주세요</div><div class="card-body"><div class="card-tags"><span class="tag">${escapeHTML(p.tag)}</span><span class="tag sale">판매중</span></div><h3>${escapeHTML(p.title)}</h3><p>${escapeHTML(p.desc)}</p><div class="product-price">${won(p.priceValue)}</div><button class="primary-btn" style="margin-top:13px;width:100%" type="button" data-buy="${products.indexOf(p)}">장바구니 담기</button></div></article>`).join("");
       document.querySelectorAll("[data-buy]").forEach(b=>b.addEventListener("click",()=>addToCart(products[Number(b.dataset.buy)])));
-    }
-    document.querySelectorAll("[data-product]").forEach(btn=>btn.addEventListener("click",()=>{
+    }    document.querySelectorAll("[data-product]").forEach(btn=>btn.addEventListener("click",()=>{
       productFilter=btn.dataset.product;
       document.querySelectorAll("[data-product]").forEach(b=>b.setAttribute("aria-pressed",String(b===btn)));
       renderProducts();
     }));
 
-    function renderPosts() {
-      document.getElementById("post-list").innerHTML=posts.map(p=>`<article class="post"><span class="tag">커뮤니티</span><h3>${escapeHTML(p.title)}</h3><p>${escapeHTML(p.body)}</p><div class="post-meta">${escapeHTML(p.meta)}</div></article>`).join("");
+    function escapeHTML(s) { return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+
+    /* ===== 커뮤니티 (게시판) ===== */
+    const POSTS_KEY="freeon_posts_v2", REACT_KEY="freeon_reactions_v2";
+    const PRESET_TAGS=["시각장애","청각장애","지체장애","발달장애","이동약자","보호자","생활정보","행사정보","시설후기","자유이야기"];
+    let posts=[], myReactions={}, activeTag=null, openPostId=null, draftTags=[];
+
+    function lsGet(k,fallback){try{const v=localStorage.getItem(k);return v===null?fallback:JSON.parse(v)}catch(e){return fallback}}
+    function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+    function savePosts(){lsSet(POSTS_KEY,posts)}
+    function uid(prefix){return prefix+Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+    function timeAgo(ts){
+      const s=Math.floor((Date.now()-ts)/1000); if(s<60) return "방금 전";
+      const m=Math.floor(s/60); if(m<60) return m+"분 전";
+      const h=Math.floor(m/60); if(h<24) return h+"시간 전";
+      const d=Math.floor(h/24); if(d<7) return d+"일 전";
+      const dt=new Date(ts); return `${dt.getFullYear()}. ${dt.getMonth()+1}. ${dt.getDate()}.`;
     }
-    function escapeHTML(s) { return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+    function normTag(t){return String(t||"").replace(/^#+/,"").replace(/\s+/g,"").replace(/[^0-9A-Za-z가-힣_]/g,"").slice(0,12)}
+    function extractTags(text){return (String(text).match(/#[0-9A-Za-z가-힣_]{1,12}/g)||[]).map(normTag).filter(Boolean)}
+
+    function initCommunity(){
+      const saved=lsGet(POSTS_KEY,null);
+      if(Array.isArray(saved)){
+        posts=saved.map(p=>({id:String(p.id),title:String(p.title||""),body:String(p.body||""),tags:Array.isArray(p.tags)?p.tags:[],createdAt:Number(p.createdAt)||Date.now(),likes:Number(p.likes)||0,dislikes:Number(p.dislikes)||0,comments:Array.isArray(p.comments)?p.comments:[],mine:!!p.mine}));
+      } else {
+        const now=Date.now(), H=3600000;
+        posts=[
+          {id:"seed-3",title:"모두가 편하게 이용할 수 있는 공간의 조건",body:"",tags:["자유이야기"],createdAt:now-26*H,likes:0,dislikes:0,comments:[],mine:false},
+          {id:"seed-2",title:"자막이 제공되는 문화행사 정보를 모아봐요",body:"",tags:["행사정보","청각장애"],createdAt:now-28*H,likes:0,dislikes:0,comments:[],mine:false},
+          {id:"seed-1",title:"처음 방문하는 장소의 접근성은 어떻게 확인하세요?",body:"",tags:["생활정보"],createdAt:now-30*H,likes:0,dislikes:0,comments:[],mine:false}
+        ];
+        savePosts();
+      }
+      myReactions=lsGet(REACT_KEY,{});
+      renderTagBar(); renderBoard();
+    }
+
+    function tagCounts(){const c={};PRESET_TAGS.forEach(t=>c[t]=0);posts.forEach(p=>p.tags.forEach(t=>{c[t]=(c[t]||0)+1}));return c}
+    function renderTagBar(){
+      const c=tagCounts(), bar=document.getElementById("tag-bar");
+      const names=Object.keys(c).sort((a,b)=>{const ap=PRESET_TAGS.indexOf(a),bp=PRESET_TAGS.indexOf(b);if(ap>-1&&bp>-1)return ap-bp;if(ap>-1)return -1;if(bp>-1)return 1;return c[b]-c[a]||a.localeCompare(b,"ko")});
+      bar.innerHTML=`<button type="button" class="filter-chip" data-tag="" aria-pressed="${!activeTag}">전체</button>`+names.map(t=>`<button type="button" class="filter-chip" data-tag="${escapeHTML(t)}" aria-pressed="${activeTag===t}">#${escapeHTML(t)}${c[t]?` <small>${c[t]}</small>`:""}</button>`).join("");
+      bar.querySelectorAll("[data-tag]").forEach(b=>b.addEventListener("click",()=>setTag(b.dataset.tag||null)));
+    }
+    function setTag(t){activeTag=t;closePost();renderTagBar()}
+
+    function filteredPosts(){
+      const q=document.getElementById("post-search").value.trim().toLowerCase().replace(/^#/,"");
+      const sort=document.getElementById("post-sort").value;
+      let list=posts.filter(p=>!activeTag||p.tags.includes(activeTag));
+      if(q) list=list.filter(p=>(p.title+" "+p.body+" "+p.tags.join(" ")).toLowerCase().includes(q));
+      list.sort((a,b)=>sort==="popular"?((b.likes-b.dislikes)-(a.likes-a.dislikes))||b.createdAt-a.createdAt:sort==="comments"?(b.comments.length-a.comments.length)||b.createdAt-a.createdAt:b.createdAt-a.createdAt);
+      return list;
+    }
+    function tagButtons(p){return p.tags.length?`<div class="hashtags">${p.tags.map(t=>`<button type="button" class="hashtag" data-tag="${escapeHTML(t)}">#${escapeHTML(t)}</button>`).join("")}</div>`:""}
+    function statsHTML(p){return `<span class="stat" aria-label="좋아요 ${p.likes}개">👍 ${p.likes}</span><span class="stat" aria-label="싫어요 ${p.dislikes}개">👎 ${p.dislikes}</span><span class="stat" aria-label="댓글 ${p.comments.length}개">💬 ${p.comments.length}</span>`}
+    function renderBoard(){
+      const list=filteredPosts(), box=document.getElementById("post-list");
+      box.innerHTML=list.length?list.map(p=>`<article class="board-item" data-post-id="${escapeHTML(p.id)}"><button type="button" class="board-title-btn">${escapeHTML(p.title)}</button>${p.body?`<p class="board-preview">${escapeHTML(p.body)}</p>`:""}${tagButtons(p)}<div class="board-meta"><span>익명</span><span>${timeAgo(p.createdAt)}</span>${statsHTML(p)}</div></article>`).join(""):'<div class="empty-state" style="border:0">조건에 맞는 글이 없어요.</div>';
+      box.querySelectorAll(".board-item").forEach(el=>el.addEventListener("click",()=>openPost(el.dataset.postId)));
+      box.querySelectorAll(".hashtag").forEach(b=>b.addEventListener("click",e=>{e.stopPropagation();setTag(b.dataset.tag)}));
+    }
+
+    function openPost(id){
+      openPostId=id;
+      document.getElementById("board-view").hidden=true;
+      document.getElementById("post-detail").hidden=false;
+      renderPostDetail();
+      window.scrollTo({top:0});
+    }
+    function closePost(){
+      openPostId=null;
+      document.getElementById("board-view").hidden=false;
+      document.getElementById("post-detail").hidden=true;
+      renderBoard();
+    }
+    function renderPostDetail(){
+      const box=document.getElementById("post-detail"), p=posts.find(x=>x.id===openPostId);
+      if(!p){closePost();return}
+      const my=myReactions[p.id];
+      const comments=p.comments.map(c=>`<div class="comment"><div class="comment-head"><strong>익명</strong><span>${timeAgo(c.createdAt)}</span>${c.mine?`<button type="button" data-del-comment="${escapeHTML(c.id)}">삭제</button>`:""}</div><p>${escapeHTML(c.text)}</p></div>`).join("");
+      box.innerHTML=`<button type="button" class="secondary-btn" id="back-to-list">← 목록</button>
+        <article class="panel post-full">
+          <h2 class="post-full-title">${escapeHTML(p.title)}</h2>
+          <div class="board-meta" style="margin-top:0"><span>익명</span><span>${timeAgo(p.createdAt)}</span></div>
+          ${p.body?`<div class="post-body">${escapeHTML(p.body)}</div>`:""}
+          ${tagButtons(p)}
+          <div class="react-row">
+            <button type="button" class="react-btn" data-react="like" aria-pressed="${my==="like"}">👍 좋아요 ${p.likes}</button>
+            <button type="button" class="react-btn" data-react="dislike" aria-pressed="${my==="dislike"}">👎 싫어요 ${p.dislikes}</button>
+            ${p.mine?'<button type="button" class="text-btn danger" id="delete-post">글 삭제</button>':""}
+          </div>
+        </article>
+        <section class="panel comments" aria-label="댓글">
+          <h3>댓글 ${p.comments.length}</h3>
+          ${comments||'<p class="review-note">첫 댓글을 남겨 보세요.</p>'}
+          <form id="comment-form"><label class="sr-only" for="comment-input">댓글 입력</label><textarea class="field" id="comment-input" rows="2" maxlength="300" required placeholder="댓글을 입력하세요"></textarea><button class="primary-btn" type="submit">등록</button></form>
+        </section>`;
+      document.getElementById("back-to-list").addEventListener("click",closePost);
+      box.querySelectorAll(".hashtag").forEach(b=>b.addEventListener("click",()=>setTag(b.dataset.tag)));
+      box.querySelectorAll("[data-react]").forEach(b=>b.addEventListener("click",()=>react(p.id,b.dataset.react)));
+      const del=document.getElementById("delete-post");
+      if(del) del.addEventListener("click",()=>{if(confirm("이 글을 삭제할까요?")){posts=posts.filter(x=>x.id!==p.id);savePosts();renderTagBar();closePost()}});
+      box.querySelectorAll("[data-del-comment]").forEach(b=>b.addEventListener("click",()=>{p.comments=p.comments.filter(c=>c.id!==b.dataset.delComment);savePosts();renderPostDetail()}));
+      document.getElementById("comment-form").addEventListener("submit",e=>{
+        e.preventDefault();
+        const text=document.getElementById("comment-input").value.trim();
+        if(!text) return;
+        p.comments.push({id:uid("c"),text,createdAt:Date.now(),mine:true});
+        savePosts(); renderPostDetail();
+        document.getElementById("comment-input").focus();
+      });
+    }
+    function react(id,kind){
+      const p=posts.find(x=>x.id===id); if(!p) return;
+      const cur=myReactions[id];
+      if(cur==="like") p.likes--;
+      if(cur==="dislike") p.dislikes--;
+      if(cur===kind){ delete myReactions[id]; }
+      else { if(kind==="like") p.likes++; else p.dislikes++; myReactions[id]=kind; }
+      savePosts(); lsSet(REACT_KEY,myReactions); renderPostDetail();
+    }
+
+    // 글쓰기
     const modal=document.getElementById("post-modal");
-    document.getElementById("write-post").addEventListener("click",()=>{modal.classList.add("open");document.getElementById("post-title").focus();});
+    function renderTagPicker(){
+      const presets=document.getElementById("tag-presets"), sel=document.getElementById("tag-selected");
+      presets.innerHTML=PRESET_TAGS.map(t=>`<button type="button" class="filter-chip" data-preset="${t}" aria-pressed="${draftTags.includes(t)}">#${t}</button>`).join("");
+      sel.innerHTML=draftTags.length?draftTags.map(t=>`<span class="hashtag">#${escapeHTML(t)}<button type="button" class="tag-remove" data-remove="${escapeHTML(t)}" aria-label="${escapeHTML(t)} 태그 빼기">×</button></span>`).join(""):'<span class="review-note">선택한 해시태그가 여기에 표시돼요.</span>';
+      presets.querySelectorAll("[data-preset]").forEach(b=>b.addEventListener("click",()=>{const t=b.dataset.preset;if(draftTags.includes(t))draftTags=draftTags.filter(x=>x!==t);else addDraftTag(t);renderTagPicker()}));
+      sel.querySelectorAll("[data-remove]").forEach(b=>b.addEventListener("click",()=>{draftTags=draftTags.filter(x=>x!==b.dataset.remove);renderTagPicker()}));
+    }
+    function addDraftTag(raw){
+      const t=normTag(raw);
+      if(!t||draftTags.includes(t)) return;
+      if(draftTags.length>=5){showToast("해시태그는 최대 5개까지 넣을 수 있어요.");return}
+      draftTags.push(t);
+    }
+    function addCustomTag(){
+      const input=document.getElementById("custom-tag");
+      addDraftTag(input.value); input.value=""; renderTagPicker(); input.focus();
+    }
+    document.getElementById("write-post").addEventListener("click",()=>{draftTags=[];document.getElementById("post-form").reset();renderTagPicker();modal.classList.add("open");document.getElementById("post-title").focus()});
     document.getElementById("close-modal").addEventListener("click",()=>modal.classList.remove("open"));
-    modal.addEventListener("click",e=>{if(e.target===modal)modal.classList.remove("open");});
+    modal.addEventListener("click",e=>{if(e.target===modal)modal.classList.remove("open")});
+    document.getElementById("add-tag").addEventListener("click",addCustomTag);
+    document.getElementById("custom-tag").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();addCustomTag()}});
+    document.addEventListener("keydown",e=>{if(e.key==="Escape")document.querySelectorAll(".modal-backdrop.open").forEach(m=>m.classList.remove("open"))});
     document.getElementById("post-form").addEventListener("submit",e=>{
       e.preventDefault();
-      posts.unshift({title:document.getElementById("post-title").value,body:document.getElementById("post-content").value,meta:"방금 작성 · 현재 브라우저 임시 저장"});
-      renderPosts(); e.target.reset(); modal.classList.remove("open"); document.getElementById("post-list").scrollIntoView({behavior:"smooth"});
+      const title=document.getElementById("post-title").value.trim(), body=document.getElementById("post-content").value.trim();
+      if(!title||!body) return;
+      const tags=[...new Set([...draftTags,...extractTags(title+" "+body)])].slice(0,5);
+      posts.unshift({id:uid("p"),title,body,tags,createdAt:Date.now(),likes:0,dislikes:0,comments:[],mine:true});
+      savePosts();
+      activeTag=null; document.getElementById("post-search").value=""; document.getElementById("post-sort").value="latest";
+      modal.classList.remove("open");
+      renderTagBar(); closePost();
+      window.scrollTo({top:0,behavior:"smooth"});
     });
+    document.getElementById("post-search").addEventListener("input",renderBoard);
+    document.getElementById("post-sort").addEventListener("change",renderBoard);
     document.getElementById("login-demo").addEventListener("click",()=>alert("회원가입과 로그인 기능은 데이터베이스 연결 단계에서 구현할 예정입니다."));
     let large=false;
     document.getElementById("font-toggle").addEventListener("click",e=>{
@@ -606,7 +898,7 @@
           '<div class="empty-state">facilities.json 파일이 index.html과 같은 폴더에 있는지 확인해 주세요.</div>';
       }
     }
-    renderEvents(); renderProducts(); renderCart(); renderPosts(); initKakaoMap(); loadFacilities();
+    renderProducts(); renderCart(); initCommunity(); loadEvents(); initKakaoMap(); loadFacilities();
   </script>
 </body>
 </html>
