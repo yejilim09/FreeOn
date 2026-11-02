@@ -85,6 +85,20 @@
     .place-item { text-align:left; padding:15px; border:1px solid var(--line); border-radius:13px; background:#fff; cursor:pointer; }
     .place-item:hover,.place-item.selected { border-color:var(--teal); background:#f4faf9; }
     .place-item strong { display:block; color:var(--navy); margin-bottom:3px; }
+    .place-tabs { display:flex; gap:8px; flex-wrap:wrap; margin:16px 0 12px; }
+    .location-status { color:var(--muted); font-size:12px; align-self:center; }
+    .review-section { border-top:1px solid var(--line); margin-top:18px; padding-top:16px; }
+    .review-summary { display:flex; align-items:center; gap:10px; margin:8px 0 14px; }
+    .stars { color:#d18b17; letter-spacing:2px; font-size:18px; }
+    .review-form { background:#f5f8f9; border:1px solid var(--line); border-radius:12px; padding:14px; margin:12px 0; }
+    .review-form label { display:block; font-weight:700; margin:8px 0 5px; }
+    .review-form input,.review-form textarea { width:100%; }
+    .star-picker { display:flex; gap:4px; margin:5px 0 10px; }
+    .star-picker button { border:0; background:transparent; color:#aab5ba; font-size:26px; cursor:pointer; padding:2px 4px; }
+    .star-picker button.selected { color:#d18b17; }
+    .review-item { border-top:1px solid #edf1f2; padding:11px 0; }
+    .review-item p { margin:5px 0; white-space:pre-wrap; overflow-wrap:anywhere; }
+    .review-note { color:var(--muted); font-size:12px; }
     .place-item small { color:var(--muted); }
     .access-list { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
     .access-list span { font-size:11px; padding:3px 7px; border-radius:6px; background:#edf3f5; color:#38525d; }
@@ -222,6 +236,11 @@
         <label class="sr-only" for="place-search">시설명 또는 지역 검색</label>
         <input class="field search-field" id="place-search" placeholder="시설명 또는 지역 검색">
         <button class="secondary-btn" id="nearby-btn">내 위치 사용</button>
+        <span class="location-status" id="location-status" aria-live="polite">현재 위치 확인 전</span>
+      </div>
+      <div class="place-tabs" aria-label="시설 유형 선택">
+        <button class="filter-chip" data-place-view="all" aria-pressed="true">전체 시설</button>
+        <button class="filter-chip" data-place-view="event" aria-pressed="false">행사·공연 장소</button>
       </div>
       <div class="filter-row" aria-label="접근성 필터">
         <button class="filter-chip" data-filter="all" aria-pressed="true">전체</button>
@@ -303,7 +322,7 @@
   <script>
     // 1) 카카오 JavaScript 키를 입력하면 실제 지도가 연결됩니다.
     // 카카오 REST API 키가 아니라 'JavaScript 키'를 사용하세요.
-    const KAKAO_JS_KEY = "d51eefd8d8257758999777f7a5e5e4e5";
+    const KAKAO_JS_KEY = "여기에_카카오_JavaScript_키_입력";
 
     // 실제 시설 데이터는 같은 폴더의 facilities.json 파일에서 불러옵니다.
     let places = [];
@@ -322,7 +341,10 @@
       {title:"자막이 제공되는 문화행사 정보를 모아봐요",body:"지역별로 자막이나 수어 통역이 제공되는 행사를 발견하면 공유해 주세요.",meta:"행사 정보 · 시제품 게시글"},
       {title:"모두가 편하게 이용할 수 있는 공간의 조건",body:"작은 안내 표지부터 이동 동선까지, 편리했던 경험을 들려주세요.",meta:"자유 이야기 · 시제품 게시글"}
     ];
-    let activeFilter = "all", productFilter = "all", mapObject = null, markers = [];
+    let activeFilter = "all", productFilter = "all", placeView = "all", mapObject = null, markers = [];
+    let currentLocationMarker = null, currentLatLng = null, selectedPlaceId = null;
+    let selectedReviewRating = 5;
+    const REVIEW_STORAGE_KEY = "freeon_place_reviews_v1";
 
     function showPage(page) {
       document.querySelectorAll(".page").forEach(el => el.classList.toggle("active", el.id === "page-" + page));
@@ -344,9 +366,12 @@
         const a = p.accessibility || {};
         const wheelchair = a.entrance || a.wheelchairRental || a.accessibleRestroom || a.accessibleParking;
         const visual = a.guideDog || a.brailleGuide || a.audioGuideKo;
-        const filterMatch = activeFilter === "all" ||
+        const accessMatch = activeFilter === "all" ||
           (activeFilter === "wheelchair" && wheelchair) ||
           (activeFilter === "visual" && visual);
+        // 행사·공연 장소 탭은 데이터의 '전시/공연' 분류 시설만 보여줍니다.
+        const viewMatch = placeView === "all" || p.category1 === "전시/공연";
+        const filterMatch = accessMatch && viewMatch;
         const searchText = [p.name,p.address,p.region,p.district,p.category1,p.category2].join(" ").toLowerCase();
         return filterMatch && searchText.includes(q);
       });
@@ -362,7 +387,9 @@
           b.className = "place-item"; b.type = "button";
           const title = escapeHTML(p.name + (p.branch ? " " + p.branch : ""));
           const address = escapeHTML(p.address || `${p.region} ${p.district}`);
-          b.innerHTML = `<strong>${title}</strong><small>${address}</small><div class="access-list">${(p.labels||[]).map(x=>`<span>${escapeHTML(x)}</span>`).join("")}</div>`;
+          const rating = getPlaceReviews(p.id);
+          const ratingText = rating.length ? `★ ${averageRating(rating).toFixed(1)} · 리뷰 ${rating.length}개` : "아직 리뷰 없음";
+          b.innerHTML = `<strong>${title}</strong><small>${address}</small><small style="display:block;margin-top:4px;color:#9a6815">${ratingText}</small><div class="access-list">${(p.labels||[]).map(x=>`<span>${escapeHTML(x)}</span>`).join("")}</div>`;
           b.addEventListener("click", () => selectPlace(p));
           list.appendChild(b);
         });
@@ -398,7 +425,10 @@
         <div class="access-list">${detailItems.map(([label,yes])=>`<span>${label}: ${yes ? "있음(Y)" : "없음(N)"}</span>`).join("")}</div>
         <p style="font-size:14px">운영시간: ${escapeHTML(p.hours || "정보 없음")}<br>휴무일: ${escapeHTML(p.closed || "정보 없음")}<br>전화번호: ${escapeHTML(p.phone || "정보 없음")}</p>
         ${website ? `<p><a href="${escapeHTML(website)}" target="_blank" rel="noopener noreferrer">시설 홈페이지 열기</a></p>` : ""}
-        <p style="font-size:12px;color:#775719">※ 제공 데이터 기준일: ${escapeHTML(p.updated || "확인되지 않음")}. 실제 편의시설·운영 여부는 방문 전 시설에 확인해 주세요.</p>`;
+        <p style="font-size:12px;color:#775719">※ 제공 데이터 기준일: ${escapeHTML(p.updated || "확인되지 않음")}. 실제 편의시설·운영 여부는 방문 전 시설에 확인해 주세요.</p>
+        ${renderReviewSection(p)}`;
+      selectedPlaceId = p.id;
+      bindReviewForm(p);
       document.querySelectorAll(".place-item").forEach(el=>el.classList.toggle("selected",el.querySelector("strong")?.textContent===p.name));
       if (mapObject) mapObject.panTo(new kakao.maps.LatLng(p.lat,p.lng));
     }
@@ -408,13 +438,79 @@
       document.querySelectorAll("[data-filter]").forEach(b=>b.setAttribute("aria-pressed",String(b===btn)));
       renderPlaces();
     }));
-    document.getElementById("nearby-btn").addEventListener("click",()=>{
-      if (!navigator.geolocation) { alert("이 브라우저에서는 위치 기능을 사용할 수 없습니다."); return; }
+    function requestCurrentLocation(isStartup=false) {
+      const status = document.getElementById("location-status");
+      if (!navigator.geolocation) {
+        status.textContent = "이 브라우저는 위치 기능을 지원하지 않아요.";
+        if (!isStartup) alert(status.textContent);
+        return;
+      }
+      status.textContent = "현재 위치를 확인하고 있어요...";
       navigator.geolocation.getCurrentPosition(pos=>{
-        if (mapObject) mapObject.setCenter(new kakao.maps.LatLng(pos.coords.latitude,pos.coords.longitude));
-        else alert("먼저 카카오 JavaScript 키를 등록해 지도를 연결해 주세요.");
-      },()=>alert("위치 권한을 확인할 수 없어요. 브라우저의 위치 권한을 확인하거나 주소 검색을 이용해 주세요."));
-    });
+        currentLatLng = new kakao.maps.LatLng(pos.coords.latitude,pos.coords.longitude);
+        if (mapObject) {
+          mapObject.setCenter(currentLatLng);
+          mapObject.setLevel(5);
+          if (currentLocationMarker) currentLocationMarker.setMap(null);
+          const markerContent = document.createElement("div");
+          markerContent.textContent = "내 위치";
+          markerContent.style.cssText = "background:#173f52;color:#fff;padding:6px 10px;border-radius:18px;font-size:12px;font-weight:700;border:2px solid #fff;box-shadow:0 2px 8px #0003;white-space:nowrap";
+          currentLocationMarker = new kakao.maps.CustomOverlay({position:currentLatLng,content:markerContent,yAnchor:1.4,zIndex:10});
+          currentLocationMarker.setMap(mapObject);
+        }
+        status.textContent = "현재 위치를 기준으로 지도를 표시하고 있어요.";
+      },err=>{
+        status.textContent = "위치 권한이 없어 기본 지도 위치로 표시합니다.";
+        if (!isStartup) alert("현재 위치를 확인하지 못했어요. 브라우저의 위치 권한을 확인해 주세요.");
+        console.warn("Geolocation error:",err.message);
+      },{enableHighAccuracy:true,timeout:10000,maximumAge:60000});
+    }
+    document.getElementById("nearby-btn").addEventListener("click",()=>requestCurrentLocation(false));
+    document.querySelectorAll("[data-place-view]").forEach(btn=>btn.addEventListener("click",()=>{
+      placeView=btn.dataset.placeView;
+      document.querySelectorAll("[data-place-view]").forEach(b=>b.setAttribute("aria-pressed",String(b===btn)));
+      renderPlaces();
+    }));
+
+    function getAllReviews() {
+      try { return JSON.parse(localStorage.getItem(REVIEW_STORAGE_KEY) || "{}"); }
+      catch (e) { return {}; }
+    }
+    function getPlaceReviews(placeId) {
+      const all = getAllReviews();
+      return Array.isArray(all[String(placeId)]) ? all[String(placeId)] : [];
+    }
+    function averageRating(reviews) {
+      return reviews.length ? reviews.reduce((sum,r)=>sum + Number(r.rating || 0),0) / reviews.length : 0;
+    }
+    function renderReviewSection(place) {
+      const reviews = getPlaceReviews(place.id);
+      const average = averageRating(reviews);
+      const reviewItems = reviews.slice().reverse().map(r=>`<div class="review-item"><div><span class="stars" aria-label="${Number(r.rating)}점">${"★".repeat(Number(r.rating))}${"☆".repeat(5-Number(r.rating))}</span> <strong>${escapeHTML(r.name || "익명")}</strong></div><p>${escapeHTML(r.content || "")}</p><small class="review-note">${escapeHTML(r.date || "")}</small></div>`).join("");
+      return `<section class="review-section" aria-labelledby="review-title"><h3 id="review-title" style="margin:0;color:var(--navy)">방문자 리뷰</h3><div class="review-summary"><span class="stars">${reviews.length ? "★".repeat(Math.round(average))+"☆".repeat(5-Math.round(average)) : "☆☆☆☆☆"}</span><strong>${reviews.length ? average.toFixed(1)+" / 5" : "평점 없음"}</strong><span class="review-note">리뷰 ${reviews.length}개</span></div>
+      <form class="review-form" id="place-review-form"><strong>이 장소의 경험을 나눠 주세요.</strong><label>별점 선택</label><div class="star-picker" role="group" aria-label="별점 선택">${[1,2,3,4,5].map(n=>`<button type="button" data-rating="${n}" class="${n<=selectedReviewRating?"selected":""}" aria-label="${n}점">★</button>`).join("")}</div><label for="review-name">작성자 (선택)</label><input class="field" id="review-name" maxlength="20" placeholder="익명"><label for="review-content">리뷰 내용</label><textarea class="field" id="review-content" rows="3" maxlength="500" required placeholder="접근성이나 이용 경험을 구체적으로 적어 주세요."></textarea><button class="primary-btn" type="submit" style="margin-top:10px">리뷰 등록</button></form>
+      <p class="review-note">현재 리뷰는 이 브라우저에만 저장되는 시제품 기능입니다. 다른 사람과 리뷰를 공유하려면 별도의 데이터베이스 연결이 필요합니다.</p>${reviewItems || '<p class="review-note">아직 등록된 리뷰가 없습니다.</p>'}</section>`;
+    }
+    function bindReviewForm(place) {
+      const form=document.getElementById("place-review-form");
+      if (!form) return;
+      form.querySelectorAll("[data-rating]").forEach(btn=>btn.addEventListener("click",()=>{
+        selectedReviewRating=Number(btn.dataset.rating);
+        form.querySelectorAll("[data-rating]").forEach(star=>star.classList.toggle("selected",Number(star.dataset.rating)<=selectedReviewRating));
+      }));
+      form.addEventListener("submit",e=>{
+        e.preventDefault();
+        const content=document.getElementById("review-content").value.trim();
+        if (!content) return;
+        const all=getAllReviews(), key=String(place.id);
+        if (!Array.isArray(all[key])) all[key]=[];
+        all[key].push({name:document.getElementById("review-name").value.trim()||"익명",rating:selectedReviewRating,content,date:new Date().toLocaleDateString("ko-KR")});
+        try { localStorage.setItem(REVIEW_STORAGE_KEY,JSON.stringify(all)); }
+        catch (error) { alert("브라우저 저장 공간에 리뷰를 저장하지 못했어요."); return; }
+        selectPlace(place);
+        renderPlaces();
+      });
+    }
 
     function renderEvents() {
       const q=document.getElementById("event-search").value.trim().toLowerCase(), type=document.getElementById("event-type").value;
@@ -462,6 +558,8 @@
         container.innerHTML="";
         mapObject=new kakao.maps.Map(container,{center:new kakao.maps.LatLng(37.5665,126.9780),level:7});
         renderPlaces();
+        // 지도 준비가 끝나면 사용자의 동의를 받아 현재 위치를 중심으로 이동합니다.
+        requestCurrentLocation(true);
       });
       script.onerror=()=>{document.getElementById("map").innerHTML='<div class="map-fallback"><div><strong>지도를 불러오지 못했습니다.</strong><span>JavaScript 키와 등록된 도메인을 확인해 주세요.</span></div></div>';};
       document.head.appendChild(script);
