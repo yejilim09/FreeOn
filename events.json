@@ -1,0 +1,86 @@
+[
+  {
+    "id": "event-001",
+    "name": "김현철의 유쾌한 오케스트라",
+    "type": "공연",
+    "address": "서울 강남구 언주로 711",
+    "postalCode": "6050",
+    "phone": "02-6712-0526",
+    "website": "https://www.gangnam.go.kr/office/gfac/board/gfac_perform15/67/view.do?mid=gfac_perform0106",
+    "startDate": "2026-11-13",
+    "endDate": "2026-11-13",
+    "latitude": 37.51735787,
+    "longitude": 127.033119,
+    "accessibility": {
+      "wheelchair": "미확인",
+      "accessibleRestroom": "미확인",
+      "signLanguage": "미확인",
+      "caption": "미확인",
+      "audioDescription": "미확인",
+      "source": ""
+    }
+  },
+  {
+    "id": "event-002",
+    "name": "[광주] 앤ANNE: 배리어프리",
+    "type": "공연/뮤지컬",
+    "address": "전남광주통합특별시 북구 하서로 299 광주북구문화센터",
+    "postalCode": "61081",
+    "phone": "062-574-0295",
+    "website": "https://gbfmc.or.kr/bcc/",
+    "startDate": "2026-10-30",
+    "endDate": "2026-10-31",
+    "latitude": 35.20135469,
+    "longitude": 126.873857,
+    "accessibility": {
+      "wheelchair": "미확인",
+      "accessibleRestroom": "미확인",
+      "signLanguage": "미확인",
+      "caption": "미확인",
+      "audioDescription": "미확인",
+      "source": ""
+    }
+  },
+  {
+    "id": "event-003",
+    "name": "제16회 서울배리어프리영화제",
+    "type": "영화",
+    "address": "서울 중구 마른내로 38 서울영화센터",
+    "postalCode": "4555",
+    "phone": "02-3455-8389",
+    "website": "https://www.seoulfilmcenter.com/index.do",
+    "startDate": "2026-11-11",
+    "endDate": "2026-11-15",
+    "latitude": 37.56416181,
+    "longitude": 126.9921085,
+    "accessibility": {
+      "wheelchair": "미확인",
+      "accessibleRestroom": "미확인",
+      "signLanguage": "미확인",
+      "caption": "미확인",
+      "audioDescription": "미확인",
+      "source": ""
+    }
+  },
+  {
+    "id": "event-004",
+    "name": "제16회 서울배리어프리영화제",
+    "type": "영화",
+    "address": "서울 마포구 월드컵북로 400 DMC 단지",
+    "postalCode": "3925",
+    "phone": "02-3153-2075",
+    "website": "nan",
+    "startDate": "2026-11-11",
+    "endDate": "2026-11-15",
+    "latitude": 37.5806651,
+    "longitude": 126.8898378,
+    "accessibility": {
+      "wheelchair": "미확인",
+      "accessibleRestroom": "미확인",
+      "signLanguage": "미확인",
+      "caption": "미확인",
+      "audioDescription": "미확인",
+      "source": ""
+    }
+  }
+]
