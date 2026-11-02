@@ -231,7 +231,7 @@
     <section class="page" id="page-map" aria-labelledby="map-title">
       <h1 class="page-title" id="map-title">배리어프리 시설 지도</h1>
       <p class="page-intro">방문 전에 필요한 편의시설과 접근성 정보를 확인하세요.</p>
-      <div class="notice">한국문화정보원 제공 CSV를 바탕으로 한 시설 정보입니다. 데이터 기준일은 2022-11-25이며, 방문 전 시설에 최신 운영 정보와 편의시설 여부를 확인해 주세요. 정보가 '아니오'로 표시되거나 비어 있는 경우에도 실제 현장 상황과 다를 수 있습니다.</div>
+      <div class="notice">한국문화정보원 전국 시설 데이터와 경기도 무장애관광지 시트를 함께 표시합니다. 경기도 관광지 좌표는 카카오 장소검색 후보값이므로 위치를 확인해 주세요. 전국 데이터 기준일은 2022-11-25이며, 방문 전 최신 운영 정보와 편의시설 여부를 확인해 주세요. 정보가 '아니오'로 표시되거나 비어 있는 경우에도 실제 현장 상황과 다를 수 있습니다.</div>
       <div class="toolbar">
         <label class="sr-only" for="place-search">시설명 또는 지역 검색</label>
         <input class="field search-field" id="place-search" placeholder="시설명 또는 지역 검색">
@@ -322,7 +322,7 @@
   <script>
     // 1) 카카오 JavaScript 키를 입력하면 실제 지도가 연결됩니다.
     // 카카오 REST API 키가 아니라 'JavaScript 키'를 사용하세요.
-    const KAKAO_JS_KEY = "d51eefd8d8257758999777f7a5e5e4e5";
+    const KAKAO_JS_KEY = "여기에_카카오_JavaScript_키_입력";
 
     // 실제 시설 데이터는 같은 폴더의 facilities.json 파일에서 불러옵니다.
     let places = [];
@@ -342,6 +342,7 @@
       {title:"모두가 편하게 이용할 수 있는 공간의 조건",body:"작은 안내 표지부터 이동 동선까지, 편리했던 경험을 들려주세요.",meta:"자유 이야기 · 시제품 게시글"}
     ];
     let activeFilter = "all", productFilter = "all", placeView = "all", mapObject = null, markers = [];
+    let gyeonggiPlaces = [];
     let currentLocationMarker = null, currentLatLng = null, selectedPlaceId = null;
     let selectedReviewRating = 5;
     const REVIEW_STORAGE_KEY = "freeon_place_reviews_v1";
@@ -397,7 +398,7 @@
       if (mapObject) {
         markers.forEach(m => m.setMap(null)); markers = [];
         // 지도 성능을 위해 검색 결과 중 최대 300개만 마커로 표시합니다.
-        filtered.slice(0,300).forEach(p => {
+        filtered.filter(p => p.lat !== null && p.lat !== undefined && p.lng !== null && p.lng !== undefined && Number.isFinite(Number(p.lat)) && Number.isFinite(Number(p.lng))).slice(0,300).forEach(p => {
           const marker = new kakao.maps.Marker({
             position:new kakao.maps.LatLng(p.lat,p.lng), map:mapObject,
             title:p.name
@@ -409,7 +410,14 @@
     }
     function selectPlace(p) {
       const a = p.accessibility || {};
-      const detailItems = [
+      const detailItems = p.sourceType === "gyeonggi" ? [
+        ["장애인 화장실",a.accessibleRestroom],["엘리베이터",a.elevator],
+        ["장애인 주차장",a.accessibleParking],["경사로",a.ramp],
+        ["지하철 접근",a.subway],["버스정류장 접근",a.busStop],
+        ["휠체어 대여",a.wheelchairRental],["촉지도식 안내판",a.tactileMap],
+        ["오디오 가이드",a.audioGuide],["아기돌봄·수유실",a.nursingRoom],
+        ["무장애 객실",a.accessibleRoom],["유아차 대여",a.strollerRental]
+      ] : [
         ["장애인용 출입문",a.entrance],["휠체어 대여",a.wheelchairRental],
         ["장애인 화장실",a.accessibleRestroom],["장애인 전용 주차장",a.accessibleParking],
         ["안내견 동반",a.guideDog],["점자 가이드",a.brailleGuide],
@@ -422,15 +430,15 @@
         <h2 style="font-size:19px;color:var(--navy);margin:0 0 6px">${escapeHTML(p.name)}</h2>
         <p style="color:var(--muted);font-size:14px">${escapeHTML(p.address || `${p.region} ${p.district}`)}</p>
         <div class="meta"><span>${escapeHTML(p.category1)} · ${escapeHTML(p.category2)}</span><span>${escapeHTML(p.region)} ${escapeHTML(p.district)}</span></div>
-        <div class="access-list">${detailItems.map(([label,yes])=>`<span>${label}: ${yes ? "있음(Y)" : "없음(N)"}</span>`).join("")}</div>
+        <div class="access-list">${detailItems.map(([label,yes])=>`<span>${label}: ${yes === true || yes === "있음" ? "있음" : yes === false || yes === "없음" ? "없음" : "미확인"}</span>`).join("")}</div>
         <p style="font-size:14px">운영시간: ${escapeHTML(p.hours || "정보 없음")}<br>휴무일: ${escapeHTML(p.closed || "정보 없음")}<br>전화번호: ${escapeHTML(p.phone || "정보 없음")}</p>
         ${website ? `<p><a href="${escapeHTML(website)}" target="_blank" rel="noopener noreferrer">시설 홈페이지 열기</a></p>` : ""}
-        <p style="font-size:12px;color:#775719">※ 제공 데이터 기준일: ${escapeHTML(p.updated || "확인되지 않음")}. 실제 편의시설·운영 여부는 방문 전 시설에 확인해 주세요.</p>
+        <p style="font-size:12px;color:#775719">※ 자료 출처: ${escapeHTML(p.source || "한국문화정보원 전국 배리어프리 문화예술관광지")} · 제공 데이터 기준일: ${escapeHTML(p.updated || "확인되지 않음")}. 실제 편의시설·운영 여부는 방문 전 시설에 확인해 주세요.</p>
         ${renderReviewSection(p)}`;
       selectedPlaceId = p.id;
       bindReviewForm(p);
       document.querySelectorAll(".place-item").forEach(el=>el.classList.toggle("selected",el.querySelector("strong")?.textContent===p.name));
-      if (mapObject) mapObject.panTo(new kakao.maps.LatLng(p.lat,p.lng));
+      if (mapObject && p.lat !== null && p.lat !== undefined && p.lng !== null && p.lng !== undefined && Number.isFinite(Number(p.lat)) && Number.isFinite(Number(p.lng))) mapObject.panTo(new kakao.maps.LatLng(p.lat,p.lng));
     }
     document.getElementById("place-search").addEventListener("input",renderPlaces);
     document.querySelectorAll("[data-filter]").forEach(btn=>btn.addEventListener("click",()=>{
@@ -552,7 +560,7 @@
     function initKakaoMap() {
       if (!KAKAO_JS_KEY || KAKAO_JS_KEY.includes("여기에_")) return;
       const script=document.createElement("script");
-      script.src=`https://dapi.kakao.com/v2/maps/sdk.js?appkey=${encodeURIComponent(KAKAO_JS_KEY)}&autoload=false`;
+      script.src=`https://dapi.kakao.com/v2/maps/sdk.js?appkey=${encodeURIComponent(KAKAO_JS_KEY)}&autoload=false&libraries=services`;
       script.onload=()=>kakao.maps.load(()=>{
         const container=document.getElementById("map");
         container.innerHTML="";
@@ -560,24 +568,64 @@
         renderPlaces();
         // 지도 준비가 끝나면 사용자의 동의를 받아 현재 위치를 중심으로 이동합니다.
         requestCurrentLocation(true);
+        if (gyeonggiPlaces.length) resolveGyeonggiCoordinates(gyeonggiPlaces);
       });
       script.onerror=()=>{document.getElementById("map").innerHTML='<div class="map-fallback"><div><strong>지도를 불러오지 못했습니다.</strong><span>JavaScript 키와 등록된 도메인을 확인해 주세요.</span></div></div>';};
       document.head.appendChild(script);
+    }
+    async function resolveGyeonggiCoordinates(gyeonggi) {
+      // 경기도 시트에는 좌표가 없어서 Kakao 장소검색으로 후보 좌표를 찾아요.
+      // 장소명 검색 결과는 동명이 시설일 수 있으므로 실제 위치를 꼭 확인해 주세요.
+      if (!window.kakao?.maps?.services || !mapObject) return;
+      const placesService = new kakao.maps.services.Places();
+      const status = document.getElementById("location-status");
+      let completed = 0;
+      for (const p of gyeonggi) {
+        try {
+          const result = await new Promise(resolve => {
+            placesService.keywordSearch(p.name, (data, searchStatus) => {
+              if (searchStatus === kakao.maps.services.Status.OK && data?.length) resolve(data);
+              else resolve([]);
+            });
+          });
+          if (result.length) {
+            const target = p.name.replace(/^경기\s*/, "").trim();
+            const matched = result.find(x => x.place_name.includes(target) || target.includes(x.place_name)) || result[0];
+            p.lat = Number(matched.y); p.lng = Number(matched.x);
+            p.address = matched.road_address_name || matched.address_name || p.address;
+            p.placeSearchName = matched.place_name;
+          }
+        } catch (err) { console.warn("장소 좌표 검색 실패:", p.name, err); }
+        completed++;
+        if (status) status.textContent = `경기도 관광지 위치 검색 ${completed}/${gyeonggi.length}`;
+        // 검색 요청을 연속으로 보내지 않도록 잠깐 간격을 둡니다.
+        await new Promise(resolve => setTimeout(resolve, 180));
+      }
+      renderPlaces();
+      if (status) status.textContent = "경기도 관광지 위치 검색 완료 · 지도 위치는 확인이 필요해요";
     }
     async function loadFacilities() {
       const count = document.getElementById("place-count");
       count.textContent = "시설 데이터를 불러오는 중...";
       try {
-        const response = await fetch("./facilities.json");
-        if (!response.ok) throw new Error("facilities.json 파일을 찾을 수 없습니다.");
-        places = await response.json();
-        count.textContent = `전국 시설 ${places.length.toLocaleString()}곳`;
+        const [nationalResponse, gyeonggiResponse] = await Promise.all([
+          fetch("./facilities.json"), fetch("./gyeonggi_facilities.json")
+        ]);
+        if (!nationalResponse.ok) throw new Error("facilities.json 파일을 찾을 수 없습니다.");
+        if (!gyeonggiResponse.ok) throw new Error("gyeonggi_facilities.json 파일을 찾을 수 없습니다.");
+        const national = await nationalResponse.json();
+        const gyeonggi = await gyeonggiResponse.json();
+        gyeonggiPlaces = gyeonggi;
+        places = national.concat(gyeonggi);
+        count.textContent = `전국 ${national.length.toLocaleString()}곳 + 경기도 ${gyeonggi.length}곳`;
         renderPlaces();
+        // 지도 SDK와 장소검색 서비스가 준비된 경우에만 경기도 좌표를 찾아요.
+        if (mapObject) await resolveGyeonggiCoordinates(gyeonggi);
       } catch (error) {
         console.error(error);
         count.textContent = "시설 데이터를 불러오지 못했습니다.";
         document.getElementById("place-list").innerHTML =
-          '<div class="empty-state">facilities.json 파일이 index.html과 같은 폴더에 있는지 확인해 주세요.</div>';
+          '<div class="empty-state">facilities.json과 gyeonggi_facilities.json이 index.html과 같은 폴더에 있는지 확인해 주세요.</div>';
       }
     }
     renderEvents(); renderProducts(); renderPosts(); initKakaoMap(); loadFacilities();
