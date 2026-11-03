@@ -509,7 +509,7 @@
   <script>
     // 1) 아래 "여기에_키_붙여넣기" 자리에 카카오 JavaScript 키를 붙여넣으면 실제 지도가 연결됩니다.
     // 카카오 REST API 키가 아니라 'JavaScript 키'를 사용하세요.
-    const KAKAO_JS_KEY = "d51eefd8d8257758999777f7a5e5e4e5";
+    const KAKAO_JS_KEY = "여기에_키_붙여넣기";
 
     // 실제 시설 데이터는 같은 폴더의 facilities.json 파일에서 불러옵니다.
     let places = [];
@@ -1164,7 +1164,7 @@ FREEON 커뮤니티를 열고 가장 먼저 여러분께 여쭤보고 싶은 이
     function setAuthMsg(t,ok){const el=byId("auth-msg");el.textContent=t||"";el.className="auth-msg"+(ok?" ok":"")}
     function openAuth(mode,gate){
       authMode=mode||"login";
-      authModal.classList.toggle("gate",!!gate);
+      if(gate!==undefined) authModal.classList.toggle("gate",!!gate);
       document.querySelectorAll("[data-auth-tab]").forEach(b=>b.setAttribute("aria-selected",String(b.dataset.authTab===authMode)));
       byId("auth-nick-wrap").hidden=authMode!=="signup";
       byId("auth-nick").required=authMode==="signup";
@@ -1224,7 +1224,7 @@ FREEON 커뮤니티를 열고 가장 먼저 여러분께 여쭤보고 싶은 이
       if(profile){btn.textContent=profile.nickname+" 님";btn.setAttribute("aria-label","내 설정 열기")}
       else{btn.textContent="로그인";btn.setAttribute("aria-label","로그인")}
     }
-    byId("login-demo").addEventListener("click",()=>{if(profile)openProfile("settings");else openAuth("login")});
+    byId("login-demo").addEventListener("click",()=>{if(profile)openProfile("settings");else openAuth("login",false)});
 
     function openProfile(mode){
       if(!profile) return;
