@@ -3,138 +3,176 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#173f52">
-  <meta name="description" content="장애인과 비장애인이 함께 이용하는 배리어프리 통합 플랫폼 FREEON">
-  <title>FREEON | 모두의 일상에 자유를 더하다</title>
+  <meta name="theme-color" content="#acc5dc">
+  <meta name="description" content="장애인과 비장애인이 함께 이용하는 배리어프리 통합 플랫폼 FREEON — 모두의 일상에 문화를 연결하다">
+  <title>FREEON | 모두의 일상에 문화를 연결하다</title>
   <style>
+    @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css");
     :root {
-      --navy:#173f52; --navy-2:#24596d; --teal:#287c78; --mint:#eaf4f2;
-      --ink:#172b35; --muted:#536873; --line:#d9e3e7; --paper:#f5f8f9;
-      --white:#fff; --focus:#f2b544; --shadow:0 8px 26px rgba(23,63,82,.08);
-      --radius:18px;
+      /* FREEON design tokens — Codeit(violet, 16px, whitespace) + Class101(flat, hairline, pill chips) */
+      --brand:#acc5dc; --brand-hover:#97b4cf; --brand-ink:#1d4a70; --brand-soft:#eef4f9; --brand-soft-2:#d6e4f0;
+      --ink:#1a1a1f; --muted:#5a5f6b; --subtle:#80858f;
+      --line:rgba(26,26,31,.10); --line-strong:rgba(26,26,31,.20);
+      --paper:#fff; --gray-bg:#f6f7f9; --gray-2:#eceef2;
+      --focus:#ff7a00; --danger:#c62828; --ok:#1b7a43;
+      --radius:16px; --radius-sm:8px;
+      /* legacy aliases used by inline styles / JS */
+      --navy:var(--ink); --teal:var(--brand-ink); --mint:var(--brand-soft); --white:#fff; --shadow:none;
     }
     * { box-sizing:border-box; }
     html { scroll-behavior:smooth; }
-    body { margin:0; color:var(--ink); background:var(--paper); font-family:system-ui,-apple-system,"Noto Sans KR",sans-serif; line-height:1.6; }
-    button,input,select,textarea { font:inherit; }
+    body { margin:0; color:var(--ink); background:var(--paper); font-family:"Pretendard Variable",Pretendard,-apple-system,"Noto Sans KR","Malgun Gothic",sans-serif; line-height:1.6; letter-spacing:-.3px; -webkit-font-smoothing:antialiased; }
+    button,input,select,textarea { font:inherit; letter-spacing:inherit; }
     button,a { -webkit-tap-highlight-color:transparent; }
     a { color:inherit; }
-    button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible { outline:3px solid var(--focus); outline-offset:3px; }
+    button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible { outline:3px solid var(--focus); outline-offset:2px; }
     .skip-link { position:absolute; left:12px; top:-60px; z-index:1000; padding:12px 16px; background:#fff; color:#111; border-radius:8px; }
     .skip-link:focus { top:12px; }
-    .topbar { background:var(--navy); color:#fff; }
-    .topbar-inner { max-width:1180px; margin:auto; padding:10px 22px; display:flex; justify-content:space-between; gap:12px; align-items:center; font-size:13px; }
-    .topbar a { text-decoration:underline; text-underline-offset:3px; }
+
+    .topbar { background:var(--brand-soft); color:var(--brand-ink); border-bottom:1px solid var(--brand-soft-2); }
+    .topbar-inner { max-width:1200px; margin:auto; padding:9px 24px; display:flex; justify-content:space-between; gap:12px; align-items:center; font-size:13px; font-weight:500; }
+    .topbar a { text-decoration:underline; text-underline-offset:3px; font-weight:700; }
     header { background:#fff; border-bottom:1px solid var(--line); position:sticky; top:0; z-index:30; }
-    .header-inner { max-width:1180px; margin:auto; padding:15px 22px; display:flex; align-items:center; justify-content:space-between; gap:24px; }
-    .brand { display:flex; align-items:center; gap:10px; border:0; background:none; padding:0; cursor:pointer; color:var(--navy); text-align:left; }
-    .brand-mark { width:39px; height:39px; border-radius:12px; display:grid; place-items:center; background:var(--navy); color:#fff; font-weight:850; letter-spacing:-2px; font-size:17px; }
-    .brand-name { font-size:22px; font-weight:850; letter-spacing:1px; line-height:1.1; }
-    .brand-sub { display:block; font-size:10px; color:var(--muted); font-weight:500; letter-spacing:0; margin-top:3px; }
-    nav { display:flex; align-items:center; gap:6px; }
-    .nav-btn { border:0; background:transparent; color:#334b56; padding:10px 13px; border-radius:10px; cursor:pointer; font-weight:650; }
-    .nav-btn:hover,.nav-btn[aria-current="page"] { color:var(--navy); background:var(--mint); }
+    .header-inner { max-width:1200px; margin:auto; padding:14px 24px; display:flex; align-items:center; justify-content:space-between; gap:24px; }
+    .brand { display:flex; align-items:center; gap:10px; border:0; background:none; padding:0; cursor:pointer; color:var(--ink); text-align:left; }
+    .brand-mark { width:38px; height:38px; border-radius:12px; display:grid; place-items:center; background:var(--brand); color:var(--ink); font-weight:800; font-size:20px; letter-spacing:-1px; }
+    .brand-name { font-size:21px; font-weight:800; letter-spacing:.3px; line-height:1.1; color:var(--ink); }
+    .brand-sub { display:block; font-size:12px; color:var(--muted); font-weight:500; letter-spacing:-.3px; margin-top:3px; }
+    nav { display:flex; align-items:center; gap:4px; }
+    .nav-btn { border:0; background:transparent; color:var(--muted); padding:10px 14px; border-radius:8px; cursor:pointer; font-weight:600; font-size:16px; position:relative; }
+    .nav-btn:hover { color:var(--ink); background:var(--gray-bg); }
+    .nav-btn[aria-current="page"] { color:var(--brand-ink); font-weight:800; }
+    .nav-btn[aria-current="page"]:after { content:""; position:absolute; left:14px; right:14px; bottom:-15px; height:3px; background:var(--brand-ink); border-radius:3px 3px 0 0; }
     .header-actions { display:flex; align-items:center; gap:8px; }
-    .text-btn { background:#fff; border:1px solid var(--line); color:var(--navy); border-radius:10px; padding:9px 12px; cursor:pointer; font-weight:650; }
-    .primary-btn { background:var(--navy); color:#fff; border:1px solid var(--navy); border-radius:11px; padding:11px 16px; font-weight:700; cursor:pointer; }
-    .primary-btn:hover { background:#0f3040; }
-    .secondary-btn { background:#fff; color:var(--navy); border:1px solid #a9c0c9; border-radius:11px; padding:10px 15px; font-weight:700; cursor:pointer; }
+
+    .text-btn { background:#fff; border:1px solid var(--line-strong); color:var(--ink); border-radius:8px; padding:9px 14px; cursor:pointer; font-weight:600; font-size:14px; }
+    .text-btn:hover { background:var(--gray-bg); }
+    .primary-btn { background:var(--brand); color:var(--ink); border:1px solid #8fb0cd; border-radius:8px; padding:11px 18px; font-weight:700; cursor:pointer; font-size:15px; }
+    .primary-btn:hover { background:var(--brand-hover); border-color:var(--brand-hover); }
+    .primary-btn.on-brand { background:#fff; color:var(--brand-ink); border-color:#fff; }
+    .secondary-btn { background:#fff; color:var(--brand-ink); border:1px solid var(--brand-ink); border-radius:8px; padding:10px 16px; font-weight:700; cursor:pointer; font-size:14px; }
+    .secondary-btn:hover { background:var(--brand-soft); }
+    button:disabled { cursor:not-allowed; }
+
     main { min-height:70vh; }
-    .page { display:none; max-width:1180px; margin:auto; padding:34px 22px 70px; }
+    main:focus { outline:none; }
+    .page { display:none; max-width:1200px; margin:auto; padding:48px 24px 96px; }
     .page.active { display:block; }
-    .hero { background:linear-gradient(120deg,#173f52,#286a75); border-radius:26px; color:#fff; padding:clamp(28px,5vw,58px); display:grid; grid-template-columns:1.4fr .8fr; gap:30px; align-items:center; overflow:hidden; }
-    .eyebrow { color:#cce5e2; font-size:13px; font-weight:750; letter-spacing:.08em; }
-    h1 { font-size:clamp(30px,4vw,48px); line-height:1.2; letter-spacing:-1.5px; margin:10px 0 16px; }
-    .hero p { color:#e2eff0; max-width:570px; margin:0 0 24px; }
-    .hero-visual { min-height:210px; display:grid; place-items:center; position:relative; }
-    .hero-orbit { width:210px; height:210px; border:1px solid rgba(255,255,255,.25); border-radius:50%; display:grid; place-items:center; position:relative; }
-    .hero-orbit:before,.hero-orbit:after { content:""; position:absolute; border:1px solid rgba(255,255,255,.2); border-radius:50%; }
-    .hero-orbit:before { inset:24px; } .hero-orbit:after { inset:50px; }
-    .hero-symbol { width:90px; height:90px; border-radius:28px; background:#fff; color:var(--navy); display:grid; place-items:center; font-size:35px; font-weight:900; box-shadow:0 12px 40px #102d3b66; }
-    .section-head { display:flex; justify-content:space-between; align-items:end; gap:16px; margin:34px 0 16px; }
-    .section-head h2,.page-title { margin:0; color:var(--navy); letter-spacing:-.7px; }
-    .section-head p { margin:4px 0 0; color:var(--muted); font-size:14px; }
-    .page-title { font-size:32px; margin-bottom:7px; }
-    .page-intro { margin:0 0 24px; color:var(--muted); }
-    .quick-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:22px; }
-    .quick-card,.panel,.card { background:#fff; border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); }
-    .quick-card { text-align:left; padding:20px; cursor:pointer; min-height:145px; color:var(--ink); }
-    .quick-card:hover { border-color:#8fb5bd; transform:translateY(-2px); }
-    .quick-icon { width:43px; height:43px; display:grid; place-items:center; border-radius:13px; background:var(--mint); color:var(--navy); font-size:22px; margin-bottom:13px; }
-    .quick-card strong { display:block; color:var(--navy); font-size:17px; }
-    .quick-card span:last-child { color:var(--muted); font-size:13px; }
+
+    .hero { background:#e4eef6; border-radius:24px; color:var(--ink); padding:clamp(32px,6vw,72px); display:grid; grid-template-columns:1.4fr .8fr; gap:32px; align-items:center; overflow:hidden; }
+    .eyebrow { display:inline-block; background:#fff; color:var(--brand-ink); font-size:13px; font-weight:800; letter-spacing:.02em; padding:6px 14px; border-radius:999px; }
+    h1 { font-size:clamp(32px,4.6vw,52px); line-height:1.25; letter-spacing:-1.5px; margin:18px 0 18px; font-weight:800; }
+    .hero h1 em { font-style:normal; color:var(--brand-ink); }
+    .hero p { color:var(--muted); font-size:18px; max-width:540px; margin:0 0 30px; }
+    .hero .primary-btn { padding:15px 26px; font-size:16px; border-radius:12px; }
+    .hero-visual { min-height:220px; display:grid; place-items:center; position:relative; }
+    .hero-orbit { width:230px; height:230px; border:1.5px solid var(--brand-soft-2); border-radius:50%; display:grid; place-items:center; position:relative; background:#fff8; }
+    .hero-orbit:before,.hero-orbit:after { content:""; position:absolute; border:1.5px solid var(--brand-soft-2); border-radius:50%; }
+    .hero-orbit:before { inset:26px; } .hero-orbit:after { inset:54px; background:#fff; }
+    .hero-symbol { width:92px; height:92px; border-radius:28px; background:var(--brand); color:var(--ink); display:grid; place-items:center; font-size:38px; font-weight:800; z-index:1; }
+
+    .section-head { display:flex; justify-content:space-between; align-items:end; gap:16px; margin:56px 0 20px; }
+    .section-head h2,.page-title { margin:0; color:var(--ink); letter-spacing:-.8px; font-weight:800; }
+    .section-head h2 { font-size:24px; }
+    .section-head p { margin:4px 0 0; color:var(--muted); font-size:15px; }
+    .page-title { font-size:34px; margin-bottom:8px; line-height:1.3; }
+    .page-intro { margin:0 0 28px; color:var(--muted); font-size:16px; }
+
+    .quick-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:0; }
+    .quick-card,.panel,.card { background:#fff; border:1px solid var(--line); border-radius:var(--radius); box-shadow:none; }
+    .quick-card { text-align:left; padding:24px; cursor:pointer; min-height:170px; color:var(--ink); transition:border-color .15s, background .15s; }
+    .quick-card:hover { border-color:var(--brand); background:var(--brand-soft); }
+    .quick-icon { width:46px; height:46px; display:grid; place-items:center; border-radius:14px; background:var(--brand-soft); color:var(--brand-ink); font-size:22px; margin-bottom:18px; }
+    .quick-card:hover .quick-icon { background:#fff; }
+    .quick-card strong { display:block; color:var(--ink); font-size:18px; font-weight:700; margin-bottom:2px; }
+    .quick-card span:last-child { color:var(--muted); font-size:14px; }
     .home-bottom { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px; }
-    .panel { padding:21px; }
-    .panel h3 { margin:0 0 12px; color:var(--navy); }
-    .mini-row { display:flex; justify-content:space-between; gap:12px; padding:11px 0; border-top:1px solid #edf1f2; font-size:14px; }
+    .panel { padding:28px; }
+    .panel h3 { margin:0 0 14px; color:var(--ink); font-size:20px; font-weight:800; }
+    .mini-row { display:flex; justify-content:space-between; gap:12px; padding:13px 0; border-top:1px solid var(--line); font-size:15px; }
     .mini-row:first-of-type { border-top:0; }
-    .tag { display:inline-flex; align-items:center; border-radius:999px; padding:4px 9px; font-size:12px; font-weight:700; background:#e8f3f1; color:#205f5a; }
-    .tag.blue { background:#edf3f8; color:#315b79; } .tag.gold { background:#fbf3df; color:#775719; }
-    .toolbar { display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:18px 0; }
-    .field { border:1px solid #b9c9cf; border-radius:10px; padding:11px 13px; background:#fff; color:var(--ink); min-width:0; }
-    .field::placeholder { color:#667a83; }
+
+    .tag { display:inline-flex; align-items:center; border-radius:999px; padding:3px 10px; font-size:13px; font-weight:700; background:var(--brand-soft); color:var(--brand-ink); }
+    .tag.blue { background:#eaf2fd; color:#1d4f91; } .tag.gold { background:#fff3e0; color:#8a4b00; }
+    .toolbar { display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:20px 0; }
+    .field { border:1px solid var(--line-strong); border-radius:8px; padding:12px 14px; background:#fff; color:var(--ink); min-width:0; font-size:15px; }
+    .field:focus { border-color:var(--brand-ink); }
+    .field::placeholder { color:var(--subtle); }
     .search-field { flex:1; min-width:210px; }
-    .filter-row { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
-    .filter-chip { border:1px solid #b9c9cf; border-radius:999px; background:#fff; padding:8px 13px; cursor:pointer; color:#304a56; font-size:13px; font-weight:650; }
-    .filter-chip[aria-pressed="true"] { background:var(--navy); border-color:var(--navy); color:#fff; }
+    .filter-row { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px; }
+    .filter-chip { border:1px solid var(--line-strong); border-radius:999px; background:#fff; padding:8px 16px; cursor:pointer; color:var(--ink); font-size:14px; font-weight:600; }
+    .filter-chip:hover:not(:disabled) { background:var(--gray-bg); }
+    .filter-chip[aria-pressed="true"] { background:var(--brand); border-color:var(--brand); color:var(--ink); }
+    .filter-chip:disabled { color:var(--subtle); background:var(--gray-bg); border-color:transparent; }
+
     .map-layout { display:grid; grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr); gap:16px; }
-    #map { width:100%; height:480px; border-radius:15px; background:#e7eff0; overflow:hidden; border:1px solid var(--line); }
-    .map-fallback { height:100%; min-height:300px; display:grid; place-items:center; text-align:center; padding:24px; color:#395764; background:repeating-linear-gradient(35deg,#edf3f3,#edf3f3 18px,#e6eeee 18px,#e6eeee 36px); }
-    .map-fallback strong { display:block; font-size:18px; margin-bottom:7px; }
-    .place-list { display:grid; gap:10px; align-content:start; max-height:480px; overflow:auto; }
-    .place-item { text-align:left; padding:15px; border:1px solid var(--line); border-radius:13px; background:#fff; cursor:pointer; }
-    .place-item:hover,.place-item.selected { border-color:var(--teal); background:#f4faf9; }
-    .place-item strong { display:block; color:var(--navy); margin-bottom:3px; }
+    #map { width:100%; height:500px; border-radius:12px; background:var(--gray-2); overflow:hidden; border:1px solid var(--line); }
+    .map-fallback { height:100%; min-height:300px; display:grid; place-items:center; text-align:center; padding:24px; color:var(--muted); background:var(--gray-bg); }
+    .map-fallback strong { display:block; font-size:18px; margin-bottom:7px; color:var(--ink); }
+    .place-list { display:grid; gap:10px; align-content:start; max-height:500px; overflow:auto; }
+    .place-item { text-align:left; padding:16px; border:1px solid var(--line); border-radius:12px; background:#fff; cursor:pointer; }
+    .place-item:hover { border-color:var(--line-strong); }
+    .place-item.selected { border-color:var(--brand); background:var(--brand-soft); }
+    .place-item strong { display:block; color:var(--ink); margin-bottom:3px; font-size:16px; }
     .place-tabs { display:flex; gap:8px; flex-wrap:wrap; margin:16px 0 12px; }
-    .location-status { color:var(--muted); font-size:12px; align-self:center; }
-    .review-section { border-top:1px solid var(--line); margin-top:18px; padding-top:16px; }
+    .location-status { color:var(--muted); font-size:13px; align-self:center; }
+    .review-section { border-top:1px solid var(--line); margin-top:20px; padding-top:18px; }
     .review-summary { display:flex; align-items:center; gap:10px; margin:8px 0 14px; }
-    .stars { color:#d18b17; letter-spacing:2px; font-size:18px; }
-    .review-form { background:#f5f8f9; border:1px solid var(--line); border-radius:12px; padding:14px; margin:12px 0; }
+    .stars { color:#f59e0b; letter-spacing:2px; font-size:18px; }
+    .review-form { background:var(--gray-bg); border-radius:12px; padding:16px; margin:12px 0; }
     .review-form label { display:block; font-weight:700; margin:8px 0 5px; }
     .review-form input,.review-form textarea { width:100%; }
     .star-picker { display:flex; gap:4px; margin:5px 0 10px; }
-    .star-picker button { border:0; background:transparent; color:#aab5ba; font-size:26px; cursor:pointer; padding:2px 4px; }
-    .star-picker button.selected { color:#d18b17; }
-    .review-item { border-top:1px solid #edf1f2; padding:11px 0; }
+    .star-picker button { border:0; background:transparent; color:#c3c7cf; font-size:28px; cursor:pointer; padding:2px 4px; }
+    .star-picker button.selected { color:#f59e0b; }
+    .review-item { border-top:1px solid var(--line); padding:12px 0; }
     .review-item p { margin:5px 0; white-space:pre-wrap; overflow-wrap:anywhere; }
-    .review-note { color:var(--muted); font-size:12px; }
-    .place-item small { color:var(--muted); }
-    .access-list { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
-    .access-list span { font-size:11px; padding:3px 7px; border-radius:6px; background:#edf3f5; color:#38525d; }
-    .notice { border-left:4px solid #c28a26; background:#fff8e9; color:#654d1e; border-radius:8px; padding:12px 14px; font-size:13px; margin:14px 0; }
-    .cards-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:15px; }
+    .review-note { color:var(--muted); font-size:13px; }
+    .place-item small { color:var(--muted); font-size:13px; }
+    .access-list { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+    .access-list span { font-size:13px; padding:3px 9px; border-radius:6px; background:var(--gray-bg); color:var(--muted); font-weight:500; }
+    .notice { background:var(--gray-bg); color:var(--muted); border-radius:12px; padding:14px 18px; font-size:14px; margin:14px 0; }
+
+    .cards-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
     .event-card,.product-card,.community-card { overflow:hidden; }
-    .card-art { min-height:130px; padding:18px; display:flex; align-items:end; background:linear-gradient(135deg,#dcece9,#edf3f6); color:var(--navy); font-size:34px; }
-    .card-body { padding:18px; }
-    .card-body h3 { margin:7px 0 6px; color:var(--navy); font-size:18px; }
-    .card-body p { margin:0 0 12px; color:var(--muted); font-size:13px; }
-    .meta { color:#536873; font-size:12px; display:flex; flex-wrap:wrap; gap:8px; margin:8px 0 13px; }
-    .product-price { font-size:18px; font-weight:800; color:var(--navy); }
+    .card-art { min-height:130px; padding:18px; display:flex; align-items:end; background:var(--brand-soft); color:var(--brand-ink); font-size:34px; }
+    .card-body { padding:20px; }
+    .card-body h3 { margin:8px 0 6px; color:var(--ink); font-size:18px; font-weight:700; line-height:1.4; }
+    .card-body p { margin:0 0 12px; color:var(--muted); font-size:14px; }
+    .meta { color:var(--muted); font-size:13px; display:flex; flex-wrap:wrap; gap:8px; margin:8px 0 14px; }
+    .product-price { font-size:20px; font-weight:800; color:var(--ink); }
+
     .community-layout { display:grid; grid-template-columns:1fr 280px; gap:16px; }
-    .post { padding:17px; border-bottom:1px solid #e7edef; }
+    .post { padding:18px; border-bottom:1px solid var(--line); }
     .post:last-child { border-bottom:0; }
-    .post h3 { margin:0 0 5px; color:var(--navy); font-size:17px; }
+    .post h3 { margin:0 0 5px; color:var(--ink); font-size:17px; }
     .post p { margin:0 0 9px; color:var(--muted); font-size:14px; }
-    .post-meta { color:#657780; font-size:12px; }
-    .empty-state { color:var(--muted); padding:30px; text-align:center; background:#fff; border:1px dashed #b9c9cf; border-radius:13px; }
-    footer { background:#173744; color:#dce8eb; padding:28px 22px; }
-    .footer-inner { max-width:1180px; margin:auto; display:flex; justify-content:space-between; gap:24px; flex-wrap:wrap; font-size:13px; }
-    .footer-inner p { margin:4px 0; color:#c3d3d8; }
+    .post-meta { color:var(--subtle); font-size:13px; }
+    .empty-state { color:var(--muted); padding:36px; text-align:center; background:var(--gray-bg); border-radius:12px; }
+
+    footer { background:var(--gray-bg); color:var(--muted); padding:48px 24px; border-top:1px solid var(--line); }
+    .footer-inner { max-width:1200px; margin:auto; display:flex; justify-content:space-between; gap:32px; flex-wrap:wrap; font-size:14px; }
+    .footer-inner > div { max-width:420px; }
+    .footer-inner strong { color:var(--ink); }
+    .footer-inner p { margin:6px 0; color:var(--muted); }
     .mobile-nav { display:none; }
-    .modal-backdrop { position:fixed; inset:0; background:#102a35a8; display:none; place-items:center; padding:18px; z-index:100; }
+
+    .modal-backdrop { position:fixed; inset:0; background:rgba(20,10,30,.5); display:none; place-items:center; padding:18px; z-index:100; }
     .modal-backdrop.open { display:grid; }
-    .modal { background:#fff; border-radius:18px; max-width:520px; width:100%; padding:24px; max-height:85vh; overflow:auto; }
+    .modal { background:#fff; border-radius:20px; max-width:520px; width:100%; padding:28px; max-height:88vh; overflow:auto; }
     .modal-head { display:flex; justify-content:space-between; align-items:center; gap:10px; }
-    .modal-head h2 { color:var(--navy); margin:0; }
-    .close-btn { border:1px solid var(--line); border-radius:9px; background:#fff; padding:7px 11px; cursor:pointer; }
-    .modal label { display:block; font-weight:700; margin:12px 0 5px; }
+    .modal-head h2 { color:var(--ink); margin:0; font-weight:800; font-size:22px; }
+    .close-btn { border:1px solid var(--line-strong); border-radius:8px; background:#fff; padding:7px 12px; cursor:pointer; font-weight:600; }
+    .close-btn:hover { background:var(--gray-bg); }
+    .modal label { display:block; font-weight:700; margin:14px 0 6px; font-size:14px; }
     .modal input,.modal textarea { width:100%; }
     .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+
     @media(max-width:850px) {
       .header-inner { flex-wrap:wrap; }
       nav { order:3; width:100%; justify-content:space-between; overflow:auto; }
       .nav-btn { white-space:nowrap; padding:9px 10px; }
+      .nav-btn[aria-current="page"]:after { bottom:-1px; }
       .quick-grid { grid-template-columns:repeat(2,1fr); }
       .cards-grid { grid-template-columns:repeat(2,1fr); }
       .hero { grid-template-columns:1fr .45fr; }
@@ -142,104 +180,125 @@
       .place-list { max-height:none; grid-template-columns:repeat(2,1fr); }
     }
     @media(max-width:600px) {
-      .topbar-inner { padding:8px 15px; font-size:11px; }
-      .header-inner { padding:12px 16px 9px; }
-      header { position:sticky; }
+      .topbar-inner { padding:8px 16px; font-size:12px; }
+      .header-inner { padding:12px 16px; }
       nav { display:none; }
-      .page { padding:23px 15px 90px; }
-      .hero { padding:27px 22px; grid-template-columns:1fr; }
+      .page { padding:28px 16px 96px; }
+      .hero { padding:32px 22px; grid-template-columns:1fr; border-radius:20px; }
       .hero-visual { display:none; }
-      .hero h1 { font-size:32px; }
-      .quick-grid { gap:9px; }
-      .quick-card { padding:15px; min-height:132px; }
-      .quick-card strong { font-size:15px; }
+      .hero p { font-size:16px; }
+      .section-head { margin-top:40px; }
+      .quick-grid { gap:10px; }
+      .quick-card { padding:18px; min-height:140px; }
+      .quick-card strong { font-size:16px; }
       .home-bottom,.community-layout { grid-template-columns:1fr; }
+      .panel { padding:20px; }
       .cards-grid { grid-template-columns:1fr; }
       .place-list { grid-template-columns:1fr; }
       #map { height:340px; }
-      .page-title { font-size:27px; }
+      .page-title { font-size:28px; }
       .header-actions .text-btn { display:none; }
-      .mobile-nav { display:grid; position:fixed; bottom:0; left:0; right:0; z-index:40; grid-template-columns:repeat(5,1fr); background:#fff; border-top:1px solid var(--line); padding:7px 4px calc(7px + env(safe-area-inset-bottom)); box-shadow:0 -5px 18px #173f5212; }
-      .mobile-nav button { border:0; background:none; color:#536873; display:grid; gap:2px; justify-items:center; font-size:10px; padding:4px 0; cursor:pointer; }
-      .mobile-nav button span:first-child { font-size:19px; }
-      .mobile-nav button[aria-current="page"] { color:var(--navy); font-weight:800; }
-      footer { padding-bottom:92px; }
+      .mobile-nav { display:grid; position:fixed; bottom:0; left:0; right:0; z-index:40; grid-template-columns:repeat(5,1fr); background:#fff; border-top:1px solid var(--line); padding:7px 4px calc(7px + env(safe-area-inset-bottom)); }
+      .mobile-nav button { border:0; background:none; color:var(--muted); display:grid; gap:2px; justify-items:center; font-size:11px; padding:4px 0; cursor:pointer; }
+      .mobile-nav button span:first-child { font-size:20px; }
+      .mobile-nav button[aria-current="page"] { color:var(--brand-ink); font-weight:800; }
+      footer { padding:36px 16px 100px; }
     }
     @media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition:none!important; } }
-  
-    .event-card{cursor:pointer;transition:transform .15s}.event-card:hover{transform:translateY(-2px)}
-    .event-poster,.product-photo{width:100%;aspect-ratio:4/3;object-fit:cover;background:#edf3f5;display:block}
-    .image-placeholder{aspect-ratio:4/3;background:linear-gradient(135deg,#eaf1f4,#dbe8ed);display:flex;align-items:center;justify-content:center;color:#58717b;font-weight:700;text-align:center;padding:18px}
-    .cart-panel{margin:16px 0;padding:16px;border:1px solid var(--line);border-radius:14px;background:#f8fbfc}
-    .cart-line{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid var(--line);padding:10px 0}
-    .cart-line:last-child{border-bottom:0}.cart-actions{display:flex;gap:6px;align-items:center}.cart-actions button{padding:5px 9px;border-radius:8px;border:1px solid var(--line);background:white;cursor:pointer}
-    .detail-modal{max-width:620px}.detail-modal img{width:100%;max-height:420px;object-fit:contain;background:#f5f7f8;border-radius:12px}
+
+    .event-card{cursor:pointer;transition:border-color .15s}.event-card:hover{border-color:var(--brand)}
+    .event-poster,.product-photo{width:100%;aspect-ratio:4/3;object-fit:cover;background:var(--gray-bg);display:block}
+    .image-placeholder{aspect-ratio:4/3;background:var(--gray-bg);display:flex;align-items:center;justify-content:center;color:var(--muted);font-weight:700;text-align:center;padding:18px}
+    .cart-panel{margin:16px 0 24px;padding:20px;border:1px solid var(--line);border-radius:var(--radius);background:var(--gray-bg)}
+    .cart-panel .section-head{margin:0 0 10px}
+    .cart-line{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid var(--line);padding:12px 0}
+    .cart-line:last-child{border-bottom:0}.cart-actions{display:flex;gap:6px;align-items:center}.cart-actions button{padding:5px 11px;border-radius:8px;border:1px solid var(--line-strong);background:white;cursor:pointer;font-weight:700}
+    .detail-modal{max-width:620px}.detail-modal img{width:100%;max-height:420px;object-fit:contain;background:var(--gray-bg);border-radius:12px}
 
     [hidden]{display:none!important}
-    .event-poster{aspect-ratio:4/5;object-fit:contain;background:#eef3f5}
+    .event-poster{aspect-ratio:4/5;object-fit:contain;background:var(--gray-bg)}
     .image-placeholder.poster{aspect-ratio:4/5}
-    .product-photo{aspect-ratio:1/1;object-fit:contain;background:#fff}
+    .product-photo{aspect-ratio:1/1;object-fit:contain;background:#fff;border-bottom:1px solid var(--line)}
     .product-card .image-placeholder{aspect-ratio:1/1}
-    .tag.live{background:#e1f3e6;color:#1f6b3a}
-    .tag.ended{background:#eceff1;color:#5d6b72}
-    .tag.sale{background:#e1f3e6;color:#1f6b3a}
+    .tag.live{background:#e3f5ea;color:var(--ok)}
+    .tag.ended{background:var(--gray-2);color:var(--muted)}
+    .tag.sale{background:var(--brand-soft);color:var(--brand-ink)}
     .card-tags{display:flex;gap:6px;flex-wrap:wrap}
-    .venue-item{padding:10px 0;border-top:1px solid #edf1f2;font-size:14px}
+    .venue-item{padding:12px 0;border-top:1px solid var(--line);font-size:15px}
     .venue-item:first-of-type{border-top:0}
-    .toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);background:#173f52;color:#fff;padding:12px 18px;border-radius:12px;font-size:14px;font-weight:650;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:200;max-width:90vw;text-align:center}
+    .toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);background:var(--ink);color:#fff;padding:13px 20px;border-radius:12px;font-size:15px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:200;max-width:90vw;text-align:center}
     .toast.show{opacity:1;transform:translate(-50%,0)}
     @media(max-width:600px){.toast{bottom:84px}}
 
     /* 커뮤니티 */
     .community-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}
     .community-head .page-title{margin:0}
-    .tag-bar{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 12px;scrollbar-width:thin}
+    .tag-bar{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 14px;scrollbar-width:thin}
     .tag-bar .filter-chip{white-space:nowrap;flex:0 0 auto}
-    .tag-bar .filter-chip small{opacity:.7;margin-left:2px}
-    .board{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
-    .board-item{padding:16px 18px;border-bottom:1px solid #e7edef;cursor:pointer}
+    .tag-bar .filter-chip small{opacity:.75;margin-left:2px}
+    .board{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+    .board-item{padding:20px 24px;border-bottom:1px solid var(--line);cursor:pointer}
     .board-item:last-child{border-bottom:0}
-    .board-item:hover{background:#f6fafa}
-    .board-title-btn{display:block;width:100%;text-align:left;border:0;background:none;padding:0;color:var(--navy);font-size:17px;font-weight:750;cursor:pointer;line-height:1.45;overflow-wrap:anywhere}
-    .board-preview{margin:5px 0 0;color:var(--muted);font-size:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
-    .hashtags{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
-    .hashtag{border:0;background:var(--mint);color:#205f5a;border-radius:999px;padding:3px 10px;font-size:12px;font-weight:700;cursor:pointer}
-    .hashtag:hover{background:#d7ebe7}
-    .board-meta{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;font-size:12px;color:#657780}
+    .board-item:hover{background:var(--gray-bg)}
+    .board-title-btn{display:block;width:100%;text-align:left;border:0;background:none;padding:0;color:var(--ink);font-size:18px;font-weight:700;cursor:pointer;line-height:1.45;overflow-wrap:anywhere}
+    .board-preview{margin:6px 0 0;color:var(--muted);font-size:15px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+    .hashtags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+    .hashtag{border:0;background:var(--brand-soft);color:var(--brand-ink);border-radius:999px;padding:3px 11px;font-size:13px;font-weight:700;cursor:pointer}
+    .hashtag:hover{background:var(--brand-soft-2)}
+    .board-meta{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px;font-size:13px;color:var(--subtle)}
     .board-meta .stat{white-space:nowrap}
-    #post-detail .secondary-btn{margin-bottom:12px}
-    .post-full{padding:22px}
-    .post-full-title{margin:0 0 6px;color:var(--navy);font-size:22px;line-height:1.4;overflow-wrap:anywhere}
-    .post-body{margin:16px 0 4px;white-space:pre-wrap;overflow-wrap:anywhere;font-size:15px}
-    .react-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;align-items:center}
-    .react-btn{border:1px solid #b9c9cf;background:#fff;color:#304a56;border-radius:999px;padding:8px 16px;font-weight:700;cursor:pointer}
-    .react-btn[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
-    .text-btn.danger{color:#a13030;border-color:#e3c3c3}
-    .comments{margin-top:14px}
+    #post-detail .secondary-btn{margin-bottom:14px}
+    .post-full{padding:28px}
+    .post-full-title{margin:0 0 6px;color:var(--ink);font-size:26px;line-height:1.4;overflow-wrap:anywhere;font-weight:800}
+    .post-body{margin:18px 0 4px;white-space:pre-wrap;overflow-wrap:anywhere;font-size:16px;line-height:1.75}
+    .react-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px;align-items:center}
+    .react-btn{border:1px solid var(--line-strong);background:#fff;color:var(--ink);border-radius:999px;padding:9px 18px;font-weight:700;cursor:pointer}
+    .react-btn:hover{background:var(--gray-bg)}
+    .react-btn[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:var(--ink)}
+    .text-btn.danger{color:var(--danger);border-color:#efc4c4}
+    .comments{margin-top:18px}
     .comments h3{margin:0 0 6px}
-    .comment{border-top:1px solid #edf1f2;padding:11px 0}
+    .comment{border-top:1px solid var(--line);padding:13px 0}
     .comment:first-of-type{border-top:0}
-    .comment-head{display:flex;gap:10px;align-items:center;font-size:12px;color:#657780}
-    .comment-head strong{color:var(--navy);font-size:13px}
-    .comment-head button{margin-left:auto;border:0;background:none;color:#a13030;font-size:12px;cursor:pointer}
-    .comment p{margin:4px 0 0;font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere}
-    #comment-form{display:flex;gap:8px;align-items:flex-end;margin-top:12px}
+    .comment-head{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--subtle)}
+    .comment-head strong{color:var(--ink);font-size:14px}
+    .comment-head button{margin-left:auto;border:0;background:none;color:var(--danger);font-size:13px;cursor:pointer}
+    .comment p{margin:4px 0 0;font-size:15px;white-space:pre-wrap;overflow-wrap:anywhere}
+    #comment-form{display:flex;gap:8px;align-items:flex-end;margin-top:14px}
     #comment-form textarea{flex:1;resize:vertical}
-    .modal .lbl{font-weight:700;margin:12px 0 5px}
+    .modal .lbl{font-weight:700;margin:14px 0 6px;font-size:14px}
     .custom-tag-row{display:flex;gap:8px;margin-top:4px}
     .custom-tag-row input{flex:1}
     .tag-remove{border:0;background:none;color:inherit;cursor:pointer;font-size:14px;padding:0 0 0 4px}
-    .map-legend{display:flex;flex-wrap:wrap;gap:6px 16px;padding:10px 6px 2px;font-size:12px;color:#38525d;font-weight:650}
+    .map-legend{display:flex;flex-wrap:wrap;gap:6px 16px;padding:12px 6px 2px;font-size:13px;color:var(--muted);font-weight:600}
     .map-legend i{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:6px;vertical-align:-1px}
-    .author-official{color:var(--teal);font-weight:800}
+    .author-official{color:var(--brand-ink);font-weight:800}
     .author-official:before{content:"✔ ";font-size:11px}
+    .auth-tabs{display:flex;gap:6px;margin:16px 0 4px;background:var(--gray-bg);padding:4px;border-radius:10px}
+    .auth-tabs button{flex:1;border:0;background:transparent;border-radius:8px;padding:9px;font-weight:700;color:var(--muted);cursor:pointer}
+    .auth-tabs button[aria-selected="true"]{background:#fff;color:var(--brand-ink);box-shadow:0 0 0 1px var(--line)}
+    .auth-msg{min-height:20px;margin:10px 0;font-size:14px;color:var(--danger)}
+    .auth-msg.ok{color:var(--ok)}
+    .modal .check{display:flex;gap:8px;align-items:center;font-weight:600;margin:8px 0}
+    .modal input[type="checkbox"]{width:auto}
+    .check-group{border:0;padding:0;margin:16px 0 0}
+    .check-group legend{font-weight:800;color:var(--ink);margin-bottom:4px;padding:0}
+    .chip-wrap{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+    .modal .chip-check{display:inline-block;margin:0}
+    .chip-check input{position:absolute;opacity:0;width:1px!important;height:1px}
+    .chip-check span{display:inline-block;border:1px solid var(--line-strong);border-radius:999px;padding:8px 15px;font-size:14px;font-weight:600;color:var(--ink);cursor:pointer;background:#fff}
+    .chip-check input:checked+span{background:var(--brand);border-color:var(--brand);color:var(--ink)}
+    .chip-check input:focus-visible+span{outline:3px solid var(--focus);outline-offset:2px}
+    .profile-actions{display:flex;gap:8px;margin-top:20px}
+    .profile-actions .primary-btn{flex:1}
+    .match-badge{display:inline-block;background:#fff3e0;color:#8a4b00;border-radius:6px;padding:1px 8px;font-size:12px;font-weight:800;margin-right:7px;vertical-align:2px}
   </style>
 </head>
 <body>
   <a class="skip-link" href="#main">본문 바로가기</a>
   <div class="topbar">
     <div class="topbar-inner">
-      <span>누구나 편리하게 이용할 수 있는 일상 정보 플랫폼</span>
+      <span>모두의 일상에 문화를 연결하다</span>
       <a href="#accessibility" id="accessibility-link">접근성 안내</a>
     </div>
   </div>
@@ -247,7 +306,7 @@
     <div class="header-inner">
       <button class="brand" data-page="home" aria-label="FREEON 홈으로 이동">
         <span class="brand-mark" aria-hidden="true">F</span>
-        <span><span class="brand-name">FREEON</span><span class="brand-sub">모두의 일상에 자유를 더하다</span></span>
+        <span><span class="brand-name">FREEON</span><span class="brand-sub">모두의 일상에 문화를 연결하다</span></span>
       </button>
       <nav aria-label="주요 메뉴">
         <button class="nav-btn" data-page="home" aria-current="page">홈</button>
@@ -267,10 +326,10 @@
     <section class="page active" id="page-home" aria-labelledby="home-title">
       <div class="hero">
         <div>
-          <div class="eyebrow">ACCESS FOR EVERYONE</div>
-          <h1 id="home-title">모두의 일상에<br>자유를 더하다.</h1>
-          <p>갈 수 있는 장소를 찾고, 함께할 행사를 발견하고, 더 편리한 생활을 위한 정보를 나눠요.</p>
-          <button class="primary-btn" style="background:#fff;color:#173f52;border-color:#fff" data-page="map">내 주변 시설 찾아보기 →</button>
+          <div class="eyebrow">배리어프리 문화 플랫폼</div>
+          <h1 id="home-title">모두의 일상에<br><em>문화를 연결</em>하다</h1>
+          <p>갈 수 있는 장소를 찾고, 함께할 행사를 발견하고, 경험을 나누며 문화가 모두에게 닿도록 이어줘요.</p>
+          <button class="primary-btn" data-page="map">내 주변 시설 찾아보기 →</button>
         </div>
         <div class="hero-visual" aria-hidden="true"><div class="hero-orbit"><div class="hero-symbol">F</div></div></div>
       </div>
@@ -337,7 +396,7 @@
     <section class="page" id="page-store" aria-labelledby="store-title">
       <h1 class="page-title" id="store-title">FREEON 스토어</h1>
       <p class="page-intro">감각과 소통의 장벽을 낮추는 제품을 소개합니다.</p>
-      <div class="notice">상품을 장바구니에 담을 수 있어요. 실제 결제는 아직 연결되지 않은 시제품입니다.</div><div class="cart-panel"><div class="section-head"><h2 style="font-size:18px;margin:0">🛒 장바구니 <span id="cart-count">0</span></h2><button class="secondary-btn" id="cart-clear" type="button">비우기</button></div><div id="cart-items"></div><strong id="cart-total">합계: 0원</strong></div>
+      <div class="cart-panel"><div class="section-head"><h2 style="font-size:18px;margin:0">🛒 장바구니 <span id="cart-count">0</span></h2><button class="secondary-btn" id="cart-clear" type="button">비우기</button></div><div id="cart-items"></div><strong id="cart-total">합계: 0원</strong></div>
       <div class="filter-row"><button class="filter-chip" data-product="all" aria-pressed="true">전체 상품</button><button class="filter-chip" data-product="keyring" aria-pressed="false">NFC 오디오북 키링</button><button class="filter-chip" data-product="game" aria-pressed="false">배리어프리 보드게임</button></div>
       <div class="cards-grid" id="product-grid"></div>
     </section>
@@ -371,7 +430,7 @@
 
   <footer id="accessibility">
     <div class="footer-inner">
-      <div><strong>FREEON</strong><p>모두의 일상에 자유를 더하다.</p></div>
+      <div><strong>FREEON</strong><p>모두의 일상에 문화를 연결하다</p></div>
       <div><strong>안내</strong><p>본 웹앱은 접근성 서비스 시제품입니다.</p><p>시설 정보 출처: 한국문화정보원 전국 배리어프리 문화예술관광지 CSV (2022-11-25 기준). 행사 일정과 접근성 정보는 바뀔 수 있으니 방문 전 주최 측에 확인해 주세요.</p></div>
       <div><strong>접근성</strong><p>키보드 탐색 · 명확한 레이블 · 반응형 화면</p></div>
     </div>
@@ -393,12 +452,33 @@
   </div>
 
 
+  <div class="modal-backdrop" id="auth-modal" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+    <div class="modal">
+      <div class="modal-head"><h2 id="auth-title">로그인</h2><button class="close-btn" id="close-auth" type="button">닫기</button></div>
+      <div class="auth-tabs" role="tablist"><button type="button" role="tab" data-auth-tab="login" aria-selected="true">로그인</button><button type="button" role="tab" data-auth-tab="signup" aria-selected="false">회원가입</button></div>
+      <form id="auth-form">
+        <label for="auth-id">아이디</label><input class="field" id="auth-id" required autocomplete="username" maxlength="20" placeholder="영문 소문자·숫자 4~20자">
+        <label for="auth-password">비밀번호 (4자 이상)</label><input class="field" id="auth-password" type="password" required minlength="4" autocomplete="current-password">
+        <div id="auth-nick-wrap" hidden><label for="auth-nick">별명 (게시판에 보이는 이름)</label><input class="field" id="auth-nick" maxlength="12" placeholder="한글·영문·숫자 2~12자"></div>
+        <p class="auth-msg" id="auth-msg" role="alert"></p>
+        <button class="primary-btn" id="auth-submit" type="submit" style="width:100%">로그인</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="profile-modal" role="dialog" aria-modal="true" aria-labelledby="profile-title">
+    <div class="modal">
+      <div class="modal-head"><h2 id="profile-title">내 설정</h2><button class="close-btn" id="close-profile" type="button">닫기</button></div>
+      <form id="profile-form"><div id="profile-body"></div></form>
+    </div>
+  </div>
+
   <div class="modal-backdrop" id="event-modal" role="dialog" aria-modal="true" aria-labelledby="event-modal-title"><div class="modal detail-modal"><div class="modal-head"><h2 id="event-modal-title">행사 상세</h2><button class="close-btn" id="close-event-modal">닫기</button></div><div id="event-modal-content"></div></div></div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script>
     // 1) 아래 "여기에_키_붙여넣기" 자리에 카카오 JavaScript 키를 붙여넣으면 실제 지도가 연결됩니다.
     // 카카오 REST API 키가 아니라 'JavaScript 키'를 사용하세요.
-    const KAKAO_JS_KEY = "d51eefd8d8257758999777f7a5e5e4e5";
+    const KAKAO_JS_KEY = "여기에_키_붙여넣기";
 
     // 실제 시설 데이터는 같은 폴더의 facilities.json 파일에서 불러옵니다.
     let places = [];
@@ -491,7 +571,7 @@
           b.style.borderLeft = `5px solid ${TYPE_COLORS[p.category1] || "#607d8b"}`;
           const rating = getPlaceReviews(p.id);
           const ratingText = rating.length ? `★ ${averageRating(rating).toFixed(1)} · 리뷰 ${rating.length}개` : "아직 리뷰 없음";
-          b.innerHTML = `<strong>${title}</strong><small>${address}</small><small style="display:block;margin-top:4px;color:#9a6815">${ratingText}</small><div class="access-list">${(p.labels||[]).map(x=>`<span>${escapeHTML(x)}</span>`).join("")}</div>`;
+          b.innerHTML = `<strong>${title}</strong><small>${address}</small><small style="display:block;margin-top:4px;color:#8a4b00">${ratingText}</small><div class="access-list">${(p.labels||[]).map(x=>`<span>${escapeHTML(x)}</span>`).join("")}</div>`;
           b.addEventListener("click", () => selectPlace(p));
           list.appendChild(b);
         });
@@ -528,7 +608,7 @@
         <div class="access-list">${p.category1==="행사" ? "<span>접근성 정보: 미확인</span>" : detailItems.map(([label,yes])=>`<span>${label}: ${yes ? "있음(Y)" : "없음(N)"}</span>`).join("")}</div>
         <p style="font-size:14px">${p.category1==="행사" ? "행사 기간" : "운영시간"}: ${escapeHTML(p.hours || "정보 없음")}<br>${p.category1==="행사" ? "" : `휴무일: ${escapeHTML(p.closed || "정보 없음")}<br>`}전화번호: ${escapeHTML(p.phone || "정보 없음")}</p>
         ${website ? `<p><a href="${escapeHTML(website)}" target="_blank" rel="noopener noreferrer">시설 홈페이지 열기</a></p>` : ""}
-        <p style="font-size:12px;color:#775719">※ 제공 데이터 기준일: ${escapeHTML(p.updated || "확인되지 않음")}. 실제 편의시설·운영 여부는 방문 전 시설에 확인해 주세요.</p>
+        <p style="font-size:12px;color:#5a5f6b">※ 제공 데이터 기준일: ${escapeHTML(p.updated || "확인되지 않음")}. 실제 편의시설·운영 여부는 방문 전 시설에 확인해 주세요.</p>
         ${renderReviewSection(p)}`;
       selectedPlaceId = p.id;
       bindReviewForm(p);
@@ -557,7 +637,7 @@
         if (currentLocationMarker) currentLocationMarker.setMap(null);
         const markerContent = document.createElement("div");
         markerContent.textContent = "내 위치";
-        markerContent.style.cssText = "background:#173f52;color:#fff;padding:6px 10px;border-radius:18px;font-size:12px;font-weight:700;border:2px solid #fff;box-shadow:0 2px 8px #0003;white-space:nowrap";
+        markerContent.style.cssText = "background:#1d4a70;color:#fff;padding:6px 10px;border-radius:18px;font-size:12px;font-weight:700;border:2px solid #fff;box-shadow:0 2px 8px #0003;white-space:nowrap";
         currentLocationMarker = new kakao.maps.CustomOverlay({position:currentLatLng,content:markerContent,yAnchor:1.4,zIndex:10});
         currentLocationMarker.setMap(mapObject);
       }
@@ -598,8 +678,8 @@
       const average = averageRating(reviews);
       const reviewItems = reviews.slice().reverse().map(r=>`<div class="review-item"><div><span class="stars" aria-label="${Number(r.rating)}점">${"★".repeat(Number(r.rating))}${"☆".repeat(5-Number(r.rating))}</span> <strong>${escapeHTML(r.name || "익명")}</strong></div><p>${escapeHTML(r.content || "")}</p><small class="review-note">${escapeHTML(r.date || "")}</small></div>`).join("");
       return `<section class="review-section" aria-labelledby="review-title"><h3 id="review-title" style="margin:0;color:var(--navy)">시설 리뷰 · 별점과 이용 경험</h3><div class="review-summary"><span class="stars">${reviews.length ? "★".repeat(Math.round(average))+"☆".repeat(5-Math.round(average)) : "☆☆☆☆☆"}</span><strong>${reviews.length ? average.toFixed(1)+" / 5" : "평점 없음"}</strong><span class="review-note">리뷰 ${reviews.length}개</span></div>
-      <form class="review-form" id="place-review-form"><strong>이 장소의 경험을 나눠 주세요.</strong><label>별점 선택</label><div class="star-picker" role="group" aria-label="별점 선택">${[1,2,3,4,5].map(n=>`<button type="button" data-rating="${n}" class="${n<=selectedReviewRating?"selected":""}" aria-label="${n}점">★</button>`).join("")}</div><label for="review-name">작성자 (선택)</label><input class="field" id="review-name" maxlength="20" placeholder="익명"><label for="review-content">리뷰 내용</label><textarea class="field" id="review-content" rows="3" maxlength="500" required placeholder="접근성이나 이용 경험을 구체적으로 적어 주세요."></textarea><button class="primary-btn" type="submit" style="margin-top:10px">리뷰 등록</button></form>
-      <p class="review-note">현재 리뷰는 이 브라우저에만 저장되는 시제품 기능입니다. 다른 사람과 리뷰를 공유하려면 별도의 데이터베이스 연결이 필요합니다.</p>${reviewItems || '<p class="review-note">아직 등록된 리뷰가 없습니다.</p>'}</section>`;
+      <form class="review-form" id="place-review-form"><strong>이 장소의 경험을 나눠 주세요.</strong><label>별점 선택</label><div class="star-picker" role="group" aria-label="별점 선택">${[1,2,3,4,5].map(n=>`<button type="button" data-rating="${n}" class="${n<=selectedReviewRating?"selected":""}" aria-label="${n}점">★</button>`).join("")}</div><label for="review-content">리뷰 내용</label><textarea class="field" id="review-content" rows="3" maxlength="500" required placeholder="접근성이나 이용 경험을 구체적으로 적어 주세요."></textarea><button class="primary-btn" type="submit" style="margin-top:10px">리뷰 등록</button></form>
+      ${reviewItems || '<p class="review-note">아직 등록된 리뷰가 없습니다.</p>'}</section>`;
     }
     function bindReviewForm(place) {
       const form=document.getElementById("place-review-form");
@@ -612,9 +692,10 @@
         e.preventDefault();
         const content=document.getElementById("review-content").value.trim();
         if (!content) return;
+        if (!requireLogin("리뷰는 로그인 후 남길 수 있어요.")) return;
         const all=getAllReviews(), key=String(place.id);
         if (!Array.isArray(all[key])) all[key]=[];
-        all[key].push({name:document.getElementById("review-name").value.trim()||"익명",rating:selectedReviewRating,content,date:new Date().toLocaleDateString("ko-KR")});
+        all[key].push({name:profile.nickname,rating:selectedReviewRating,content,date:new Date().toLocaleDateString("ko-KR")});
         try { localStorage.setItem(REVIEW_STORAGE_KEY,JSON.stringify(all)); }
         catch (error) { alert("브라우저 저장 공간에 리뷰를 저장하지 못했어요."); return; }
         selectPlace(place);
@@ -667,7 +748,7 @@
       const ei = events.indexOf(e);
       const venues = e.venues.map((v,vi) => `<div class="venue-item"><strong>${escapeHTML(v.address)}</strong>${v.phone?`<br>전화: <a href="tel:${escapeHTML(v.phone)}">${escapeHTML(v.phone)}</a>`:""}${v.website?`<br><a href="${escapeHTML(v.website)}" target="_blank" rel="noopener noreferrer">행사 안내 페이지 열기</a>`:""}${v.lat!=null?`<br><button type="button" class="secondary-btn" style="margin-top:8px" data-show-map="event-${ei}-${vi}">지도에서 보기</button>`:""}</div>`).join("");
       const access = EVENT_ACCESS_LABELS.map(([k,label]) => `<span>${label}: ${escapeHTML(e.access[k]||"미확인")}</span>`).join("");
-      content.innerHTML = `${posterHTML(e)}<div class="card-tags" style="margin-top:12px"><span class="tag blue">${escapeHTML(e.type)}</span>${statusTag(e)}</div><h3 style="color:var(--navy);margin:8px 0 4px">${escapeHTML(e.title)}</h3><div class="meta"><span>${escapeHTML(fmtRange(e))}</span></div>${venues}<div class="access-list">${access}</div><p style="font-size:12px;color:#775719">※ 일정과 접근성 정보는 바뀔 수 있어요. 방문 전 주최 측에 확인해 주세요.</p>`;
+      content.innerHTML = `${posterHTML(e)}<div class="card-tags" style="margin-top:12px"><span class="tag blue">${escapeHTML(e.type)}</span>${statusTag(e)}</div><h3 style="color:var(--navy);margin:8px 0 4px">${escapeHTML(e.title)}</h3><div class="meta"><span>${escapeHTML(fmtRange(e))}</span></div>${venues}<div class="access-list">${access}</div><p style="font-size:12px;color:#5a5f6b">※ 일정과 접근성 정보는 바뀔 수 있어요. 방문 전 주최 측에 확인해 주세요.</p>`;
       content.querySelectorAll("[data-show-map]").forEach(b => b.addEventListener("click",()=>{ modal.classList.remove("open"); showEventOnMap(b.dataset.showMap); }));
       modal.classList.add("open");
     }
@@ -714,9 +795,11 @@
 
     const CART_KEY="freeon_cart_v2";
     function won(n){return Number(n).toLocaleString("ko-KR")+"원"}
-    let cartState=(function(){try{const c=JSON.parse(localStorage.getItem(CART_KEY)||"[]");return Array.isArray(c)?c:[]}catch(e){return []}})();
+    function cartKey(){return CART_KEY+"_"+(profile?profile.id:"guest")}
+    let cartState=[];
+    function reloadCart(){try{const c=JSON.parse(localStorage.getItem(cartKey())||"[]");cartState=Array.isArray(c)?c:[]}catch(e){cartState=[]}renderCart()}
     function getCart(){return cartState}
-    function saveCart(cart){cartState=cart;try{localStorage.setItem(CART_KEY,JSON.stringify(cart))}catch(e){}renderCart()}
+    function saveCart(cart){cartState=cart;try{localStorage.setItem(cartKey(),JSON.stringify(cart))}catch(e){}renderCart()}
     function showToast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>t.classList.remove("show"),2200)}
     function addToCart(product){const cart=getCart(),found=cart.find(x=>x.title===product.title);if(found)found.qty++;else cart.push({title:product.title,price:product.priceValue,qty:1});saveCart(cart);showToast("장바구니에 담았어요: "+product.title)}
     function renderCart(){
@@ -741,14 +824,23 @@
 
     function escapeHTML(s) { return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
 
-    /* ===== 커뮤니티 (게시판) ===== */
-    const POSTS_KEY="freeon_posts_v3", REACT_KEY="freeon_reactions_v3";
+    /* ===== 커뮤니티 · 회원 ===== */
+    const POSTS_KEY="freeon_posts_v4", REACT_KEY="freeon_reactions_v4", USERS_KEY="freeon_users_v1", SESSION_KEY="freeon_session_v1";
     const PRESET_TAGS=["질문","시각장애","청각장애","지체장애","발달장애","이동약자","보호자","생활정보","행사정보","시설후기","자유이야기"];
-    let posts=[], myReactions={}, activeTag=null, openPostId=null, draftTags=[];
+    // 가입 설문 보기. tags 는 맞춤 노출에 쓰는 해시태그예요.
+    const USER_TYPES=[
+      {key:"visual",label:"시각적 도움이 필요해요",tags:["시각장애"]},
+      {key:"hearing",label:"청각적 도움이 필요해요",tags:["청각장애"]},
+      {key:"mobility",label:"이동에 도움이 필요해요 (휠체어 등)",tags:["지체장애","이동약자"]},
+      {key:"developmental",label:"발달장애·감각 민감이 있어요",tags:["발달장애"]},
+      {key:"guardian",label:"보호자·가족이에요",tags:["보호자"]},
+      {key:"supporter",label:"지인·활동가·기타예요",tags:[]}
+    ];
+    let posts=[], activeTag=null, openPostId=null, draftTags=[], profile=null, authMode="login";
+    const byId=id=>document.getElementById(id);
 
     function lsGet(k,fallback){try{const v=localStorage.getItem(k);return v===null?fallback:JSON.parse(v)}catch(e){return fallback}}
     function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
-    function savePosts(){lsSet(POSTS_KEY,posts)}
     function uid(prefix){return prefix+Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
     function timeAgo(ts){
       const s=Math.floor((Date.now()-ts)/1000); if(s<60) return "방금 전";
@@ -760,15 +852,12 @@
     function normTag(t){return String(t||"").replace(/^#+/,"").replace(/\s+/g,"").replace(/[^0-9A-Za-z가-힣_]/g,"").slice(0,12)}
     function extractTags(text){return (String(text).match(/#[0-9A-Za-z가-힣_]{1,12}/g)||[]).map(normTag).filter(Boolean)}
 
-    function initCommunity(){
-      const saved=lsGet(POSTS_KEY,null);
-      if(Array.isArray(saved)){
-        posts=saved.map(p=>({id:String(p.id),author:p.author||"익명",title:String(p.title||""),body:String(p.body||""),tags:Array.isArray(p.tags)?p.tags:[],createdAt:Number(p.createdAt)||Date.now(),likes:Number(p.likes)||0,dislikes:Number(p.dislikes)||0,comments:Array.isArray(p.comments)?p.comments:[],mine:!!p.mine}));
-      } else {
+    /* --- 저장소: 이 노트북 브라우저(localStorage)에 저장. 같은 브라우저를 쓰는 모든 계정이 같은 글을 봐요 --- */
+    function buildSeed(){
         const now=Date.now(), H=3600000, M=60000;
         const C=(author,text,ago)=>({id:uid("c"),author,text,createdAt:now-ago,mine:false});
         const P=(id,author,title,body,tags,ago,likes,comments)=>({id,author,title,body,tags,createdAt:now-ago,likes,dislikes:0,comments,mine:false});
-        posts=[
+        return [
           P("seed-a1","사랑맘","발달장애 아이와 함께 갈 만한 문화 공간이나 전시 추천 부탁드려요",
 `안녕하세요, 좋은 아침이에요.
 아이가 감각에 예민하기도 하고 돌발 행동이 나올 때가 있다 보니, 평소에 미술관이나 공연장, 문화센터 같은 곳은 감히 엄두를 내지 못하곤 했습니다.
@@ -840,61 +929,113 @@ FREEON 커뮤니티를 열고 가장 먼저 여러분께 여쭤보고 싶은 이
             C("소소한하루","휠체어 쓰는 가족이랑 다니는데 문턱 없는 입구랑 넉넉한 화장실 칸이 제일 크게 느껴져요. 이런 건 사진으로 미리 볼 수 있으면 좋겠어요.",70*H),
             C("느린걸음","안내 표지 글씨 크기랑 대비도 중요하더라고요. 작은 회색 글씨는 읽기가 정말 힘들어요.",66*H)])
         ];
-        savePosts();
-      }
-      myReactions=lsGet(REACT_KEY,{});
-      renderTagBar(); renderBoard();
     }
+    let localPosts=null, localReact=lsGet(REACT_KEY,{});   // localReact: {사용자id:{글id:"like"|"dislike"}}
+    function localLoad(){
+      if(localPosts) return;
+      const saved=lsGet(POSTS_KEY,null);
+      if(Array.isArray(saved)) localPosts=saved.map(p=>({...p,author:p.author||"익명",authorId:p.authorId||null,tags:Array.isArray(p.tags)?p.tags:[],comments:Array.isArray(p.comments)?p.comments:[],likes:Number(p.likes)||0,dislikes:Number(p.dislikes)||0}));
+      else { localPosts=buildSeed(); localSave(); }
+    }
+    function localSave(){lsSet(POSTS_KEY,localPosts);lsSet(REACT_KEY,localReact)}
+    const meId=()=>profile?profile.id:null;
+    const store={
+      async list(){localLoad();const me=meId(),mine=me&&localReact[me]||{};return localPosts.map(p=>({id:p.id,author:p.author,official:p.author==="청온"&&!p.authorId,title:p.title,body:p.body,tags:p.tags,createdAt:p.createdAt,likes:p.likes,dislikes:p.dislikes,myReaction:mine[p.id]||null,commentCount:p.comments.length,mine:!!me&&p.authorId===me}))},
+      async comments(id){localLoad();const me=meId(),p=localPosts.find(x=>x.id===id);return (p?p.comments:[]).map(c=>({id:c.id,author:c.author||"익명",official:c.author==="청온"&&!c.authorId,createdAt:c.createdAt,text:c.text,mine:!!me&&c.authorId===me}))},
+      async createPost({title,body,tags}){localLoad();localPosts.unshift({id:uid("p"),author:profile.nickname,authorId:profile.id,title,body,tags,createdAt:Date.now(),likes:0,dislikes:0,comments:[]});localSave()},
+      async deletePost(id){localLoad();localPosts=localPosts.filter(x=>x.id!==id);localSave()},
+      async addComment(id,text){localLoad();const p=localPosts.find(x=>x.id===id);if(p){p.comments.push({id:uid("c"),author:profile.nickname,authorId:profile.id,text,createdAt:Date.now()});localSave()}},
+      async deleteComment(pid,cid){localLoad();const p=localPosts.find(x=>x.id===pid);if(p){p.comments=p.comments.filter(c=>c.id!==cid);localSave()}},
+      async react(id,kind){
+        localLoad();const p=localPosts.find(x=>x.id===id);if(!p)return;
+        const me=meId();localReact[me]=localReact[me]||{};
+        const cur=localReact[me][id];
+        if(cur==="like")p.likes--;
+        if(cur==="dislike")p.dislikes--;
+        if(cur===kind){delete localReact[me][id]}
+        else{if(kind==="like")p.likes++;else p.dislikes++;localReact[me][id]=kind}
+        localSave();
+      }
+    };
 
-    function authorHTML(n){return n==="청온"?'<span class="author-official">청온</span>':`<span>${escapeHTML(n||"익명")}</span>`}
+    /* --- 맞춤 노출: 설문·설정에서 고른 유형/주제와 겹치는 해시태그의 글을 위로 --- */
+    function myTags(){
+      if(!profile||profile.personalize===false) return [];
+      const t=new Set(profile.interest_tags||[]);
+      (profile.user_types||[]).forEach(k=>{const u=USER_TYPES.find(x=>x.key===k);if(u)u.tags.forEach(x=>t.add(x))});
+      return [...t];
+    }
+    function matchScore(p){const m=myTags();return m.length?p.tags.filter(t=>m.includes(t)).length:0}
+
+    /* --- 목록 --- */
+    async function refreshPosts(){
+      try{posts=await store.list()}catch(e){console.error(e);showToast("글을 불러오지 못했어요. 잠시 후 다시 시도해 주세요.")}
+      renderTagBar();renderBoard();
+      if(openPostId) await renderPostDetail();
+    }
     function tagCounts(){const c={};PRESET_TAGS.forEach(t=>c[t]=0);posts.forEach(p=>p.tags.forEach(t=>{c[t]=(c[t]||0)+1}));return c}
     function renderTagBar(){
-      const c=tagCounts(), bar=document.getElementById("tag-bar");
+      const c=tagCounts(), bar=byId("tag-bar");
       const names=Object.keys(c).sort((a,b)=>{const ap=PRESET_TAGS.indexOf(a),bp=PRESET_TAGS.indexOf(b);if(ap>-1&&bp>-1)return ap-bp;if(ap>-1)return -1;if(bp>-1)return 1;return c[b]-c[a]||a.localeCompare(b,"ko")});
       bar.innerHTML=`<button type="button" class="filter-chip" data-tag="" aria-pressed="${!activeTag}">전체</button>`+names.map(t=>`<button type="button" class="filter-chip" data-tag="${escapeHTML(t)}" aria-pressed="${activeTag===t}">#${escapeHTML(t)}${c[t]?` <small>${c[t]}</small>`:""}</button>`).join("");
       bar.querySelectorAll("[data-tag]").forEach(b=>b.addEventListener("click",()=>setTag(b.dataset.tag||null)));
     }
     function setTag(t){activeTag=t;closePost();renderTagBar()}
-
     function filteredPosts(){
-      const q=document.getElementById("post-search").value.trim().toLowerCase().replace(/^#/,"");
-      const sort=document.getElementById("post-sort").value;
+      const q=byId("post-search").value.trim().toLowerCase().replace(/^#/,"");
+      const sort=byId("post-sort").value;
       let list=posts.filter(p=>!activeTag||p.tags.includes(activeTag));
       if(q) list=list.filter(p=>(p.title+" "+p.body+" "+p.tags.join(" ")).toLowerCase().includes(q));
-      list.sort((a,b)=>sort==="popular"?((b.likes-b.dislikes)-(a.likes-a.dislikes))||b.createdAt-a.createdAt:sort==="comments"?(b.comments.length-a.comments.length)||b.createdAt-a.createdAt:b.createdAt-a.createdAt);
+      list.sort((a,b)=>sort==="popular"?((b.likes-b.dislikes)-(a.likes-a.dislikes))||b.createdAt-a.createdAt:sort==="comments"?(b.commentCount-a.commentCount)||b.createdAt-a.createdAt:b.createdAt-a.createdAt);
+      if(myTags().length){
+        const hit=list.filter(p=>matchScore(p)>0).sort((x,y)=>matchScore(y)-matchScore(x)), rest=list.filter(p=>matchScore(p)===0);
+        list=hit.concat(rest);
+      }
       return list;
     }
+    function authorHTML(name,official){return official?`<span class="author-official">${escapeHTML(name)}</span>`:`<span>${escapeHTML(name||"익명")}</span>`}
     function tagButtons(p){return p.tags.length?`<div class="hashtags">${p.tags.map(t=>`<button type="button" class="hashtag" data-tag="${escapeHTML(t)}">#${escapeHTML(t)}</button>`).join("")}</div>`:""}
-    function statsHTML(p){return `<span class="stat" aria-label="좋아요 ${p.likes}개">👍 ${p.likes}</span><span class="stat" aria-label="싫어요 ${p.dislikes}개">👎 ${p.dislikes}</span><span class="stat" aria-label="댓글 ${p.comments.length}개">💬 ${p.comments.length}</span>`}
+    function statsHTML(p){return `<span class="stat" aria-label="좋아요 ${p.likes}개">👍 ${p.likes}</span><span class="stat" aria-label="싫어요 ${p.dislikes}개">👎 ${p.dislikes}</span><span class="stat" aria-label="댓글 ${p.commentCount}개">💬 ${p.commentCount}</span>`}
     function renderBoard(){
-      const list=filteredPosts(), box=document.getElementById("post-list");
-      box.innerHTML=list.length?list.map(p=>`<article class="board-item" data-post-id="${escapeHTML(p.id)}"><button type="button" class="board-title-btn">${escapeHTML(p.title)}</button>${p.body?`<p class="board-preview">${escapeHTML(p.body)}</p>`:""}${tagButtons(p)}<div class="board-meta">${authorHTML(p.author)}<span>${timeAgo(p.createdAt)}</span>${statsHTML(p)}</div></article>`).join(""):'<div class="empty-state" style="border:0">조건에 맞는 글이 없어요.</div>';
+      const list=filteredPosts(), box=byId("post-list");
+      box.innerHTML=list.length?list.map(p=>`<article class="board-item" data-post-id="${escapeHTML(p.id)}"><button type="button" class="board-title-btn">${matchScore(p)>0?'<span class="match-badge">맞춤</span>':""}${escapeHTML(p.title)}</button>${p.body?`<p class="board-preview">${escapeHTML(p.body)}</p>`:""}${tagButtons(p)}<div class="board-meta">${authorHTML(p.author,p.official)}<span>${timeAgo(p.createdAt)}</span>${statsHTML(p)}</div></article>`).join(""):'<div class="empty-state" style="border:0">조건에 맞는 글이 없어요.</div>';
       box.querySelectorAll(".board-item").forEach(el=>el.addEventListener("click",()=>openPost(el.dataset.postId)));
       box.querySelectorAll(".hashtag").forEach(b=>b.addEventListener("click",e=>{e.stopPropagation();setTag(b.dataset.tag)}));
     }
 
+    /* --- 글 상세 --- */
+    function requireLogin(msg){
+      if(profile) return true;
+      showToast(msg||"로그인이 필요해요.");
+      openAuth("login");
+      return false;
+    }
     function openPost(id){
       openPostId=id;
-      document.getElementById("board-view").hidden=true;
-      document.getElementById("post-detail").hidden=false;
+      byId("board-view").hidden=true;
+      byId("post-detail").hidden=false;
       renderPostDetail();
       window.scrollTo({top:0});
     }
     function closePost(){
       openPostId=null;
-      document.getElementById("board-view").hidden=false;
-      document.getElementById("post-detail").hidden=true;
+      byId("board-view").hidden=false;
+      byId("post-detail").hidden=true;
       renderBoard();
     }
-    function renderPostDetail(){
-      const box=document.getElementById("post-detail"), p=posts.find(x=>x.id===openPostId);
+    async function renderPostDetail(){
+      const box=byId("post-detail"), p=posts.find(x=>x.id===openPostId);
       if(!p){closePost();return}
-      const my=myReactions[p.id];
-      const comments=p.comments.map(c=>`<div class="comment"><div class="comment-head"><strong class="${c.author==='청온'?'author-official':''}">${escapeHTML(c.author||"익명")}</strong><span>${timeAgo(c.createdAt)}</span>${c.mine?`<button type="button" data-del-comment="${escapeHTML(c.id)}">삭제</button>`:""}</div><p>${escapeHTML(c.text)}</p></div>`).join("");
+      let comments=[];
+      try{comments=await store.comments(p.id)}catch(e){console.error(e)}
+      if(openPostId!==p.id) return;
+      const my=p.myReaction;
+      const commentsHTML=comments.map(c=>`<div class="comment"><div class="comment-head"><strong class="${c.official?"author-official":""}">${escapeHTML(c.author||"익명")}</strong><span>${timeAgo(c.createdAt)}</span>${c.mine?`<button type="button" data-del-comment="${escapeHTML(c.id)}">삭제</button>`:""}</div><p>${escapeHTML(c.text)}</p></div>`).join("");
+      const draft=byId("comment-input")?byId("comment-input").value:"";
       box.innerHTML=`<button type="button" class="secondary-btn" id="back-to-list">← 목록</button>
         <article class="panel post-full">
           <h2 class="post-full-title">${escapeHTML(p.title)}</h2>
-          <div class="board-meta" style="margin-top:0">${authorHTML(p.author)}<span>${timeAgo(p.createdAt)}</span></div>
+          <div class="board-meta" style="margin-top:0">${authorHTML(p.author,p.official)}<span>${timeAgo(p.createdAt)}</span></div>
           ${p.body?`<div class="post-body">${escapeHTML(p.body)}</div>`:""}
           ${tagButtons(p)}
           <div class="react-row">
@@ -904,39 +1045,38 @@ FREEON 커뮤니티를 열고 가장 먼저 여러분께 여쭤보고 싶은 이
           </div>
         </article>
         <section class="panel comments" aria-label="댓글">
-          <h3>댓글 ${p.comments.length}</h3>
-          ${comments||'<p class="review-note">첫 댓글을 남겨 보세요.</p>'}
-          <form id="comment-form"><label class="sr-only" for="comment-input">댓글 입력</label><textarea class="field" id="comment-input" rows="2" maxlength="300" required placeholder="댓글을 입력하세요"></textarea><button class="primary-btn" type="submit">등록</button></form>
+          <h3>댓글 ${comments.length}</h3>
+          ${commentsHTML||'<p class="review-note">첫 댓글을 남겨 보세요.</p>'}
+          <form id="comment-form"><label class="sr-only" for="comment-input">댓글 입력</label><textarea class="field" id="comment-input" rows="2" maxlength="300" required placeholder="${profile?"댓글을 입력하세요":"로그인하면 댓글을 남길 수 있어요"}"></textarea><button class="primary-btn" type="submit">등록</button></form>
         </section>`;
-      document.getElementById("back-to-list").addEventListener("click",closePost);
+      byId("comment-input").value=draft;
+      byId("back-to-list").addEventListener("click",closePost);
       box.querySelectorAll(".hashtag").forEach(b=>b.addEventListener("click",()=>setTag(b.dataset.tag)));
       box.querySelectorAll("[data-react]").forEach(b=>b.addEventListener("click",()=>react(p.id,b.dataset.react)));
-      const del=document.getElementById("delete-post");
-      if(del) del.addEventListener("click",()=>{if(confirm("이 글을 삭제할까요?")){posts=posts.filter(x=>x.id!==p.id);savePosts();renderTagBar();closePost()}});
-      box.querySelectorAll("[data-del-comment]").forEach(b=>b.addEventListener("click",()=>{p.comments=p.comments.filter(c=>c.id!==b.dataset.delComment);savePosts();renderPostDetail()}));
-      document.getElementById("comment-form").addEventListener("submit",e=>{
+      const del=byId("delete-post");
+      if(del) del.addEventListener("click",async()=>{if(!confirm("이 글을 삭제할까요?"))return;try{await store.deletePost(p.id)}catch(e){console.error(e);showToast("삭제하지 못했어요.");return}closePost();await refreshPosts()});
+      box.querySelectorAll("[data-del-comment]").forEach(b=>b.addEventListener("click",async()=>{try{await store.deleteComment(p.id,b.dataset.delComment)}catch(e){console.error(e);showToast("삭제하지 못했어요.");return}await refreshPosts()}));
+      byId("comment-form").addEventListener("submit",async e=>{
         e.preventDefault();
-        const text=document.getElementById("comment-input").value.trim();
+        if(!requireLogin("댓글은 로그인 후 남길 수 있어요.")) return;
+        const text=byId("comment-input").value.trim();
         if(!text) return;
-        p.comments.push({id:uid("c"),text,createdAt:Date.now(),mine:true});
-        savePosts(); renderPostDetail();
-        document.getElementById("comment-input").focus();
+        try{await store.addComment(p.id,text)}catch(err){console.error(err);showToast("댓글을 등록하지 못했어요.");return}
+        byId("comment-input").value="";
+        await refreshPosts();
+        byId("comment-input").focus();
       });
     }
-    function react(id,kind){
-      const p=posts.find(x=>x.id===id); if(!p) return;
-      const cur=myReactions[id];
-      if(cur==="like") p.likes--;
-      if(cur==="dislike") p.dislikes--;
-      if(cur===kind){ delete myReactions[id]; }
-      else { if(kind==="like") p.likes++; else p.dislikes++; myReactions[id]=kind; }
-      savePosts(); lsSet(REACT_KEY,myReactions); renderPostDetail();
+    async function react(id,kind){
+      if(!requireLogin("좋아요·싫어요는 로그인 후 누를 수 있어요.")) return;
+      try{await store.react(id,kind)}catch(e){console.error(e);showToast("처리하지 못했어요. 잠시 후 다시 시도해 주세요.");return}
+      await refreshPosts();
     }
 
-    // 글쓰기
-    const modal=document.getElementById("post-modal");
+    /* --- 글쓰기 --- */
+    const modal=byId("post-modal");
     function renderTagPicker(){
-      const presets=document.getElementById("tag-presets"), sel=document.getElementById("tag-selected");
+      const presets=byId("tag-presets"), sel=byId("tag-selected");
       presets.innerHTML=PRESET_TAGS.map(t=>`<button type="button" class="filter-chip" data-preset="${t}" aria-pressed="${draftTags.includes(t)}">#${t}</button>`).join("");
       sel.innerHTML=draftTags.length?draftTags.map(t=>`<span class="hashtag">#${escapeHTML(t)}<button type="button" class="tag-remove" data-remove="${escapeHTML(t)}" aria-label="${escapeHTML(t)} 태그 빼기">×</button></span>`).join(""):'<span class="review-note">선택한 해시태그가 여기에 표시돼요.</span>';
       presets.querySelectorAll("[data-preset]").forEach(b=>b.addEventListener("click",()=>{const t=b.dataset.preset;if(draftTags.includes(t))draftTags=draftTags.filter(x=>x!==t);else addDraftTag(t);renderTagPicker()}));
@@ -948,31 +1088,151 @@ FREEON 커뮤니티를 열고 가장 먼저 여러분께 여쭤보고 싶은 이
       if(draftTags.length>=5){showToast("해시태그는 최대 5개까지 넣을 수 있어요.");return}
       draftTags.push(t);
     }
-    function addCustomTag(){
-      const input=document.getElementById("custom-tag");
-      addDraftTag(input.value); input.value=""; renderTagPicker(); input.focus();
-    }
-    document.getElementById("write-post").addEventListener("click",()=>{draftTags=[];document.getElementById("post-form").reset();renderTagPicker();modal.classList.add("open");document.getElementById("post-title").focus()});
-    document.getElementById("close-modal").addEventListener("click",()=>modal.classList.remove("open"));
+    function addCustomTag(){const input=byId("custom-tag");addDraftTag(input.value);input.value="";renderTagPicker();input.focus()}
+    byId("write-post").addEventListener("click",()=>{
+      if(!requireLogin("글쓰기는 로그인 후 이용할 수 있어요.")) return;
+      draftTags=[];byId("post-form").reset();renderTagPicker();modal.classList.add("open");byId("post-title").focus();
+    });
+    byId("close-modal").addEventListener("click",()=>modal.classList.remove("open"));
     modal.addEventListener("click",e=>{if(e.target===modal)modal.classList.remove("open")});
-    document.getElementById("add-tag").addEventListener("click",addCustomTag);
-    document.getElementById("custom-tag").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();addCustomTag()}});
+    byId("add-tag").addEventListener("click",addCustomTag);
+    byId("custom-tag").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();addCustomTag()}});
     document.addEventListener("keydown",e=>{if(e.key==="Escape")document.querySelectorAll(".modal-backdrop.open").forEach(m=>m.classList.remove("open"))});
-    document.getElementById("post-form").addEventListener("submit",e=>{
+    byId("post-form").addEventListener("submit",async e=>{
       e.preventDefault();
-      const title=document.getElementById("post-title").value.trim(), body=document.getElementById("post-content").value.trim();
+      const title=byId("post-title").value.trim(), body=byId("post-content").value.trim();
       if(!title||!body) return;
       const tags=[...new Set([...draftTags,...extractTags(title+" "+body)])].slice(0,5);
-      posts.unshift({id:uid("p"),title,body,tags,createdAt:Date.now(),likes:0,dislikes:0,comments:[],mine:true});
-      savePosts();
-      activeTag=null; document.getElementById("post-search").value=""; document.getElementById("post-sort").value="latest";
+      const btn=e.target.querySelector("[type=submit]"); btn.disabled=true;
+      try{await store.createPost({title,body,tags})}catch(err){console.error(err);showToast("글을 올리지 못했어요. 잠시 후 다시 시도해 주세요.");btn.disabled=false;return}
+      btn.disabled=false;
+      activeTag=null;byId("post-search").value="";byId("post-sort").value="latest";
       modal.classList.remove("open");
-      renderTagBar(); closePost();
+      openPostId=null;byId("board-view").hidden=false;byId("post-detail").hidden=true;
+      await refreshPosts();
       window.scrollTo({top:0,behavior:"smooth"});
     });
-    document.getElementById("post-search").addEventListener("input",renderBoard);
-    document.getElementById("post-sort").addEventListener("change",renderBoard);
-    document.getElementById("login-demo").addEventListener("click",()=>alert("회원가입과 로그인 기능은 데이터베이스 연결 단계에서 구현할 예정입니다."));
+    byId("post-search").addEventListener("input",renderBoard);
+    byId("post-sort").addEventListener("change",renderBoard);
+
+    /* ===== 회원가입 · 로그인 · 설문 · 설정 (Supabase) ===== */
+    const authModal=byId("auth-modal"), profileModal=byId("profile-modal");
+    let users=lsGet(USERS_KEY,[]);
+    function saveUsers(){lsSet(USERS_KEY,users)}
+    async function hashPw(pw,salt){
+      try{
+        const buf=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(salt+":"+pw));
+        return [...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,"0")).join("");
+      }catch(e){
+        let h=5381;const t=salt+":"+pw;
+        for(let i=0;i<t.length;i++)h=((h<<5)+h+t.charCodeAt(i))>>>0;
+        return "x"+h.toString(16);
+      }
+    }
+    const RESERVED_NICKS=["청온","관리자","운영자","admin"];
+    function setAuthMsg(t,ok){const el=byId("auth-msg");el.textContent=t||"";el.className="auth-msg"+(ok?" ok":"")}
+    function openAuth(mode){
+      authMode=mode||"login";
+      document.querySelectorAll("[data-auth-tab]").forEach(b=>b.setAttribute("aria-selected",String(b.dataset.authTab===authMode)));
+      byId("auth-nick-wrap").hidden=authMode!=="signup";
+      byId("auth-nick").required=authMode==="signup";
+      byId("auth-password").autocomplete=authMode==="signup"?"new-password":"current-password";
+      byId("auth-submit").textContent=authMode==="signup"?"회원가입":"로그인";
+      byId("auth-title").textContent=authMode==="signup"?"회원가입":"로그인";
+      setAuthMsg("");
+      authModal.classList.add("open");
+      byId("auth-id").focus();
+    }
+    document.querySelectorAll("[data-auth-tab]").forEach(b=>b.addEventListener("click",()=>openAuth(b.dataset.authTab)));
+    byId("close-auth").addEventListener("click",()=>authModal.classList.remove("open"));
+    authModal.addEventListener("click",e=>{if(e.target===authModal)authModal.classList.remove("open")});
+    async function afterAuthChange(){
+      renderAuthUI();
+      reloadCart();
+      await refreshPosts();
+      if(profile&&!profile.onboarded) openProfile("onboard");
+    }
+    byId("auth-form").addEventListener("submit",async e=>{
+      e.preventDefault();
+      const loginId=byId("auth-id").value.trim().toLowerCase(), password=byId("auth-password").value, btn=byId("auth-submit");
+      btn.disabled=true; setAuthMsg("");
+      try{
+        if(authMode==="signup"){
+          const nick=byId("auth-nick").value.trim();
+          if(!/^[0-9a-z_]{4,20}$/.test(loginId)){setAuthMsg("아이디는 영문 소문자·숫자·밑줄(_) 4~20자로 해 주세요.");return}
+          if(!/^[0-9A-Za-z가-힣_]{2,12}$/.test(nick)){setAuthMsg("별명은 한글·영문·숫자·밑줄(_) 2~12자로 해 주세요.");return}
+          if(RESERVED_NICKS.includes(nick.toLowerCase())||users.some(u=>u.nickname.toLowerCase()===nick.toLowerCase())){setAuthMsg("사용할 수 없는 별명이에요. 다른 별명을 써 주세요.");return}
+          if(users.some(u=>u.loginId===loginId)){setAuthMsg("이미 사용 중인 아이디예요.");return}
+          const salt=uid("s"), hash=await hashPw(password,salt);
+          const user={id:uid("u"),loginId,salt,hash,nickname:nick,user_types:[],interest_tags:[],personalize:true,onboarded:false,createdAt:Date.now()};
+          users.push(user);saveUsers();
+          profile=user;lsSet(SESSION_KEY,user.id);
+          authModal.classList.remove("open");byId("auth-form").reset();
+          showToast("가입을 환영해요!");
+          await afterAuthChange();
+        } else {
+          const user=users.find(u=>u.loginId===loginId);
+          if(!user||user.hash!==await hashPw(password,user.salt)){setAuthMsg("아이디 또는 비밀번호가 맞지 않아요.");return}
+          profile=user;lsSet(SESSION_KEY,user.id);
+          authModal.classList.remove("open");byId("auth-form").reset();
+          await afterAuthChange();
+        }
+      }catch(err){console.error(err);setAuthMsg("문제가 생겼어요. 다시 시도해 주세요.")}
+      finally{btn.disabled=false}
+    });
+    function logout(){
+      profile=null;try{localStorage.removeItem(SESSION_KEY)}catch(e){}
+      profileModal.classList.remove("open");
+      showToast("로그아웃했어요.");
+      afterAuthChange();
+    }
+    function renderAuthUI(){
+      const btn=byId("login-demo");
+      if(profile){btn.textContent=profile.nickname+" 님";btn.setAttribute("aria-label","내 설정 열기")}
+      else{btn.textContent="로그인";btn.setAttribute("aria-label","로그인")}
+    }
+    byId("login-demo").addEventListener("click",()=>{if(profile)openProfile("settings");else openAuth("login")});
+
+    function openProfile(mode){
+      if(!profile) return;
+      const types=new Set(profile.user_types||[]), tags=new Set(profile.interest_tags||[]);
+      byId("profile-title").textContent=mode==="onboard"?"환영해요! 간단한 설문":"내 설정";
+      byId("profile-body").innerHTML=`
+        <p class="review-note" style="margin:0 0 4px"><strong>${escapeHTML(profile.nickname)}</strong> 님 · 고른 내용은 맞춤 추천에만 쓰이고 다른 사람에게 공개되지 않아요. 모두 건너뛰어도 돼요.</p>
+        <fieldset class="check-group"><legend>나는 어떤 분인가요? (여러 개 선택 가능)</legend>${USER_TYPES.map(u=>`<label class="check"><input type="checkbox" name="utype" value="${u.key}" ${types.has(u.key)?"checked":""}> ${u.label}</label>`).join("")}</fieldset>
+        <fieldset class="check-group"><legend>더 보고 싶은 주제</legend><div class="chip-wrap">${PRESET_TAGS.map(t=>`<label class="chip-check"><input type="checkbox" name="itag" value="${t}" ${tags.has(t)?"checked":""}><span>#${t}</span></label>`).join("")}</div></fieldset>
+        <label class="check"><input type="checkbox" id="pf-personalize" ${profile.personalize!==false?"checked":""}> 관련 글을 목록 위쪽에 먼저 보여주기</label>
+        <div class="profile-actions"><button class="primary-btn" type="submit">저장</button>${mode==="onboard"?'<button type="button" class="secondary-btn" id="pf-skip">건너뛰기</button>':'<button type="button" class="text-btn" id="pf-logout">로그아웃</button>'}</div>`;
+      const skip=byId("pf-skip"); if(skip) skip.addEventListener("click",()=>saveProfile({}));
+      const out=byId("pf-logout"); if(out) out.addEventListener("click",logout);
+      profileModal.classList.add("open");
+    }
+    function saveProfile(patch){
+      Object.assign(profile,patch,{onboarded:true});
+      saveUsers();
+      profileModal.classList.remove("open");
+      showToast("저장했어요.");
+      renderAuthUI();renderBoard();
+    }
+    byId("close-profile").addEventListener("click",()=>profileModal.classList.remove("open"));
+    profileModal.addEventListener("click",e=>{if(e.target===profileModal)profileModal.classList.remove("open")});
+    byId("profile-form").addEventListener("submit",e=>{
+      e.preventDefault();
+      const f=e.currentTarget;
+      saveProfile({
+        user_types:[...f.querySelectorAll('input[name="utype"]:checked')].map(i=>i.value),
+        interest_tags:[...f.querySelectorAll('input[name="itag"]:checked')].map(i=>i.value),
+        personalize:byId("pf-personalize").checked
+      });
+    });
+
+    async function initCommunity(){
+      const sid=lsGet(SESSION_KEY,null);
+      profile=users.find(u=>u.id===sid)||null;
+      renderAuthUI();reloadCart();
+      await refreshPosts();
+      if(profile&&!profile.onboarded) openProfile("onboard");
+    }
     let large=false;
     document.getElementById("font-toggle").addEventListener("click",e=>{
       large=!large; document.documentElement.style.fontSize=large?"19px":"16px"; e.currentTarget.textContent=large?"기본 글자":"글자 크게";
