@@ -56,6 +56,30 @@
 
     main { min-height:70vh; }
     main:focus { outline:none; }
+    /* 첫 화면(로그인/회원가입) */
+    .gate-brand,.gate-skip{display:none}
+    #auth-modal.gate{background:#fff;padding:0;display:none;place-items:stretch;grid-template-columns:1.1fr 1fr;overflow:auto}
+    #auth-modal.gate.open{display:grid}
+    #auth-modal.gate .gate-brand{display:flex;flex-direction:column;justify-content:space-between;gap:32px;background:#e4eef6;padding:clamp(32px,5vw,72px)}
+    .gate-logo{display:flex;align-items:center;gap:10px}
+    .gate-slogan{font-size:clamp(34px,4.4vw,56px);font-weight:800;line-height:1.25;letter-spacing:-1.5px;margin:18px 0 16px}
+    .gate-slogan em{font-style:normal;color:var(--brand-ink)}
+    .gate-desc{color:var(--muted);font-size:17px;margin:0}
+    .gate-points{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+    .gate-points li{background:#fff;border-radius:999px;padding:8px 16px;font-size:14px;font-weight:600;color:var(--brand-ink)}
+    #auth-modal.gate .modal{max-width:440px;width:100%;margin:auto;border-radius:0;padding:40px 24px;max-height:none;overflow:visible}
+    #auth-modal.gate .close-btn{display:none}
+    #auth-modal.gate .modal-head h2{font-size:30px}
+    #auth-modal.gate .gate-skip{display:block;width:100%;margin-top:14px;border:0;background:none;color:var(--muted);font-weight:600;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:10px}
+    @media(max-width:850px){
+      #auth-modal.gate.open{display:flex;flex-direction:column}
+      #auth-modal.gate .gate-brand{padding:28px 24px;gap:18px}
+      .gate-slogan{font-size:32px;margin:12px 0 10px}
+      .gate-desc{font-size:15px}.gate-desc br{display:none}
+      .gate-points{display:none}
+      #auth-modal.gate .modal{padding:28px 24px 48px}
+    }
+
     .page { display:none; max-width:1200px; margin:auto; padding:48px 24px 96px; }
     .page.active { display:block; }
 
@@ -328,7 +352,6 @@
         <div>
           <div class="eyebrow">배리어프리 문화 플랫폼</div>
           <h1 id="home-title">모두의 일상에<br><em>문화를 연결</em>하다</h1>
-          <p>갈 수 있는 장소를 찾고, 함께할 행사를 발견하고, 경험을 나누며 문화가 모두에게 닿도록 이어줘요.</p>
           <button class="primary-btn" data-page="map">내 주변 시설 찾아보기 →</button>
         </div>
         <div class="hero-visual" aria-hidden="true"><div class="hero-orbit"><div class="hero-symbol">F</div></div></div>
@@ -356,7 +379,6 @@
     <section class="page" id="page-map" aria-labelledby="map-title">
       <h1 class="page-title" id="map-title">배리어프리 시설 지도</h1>
       <p class="page-intro">방문 전에 필요한 편의시설과 접근성 정보를 확인하세요.</p>
-      <div class="notice">한국문화정보원 제공 CSV를 바탕으로 한 시설 정보입니다. 데이터 기준일은 2022-11-25이며, 방문 전 시설에 최신 운영 정보와 편의시설 여부를 확인해 주세요. 정보가 '아니오'로 표시되거나 비어 있는 경우에도 실제 현장 상황과 다를 수 있습니다.</div>
       <div class="toolbar">
         <label class="sr-only" for="place-search">시설명 또는 지역 검색</label>
         <input class="field search-field" id="place-search" placeholder="시설명 또는 지역 검색">
@@ -453,6 +475,14 @@
 
 
   <div class="modal-backdrop" id="auth-modal" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+    <aside class="gate-brand" aria-hidden="true">
+      <div class="gate-logo"><span class="brand-mark">F</span><span class="brand-name">FREEON</span></div>
+      <div>
+        <div class="eyebrow">배리어프리 문화 플랫폼</div>
+        <p class="gate-slogan">모두의 일상에<br><em>문화를 연결</em>하다</p>
+      </div>
+      <ul class="gate-points"><li>⌖ 접근 가능한 시설 지도</li><li>▦ 함께할 수 있는 행사</li><li>☷ 경험을 나누는 커뮤니티</li></ul>
+    </aside>
     <div class="modal">
       <div class="modal-head"><h2 id="auth-title">로그인</h2><button class="close-btn" id="close-auth" type="button">닫기</button></div>
       <div class="auth-tabs" role="tablist"><button type="button" role="tab" data-auth-tab="login" aria-selected="true">로그인</button><button type="button" role="tab" data-auth-tab="signup" aria-selected="false">회원가입</button></div>
@@ -463,6 +493,7 @@
         <p class="auth-msg" id="auth-msg" role="alert"></p>
         <button class="primary-btn" id="auth-submit" type="submit" style="width:100%">로그인</button>
       </form>
+      <button class="gate-skip" id="gate-skip" type="button">로그인 없이 둘러보기 →</button>
     </div>
   </div>
 
@@ -478,7 +509,7 @@
   <script>
     // 1) 아래 "여기에_키_붙여넣기" 자리에 카카오 JavaScript 키를 붙여넣으면 실제 지도가 연결됩니다.
     // 카카오 REST API 키가 아니라 'JavaScript 키'를 사용하세요.
-    const KAKAO_JS_KEY = "d51eefd8d8257758999777f7a5e5e4e5";
+    const KAKAO_JS_KEY = "여기에_키_붙여넣기";
 
     // 실제 시설 데이터는 같은 폴더의 facilities.json 파일에서 불러옵니다.
     let places = [];
@@ -1131,8 +1162,9 @@ FREEON 커뮤니티를 열고 가장 먼저 여러분께 여쭤보고 싶은 이
     }
     const RESERVED_NICKS=["청온","관리자","운영자","admin"];
     function setAuthMsg(t,ok){const el=byId("auth-msg");el.textContent=t||"";el.className="auth-msg"+(ok?" ok":"")}
-    function openAuth(mode){
+    function openAuth(mode,gate){
       authMode=mode||"login";
+      authModal.classList.toggle("gate",!!gate);
       document.querySelectorAll("[data-auth-tab]").forEach(b=>b.setAttribute("aria-selected",String(b.dataset.authTab===authMode)));
       byId("auth-nick-wrap").hidden=authMode!=="signup";
       byId("auth-nick").required=authMode==="signup";
@@ -1145,7 +1177,8 @@ FREEON 커뮤니티를 열고 가장 먼저 여러분께 여쭤보고 싶은 이
     }
     document.querySelectorAll("[data-auth-tab]").forEach(b=>b.addEventListener("click",()=>openAuth(b.dataset.authTab)));
     byId("close-auth").addEventListener("click",()=>authModal.classList.remove("open"));
-    authModal.addEventListener("click",e=>{if(e.target===authModal)authModal.classList.remove("open")});
+    authModal.addEventListener("click",e=>{if(e.target===authModal&&!authModal.classList.contains("gate"))authModal.classList.remove("open")});
+    byId("gate-skip").addEventListener("click",()=>{try{sessionStorage.setItem("freeon_guest","1")}catch(e){}authModal.classList.remove("open")});
     async function afterAuthChange(){
       renderAuthUI();
       reloadCart();
@@ -1232,6 +1265,8 @@ FREEON 커뮤니티를 열고 가장 먼저 여러분께 여쭤보고 싶은 이
       renderAuthUI();reloadCart();
       await refreshPosts();
       if(profile&&!profile.onboarded) openProfile("onboard");
+      let guest=false;try{guest=sessionStorage.getItem("freeon_guest")==="1"}catch(e){}
+      if(!profile&&!guest) openAuth("login",true);
     }
     let large=false;
     document.getElementById("font-toggle").addEventListener("click",e=>{
